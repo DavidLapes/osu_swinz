@@ -41,7 +41,15 @@ public class DBConnection {
         Properties properties = new Properties();
         FileInputStream inputStream;
         // Initialize Path to property file for DB connection
-        Path path = Paths.get("src\\com\\djenterprise\\config\\jdbc.properties");
+        Path path = null;
+        // Is this Windows?
+        if (System.getProperty("os.name").toLowerCase().contains("windows")){
+            path = Paths.get("src\\com\\djenterprise\\config\\jdbc.properties");
+        }
+        // It is not Windows
+        else {
+            path = Paths.get("src//com//djenterprise//config//jdbc.properties");
+        }
         // Get the File by specified Path
         File file = new File(path.toUri());
 
