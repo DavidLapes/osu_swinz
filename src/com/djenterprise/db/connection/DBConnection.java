@@ -13,12 +13,28 @@ import java.util.Properties;
 
 public class DBConnection {
 
-    static final private String JDBC_DRIVER;
-    static final private String JDBC_URL;
-    static final private String JDBC_USERNAME;
-    static final private String JDBC_PASSWORD;
+    // Database driver
+    static private String JDBC_DRIVER;
+    // Database URL string
+    static private String JDBC_URL;
+    // Database username login
+    static private String JDBC_USERNAME;
+    // Database password login
+    static private String JDBC_PASSWORD;
 
-    static {
+    /**
+     *
+     */
+    static public void initialize() {
+        getDBProperties();
+        testConnection();
+        System.out.println("Success!");
+    }
+
+    /**
+     *
+     */
+    static private void getDBProperties() {
         Properties properties = new Properties();
         FileInputStream inputStream;
         Path path = Paths.get("src\\com\\djenterprise\\config\\jdbc.properties");
@@ -34,18 +50,23 @@ public class DBConnection {
             throw new RuntimeException("An error has occurred during reading the file '" + path + "'or closing FileInputStream");
         }
 
-        JDBC_DRIVER = properties.getProperty("jdbc.driver");
-        JDBC_USERNAME = properties.getProperty("jdbc.username");
-        JDBC_PASSWORD = properties.getProperty("jdbc.password");
-
         String JDBC_TYPE = properties.getProperty("jdbc.type");
         String JDBC_IP_ADDRESS = properties.getProperty("jdbc.ip_address");
         String JDBC_PORT = properties.getProperty("jdbc.port");
         String JDBC_DB = properties.getProperty("jdbc.db");
         String JDBC_CONNECTION_CONFIGURATION = properties.getProperty("jdbc.connection_configuration");
-        JDBC_URL
-                = JDBC_TYPE + "://" + JDBC_IP_ADDRESS + ":" + JDBC_PORT + "/" + JDBC_DB + "?" + JDBC_CONNECTION_CONFIGURATION;
 
+        JDBC_DRIVER = properties.getProperty("jdbc.driver");
+        JDBC_USERNAME = properties.getProperty("jdbc.username");
+        JDBC_PASSWORD = properties.getProperty("jdbc.password");
+        JDBC_URL =
+                JDBC_TYPE + "://" + JDBC_IP_ADDRESS + ":" + JDBC_PORT + "/" + JDBC_DB + "?" + JDBC_CONNECTION_CONFIGURATION;
+    }
+
+    /**
+     *
+     */
+    static private void testConnection() {
         if( JDBC_DRIVER == null ) {
             throw new RuntimeException("No JDBC driver found. Please check the patch or file 'jdbc.properties'");
         } else {
@@ -58,18 +79,19 @@ public class DBConnection {
 
         try {
             Connection connection = DriverManager.getConnection(JDBC_URL, JDBC_USERNAME, JDBC_PASSWORD);
+            connection.close();
         } catch ( SQLException SQLEx ) {
             throw new RuntimeException( SQLEx );
         }
-
-        System.out.println("Success!");
     }
 
-    public static void connect() {
+    // TODO
+    static public void connect() {
 
     }
 
-    public static void disconnect() {
+    // TODO
+    static public void disconnect() {
 
     }
 }
