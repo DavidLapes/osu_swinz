@@ -1,5 +1,7 @@
 package com.djenterprise.db.connection;
 
+import org.apache.log4j.Logger;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -22,16 +24,18 @@ public class DBConnection {
     // Database password login
     static private String JDBC_PASSWORD;
 
+    // Logger variable
+    static final private Logger LOGGER = Logger.getLogger(DBConnection.class.getName());
+
     /**
      * Sets up DB connection and initializes variables for DB connection.
      */
     static public void initialize() {
+        LOGGER.warn("Your current OS is: " + System.getProperty("os.name"));
         // Initialize variables
         getDBProperties();
         // Test if connection can be set up successfully
         testConnection();
-        // Everything went fine
-        System.out.println("Success!");
     }
 
     /**
@@ -41,30 +45,38 @@ public class DBConnection {
         Properties properties = new Properties();
         FileInputStream inputStream;
         // Initialize Path to property file for DB connection
-        Path path = null;
+        Path path;
         // Is this Windows?
         if (System.getProperty("os.name").toLowerCase().contains("windows")){
             path = Paths.get("src\\com\\djenterprise\\config\\jdbc.properties");
+            LOGGER.info("Reading file " + path.toString());
         }
         // It is not Windows
         else {
             path = Paths.get("src//com//djenterprise//config//jdbc.properties");
+            LOGGER.info("Reading file " + path.toString());
         }
+
         // Get the File by specified Path
         File file = new File(path.toUri());
 
         try {
+            LOGGER.info("Opening file stream");
             // Create file stream between property file and application
             inputStream = new FileInputStream(file);
             // Load property file
+            LOGGER.info("Loading JDBC properties");
             properties.load(inputStream);
             // Close stream
+            LOGGER.info("Closing file stream");
             inputStream.close();
         } catch ( FileNotFoundException FNFEx ) {
             // Specified file was not found
+            LOGGER.error(FNFEx);
             throw new RuntimeException("No such file has been found '" + path + "'");
         } catch ( IOException IOEx ) {
             // Whops! Error while working with file or closing the stream
+            LOGGER.error(IOEx);
             throw new RuntimeException("An error has occurred during reading the file '" + path + "'or closing FileInputStream");
         }
 
@@ -89,24 +101,32 @@ public class DBConnection {
     static private void testConnection() {
         if( JDBC_DRIVER == null ) {
             // No JDBC driver has been found, throw an exception
+            LOGGER.error("No JDBC driver has been found");
             throw new RuntimeException("No JDBC driver found. Please check the patch or file 'jdbc.properties'");
         } else {
             try {
                 // Register MySQL JDBC driver
+                LOGGER.info("Registering driver " + JDBC_DRIVER);
                 Class.forName(JDBC_DRIVER);
             } catch ( ClassNotFoundException CNFEx ) {
                 // Couldn't register the driver
+                LOGGER.error(CNFEx);
                 throw new RuntimeException("An error has occurred during registering JDBC driver");
             }
         }
 
         try {
             // Set up the connection
+            LOGGER.info("Logging to database " + JDBC_URL);
             Connection connection = DriverManager.getConnection(JDBC_URL, JDBC_USERNAME, JDBC_PASSWORD);
             // Close the test connection
+            LOGGER.info("Successfully logged to database!");
+            LOGGER.info("Closing the database!");
             connection.close();
+            LOGGER.info("Database closed.");
         } catch ( SQLException SQLEx ) {
             // Connection or disconnection has not been successful
+            LOGGER.error(SQLEx);
             throw new RuntimeException( SQLEx );
         }
     }
