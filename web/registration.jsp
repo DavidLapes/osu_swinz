@@ -21,8 +21,8 @@
                 <input type="password" name="password" id="password">
                 <label for="confirmPassword">Confirm Password</label>
                 <input type="password" name="confirmPassword" id="confirmPassword">
-                <label for="displayName">Display Name</label>
-                <input type="text" name="displayName" id="displayName">
+                <label for="alias">Display Name</label>
+                <input type="text" name="alias" id="alias">
                 <input type="submit" value="Register" name="submit" id="submit">
             </form>
         </div>

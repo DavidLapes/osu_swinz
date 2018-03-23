@@ -6,7 +6,7 @@ CREATE TABLE `User` (
   `username` varchar(32) NOT NULL UNIQUE,
   `password` varchar(32) NOT NULL,
   `avatar` blob,
-  `displayname` varchar(32) NOT NULL UNIQUE,
+  `alias` varchar(32) NOT NULL UNIQUE,
   PRIMARY KEY (`username`)
 );
 
@@ -37,10 +37,10 @@ ALTER TABLE `Question` ADD CONSTRAINT `Question_fk0` FOREIGN KEY (`gameid`) REFE
 
 ALTER TABLE `Game` ADD CONSTRAINT `Game_fk0` FOREIGN KEY (`creator`) REFERENCES `User`(`username`);
 
-INSERT INTO User (username, password, displayname) VALUES (
+INSERT INTO User (username, password, alias) VALUES (
   'David', '1234', 'David'
 );
 
-INSERT INTO User (username, password, displayname) VALUES (
+INSERT INTO User (username, password, alias) VALUES (
     'Jachym', '4321', 'Chymja'
 );
