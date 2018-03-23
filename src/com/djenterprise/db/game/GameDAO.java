@@ -13,7 +13,6 @@ import java.util.List;
 
 //TODO Create Game
 //TODO Get Game
-//TODO Get Question
 //TODO Assigning
 public class GameDAO {
 
@@ -21,17 +20,24 @@ public class GameDAO {
     static final private Logger LOGGER = Logger.getLogger(GameDAO.class.getName());
 
     //TODO JavaDoc
-    static public void createGame() {
+    static public void createGame( GameBO gameBO) {
 
     }
 
-    //TODO JavaDoc
+    /**
+     * Return questions according to GameBO instance
+     * @param gameBO parameter of which the method returns assigned questions
+     * @return collection containing questions assigned to the game
+     */
     static public List<QuestionBO> getQuestions( GameBO gameBO ) {
         List<QuestionBO> ret = new ArrayList<>();
         try{
             //Create query script
             String query =
-                    "SELECT questionid_fk FROM gamequestions WHERE gameid_fk = '" + gameBO.getGameId() + "';";
+                    "SELECT question.text " +
+                    "FROM gamequestions, question " +
+                    "WHERE gamequestions.gameid_fk = " + gameBO.getGameId() + " " +
+                    "AND gamequestions.questionid_fk = question.questionid;";
             //Open DB connection
             PreparedStatement statement = DBConnection.connect().prepareStatement(query);
             //Execute statement and save result into ResultSet
