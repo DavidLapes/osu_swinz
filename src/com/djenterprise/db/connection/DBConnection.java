@@ -162,7 +162,7 @@ public class DBConnection {
         } catch ( IllegalStateException ISEx){
             // Connection has not been closed
             LOGGER.error(ISEx);
-            return CONNECTION;
+            return CONNECTION; 
         }
     }
 
