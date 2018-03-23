@@ -3,6 +3,7 @@ package com.djenterprise.app.builder;
 import com.djenterprise.db.connection.DBConnection;
 import org.apache.log4j.Logger;
 
+
 public class ProjectBuilder {
 
     static final private Logger LOGGER = Logger.getLogger(ProjectBuilder.class.getName());
@@ -11,5 +12,11 @@ public class ProjectBuilder {
         LOGGER.info("Starting project");
         DBConnection.initialize();
         LOGGER.info("FERTIG!");
+    }
+    private static void executeSQLWin (){
+
+    }
+    private static void executeSQLUnix (){
+
     }
 }

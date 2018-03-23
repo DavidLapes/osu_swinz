@@ -23,6 +23,8 @@ public class DBConnection {
     static private String JDBC_USERNAME;
     // Database password login
     static private String JDBC_PASSWORD;
+    // Database connection
+    static private Connection connection = null;
 
     // Logger variable
     static final private Logger LOGGER = Logger.getLogger(DBConnection.class.getName());
@@ -34,6 +36,8 @@ public class DBConnection {
         LOGGER.warn("Your current OS is: " + System.getProperty("os.name"));
         // Initialize variables
         getDBProperties();
+        // Registers the driver
+        registerDriver();
         // Test if connection can be set up successfully
         testConnection();
     }
@@ -99,22 +103,6 @@ public class DBConnection {
      * Attempts to set up and, then, close connection to DB.
      */
     static private void testConnection() {
-        if( JDBC_DRIVER == null ) {
-            // No JDBC driver has been found, throw an exception
-            LOGGER.error("No JDBC driver has been found");
-            throw new RuntimeException("No JDBC driver found. Please check the patch or file 'jdbc.properties'");
-        } else {
-            try {
-                // Register MySQL JDBC driver
-                LOGGER.info("Registering driver " + JDBC_DRIVER);
-                Class.forName(JDBC_DRIVER);
-            } catch ( ClassNotFoundException CNFEx ) {
-                // Couldn't register the driver
-                LOGGER.error(CNFEx);
-                throw new RuntimeException("An error has occurred during registering JDBC driver");
-            }
-        }
-
         try {
             // Set up the connection
             LOGGER.info("Logging to database " + JDBC_URL);
@@ -131,13 +119,60 @@ public class DBConnection {
         }
     }
 
-    // TODO
-    static public void connect() {
-
+    static private void registerDriver(){
+        if( JDBC_DRIVER == null ) {
+            // No JDBC driver has been found, throw an exception
+            LOGGER.error("No JDBC driver has been found");
+            throw new RuntimeException("No JDBC driver found. Please check the patch or file 'jdbc.properties'");
+        } else {
+            try {
+                // Register MySQL JDBC driver
+                LOGGER.info("Registering driver " + JDBC_DRIVER);
+                Class.forName(JDBC_DRIVER);
+            } catch ( ClassNotFoundException CNFEx ) {
+                // Couldn't register the driver
+                LOGGER.error(CNFEx);
+                throw new RuntimeException("An error has occurred during registering JDBC driver");
+            }
+        }
     }
 
-    // TODO
-    static public void disconnect() {
+    static public void connect() {
+        try {
+            if(!connection.isClosed()){
+                throw new IllegalStateException("Attempt to connect to connected database");
+            }
+            // Set up the connection
+            LOGGER.info("Logging to database " + JDBC_URL);
+            connection = DriverManager.getConnection(JDBC_URL, JDBC_USERNAME, JDBC_PASSWORD);
+            LOGGER.info("Successfully logged to database!");
 
+        } catch ( SQLException SQLEx ) {
+            // Connection has not been successful
+            LOGGER.error(SQLEx);
+            throw new RuntimeException( SQLEx );
+        } catch ( IllegalStateException ISEx){
+            // Connection has not been closed
+            LOGGER.error(ISEx);
+        }
+    }
+
+    static public void disconnect() {
+        try{
+            if (connection.isClosed()){
+                throw new IllegalStateException("Attempt to close closed connection");
+            }
+            // Close the test connection
+            LOGGER.info("Closing the database!");
+            connection.close();
+            LOGGER.info("Database closed.");
+        } catch ( SQLException SQLEx ) {
+            // Closing has not been successful
+            LOGGER.error(SQLEx);
+            throw new RuntimeException( SQLEx );
+        } catch ( IllegalStateException ISEx){
+            // Connection has been closed already
+            LOGGER.error(ISEx);
+        }
     }
 }
