@@ -7,9 +7,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6f19e893-1ca8-4761-af35-02a82f207fae" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/selenium_server_standalone_3_11_0.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/lib/selenium-server-standalone-3.11.0.jar" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/osu_swinz.iml" afterPath="$PROJECT_DIR$/osu_swinz.iml" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -596,7 +595,7 @@
       <option name="presentableId" value="Default" />
       <updated>1521486272356</updated>
       <workItem from="1521486276360" duration="3828000" />
-      <workItem from="1521728138862" duration="24923000" />
+      <workItem from="1521728138862" duration="25362000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1521488833964</created>
@@ -647,11 +646,18 @@
       <option name="project" value="LOCAL" />
       <updated>1521756649560</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="LOG4J Properties&#10;- Logger to DBConnection">
+      <created>1521797900749</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1521797900749</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="28751000" />
+    <option name="totallyTimeSpent" value="29190000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
