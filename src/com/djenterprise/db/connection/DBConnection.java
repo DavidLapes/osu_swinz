@@ -189,28 +189,42 @@ public class DBConnection {
             LOGGER.error(ISEx);
         }
     }
+
     /**
-     *
+     * Executes MySQL script to re-build DB
      */
     private static void executeSQL() {
+        // Save path to script
         String aSQLScriptFilePath = ProjectBuilder.class.getResource("dbbuilder.sql").toString();
+        // Is this Windows?
         if( System.getProperty("os.name").toLowerCase().contains("windows") ) {
+            // Build path correctly due to server directory where app is being run
             aSQLScriptFilePath = aSQLScriptFilePath.replaceAll("file:/", "");
             aSQLScriptFilePath = aSQLScriptFilePath.replaceAll("\\build\\web\\WEB-INF\\classes", "");
-        } else {
+        }
+        // This is not Windows
+        else {
+            // Build path correctly due to server directory where app is being run
             aSQLScriptFilePath = aSQLScriptFilePath.replaceAll("file:/", "");
             aSQLScriptFilePath = aSQLScriptFilePath.replaceAll("//build//web//WEB-INF//classes", "");
         }
+        // Connect to database
         connect();
         try {
+            // Initialize script-runnable object
             ScriptRunner sr = new ScriptRunner(CONNECTION, false, false);
+            // Initialize file reader
             Reader reader = new BufferedReader(new FileReader(aSQLScriptFilePath));
+            // Run script
             sr.runScript(reader);
+            // Close reader
+            reader.close();
         } catch (IOException IOEx) {
             throw new RuntimeException("There was an error while reaching the file " + aSQLScriptFilePath);
         } catch (SQLException SQLEx) {
             throw new RuntimeException(SQLEx);
         }
+        // Disconnect from database
         disconnect();
     }
 }
