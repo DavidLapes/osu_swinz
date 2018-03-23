@@ -1,11 +1,10 @@
 package com.djenterprise.db.connection;
 
+import com.djenterprise.app.builder.ProjectBuilder;
+import com.ibatis.common.jdbc.ScriptRunner;
 import org.apache.log4j.Logger;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Connection;
@@ -26,7 +25,7 @@ public class DBConnection {
     // Database CONNECTION
     static private Connection CONNECTION = null;
 
-    // Logger variable
+    // Variable for logging
     static final private Logger LOGGER = Logger.getLogger(DBConnection.class.getName());
 
     /**
@@ -40,6 +39,8 @@ public class DBConnection {
         registerDriver();
         // Test if CONNECTION can be set up successfully
         testConnection();
+        // Initialize DB MySQL build script
+        executeSQL();
     }
 
     /**
@@ -103,22 +104,13 @@ public class DBConnection {
      * Attempts to set up and, then, close CONNECTION to DB.
      */
     static private void testConnection() {
-        try {
-            // Set up the CONNECTION
-            LOGGER.info("Logging to database " + JDBC_URL);
-            Connection connection = DriverManager.getConnection(JDBC_URL, JDBC_USERNAME, JDBC_PASSWORD);
-            // Close the test CONNECTION
-            LOGGER.info("Successfully logged to database!");
-            LOGGER.info("Closing the database!");
-            connection.close();
-            LOGGER.info("Database closed.");
-        } catch ( SQLException SQLEx ) {
-            // Connection or disconnection has not been successful
-            LOGGER.error(SQLEx);
-            throw new RuntimeException( SQLEx );
-        }
+        connect();
+        disconnect();
     }
 
+    /**
+     *
+     */
     static private void registerDriver(){
         if( JDBC_DRIVER == null ) {
             // No JDBC driver has been found, throw an exception
@@ -137,18 +129,40 @@ public class DBConnection {
         }
     }
 
+    /**
+     *
+     */
+    private static void executeSQL() {
+        String aSQLScriptFilePath = ProjectBuilder.class.getResource("assignment.sql").toString();
+        if( System.getProperty("os.name").toLowerCase().contains("windows") ) {
+            aSQLScriptFilePath = aSQLScriptFilePath.replaceAll("file:/", "");
+            aSQLScriptFilePath = aSQLScriptFilePath.replaceAll("\\build\\web\\WEB-INF\\classes", "");
+        } else {
+            aSQLScriptFilePath = aSQLScriptFilePath.replaceAll("file:/", "");
+            aSQLScriptFilePath = aSQLScriptFilePath.replaceAll("//build//web//WEB-INF//classes", "");
+        }
+        connect();
+        try {
+            ScriptRunner sr = new ScriptRunner(CONNECTION, false, false);
+            Reader reader = new BufferedReader(new FileReader(aSQLScriptFilePath));
+            sr.runScript(reader);
+        } catch (IOException IOEx) {
+            throw new RuntimeException("There was an error while reaching the file " + aSQLScriptFilePath);
+        } catch (SQLException SQLEx) {
+            throw new RuntimeException(SQLEx);
+        }
+        disconnect();
+    }
+
     static public void connect() {
         try {
-            if(!(CONNECTION == null)){
-                if(!CONNECTION.isClosed()){
+            if( CONNECTION != null && ! CONNECTION.isClosed() ) {
                     throw new IllegalStateException("Attempt to connect to connected database");
-                }
             }
             // Set up the CONNECTION
             LOGGER.info("Logging to database " + JDBC_URL);
             CONNECTION = DriverManager.getConnection(JDBC_URL, JDBC_USERNAME, JDBC_PASSWORD);
             LOGGER.info("Successfully logged to database!");
-
         } catch ( SQLException SQLEx ) {
             // Connection has not been successful
             LOGGER.error(SQLEx);
@@ -161,8 +175,8 @@ public class DBConnection {
 
     static public void disconnect() {
         try{
-            if (CONNECTION == null || CONNECTION.isClosed()){
-                throw new IllegalStateException("Attempt to close closed or null CONNECTION");
+            if (CONNECTION == null || CONNECTION.isClosed()) {
+                throw new IllegalStateException("Attempt to close unopened CONNECTION");
             }
             // Close the test CONNECTION
             LOGGER.info("Closing the database!");
