@@ -23,14 +23,14 @@ public class DBConnection {
     static private String JDBC_USERNAME;
     // Database password login
     static private String JDBC_PASSWORD;
-    // Database connection
-    static private Connection connection = null;
+    // Database CONNECTION
+    static private Connection CONNECTION = null;
 
     // Logger variable
     static final private Logger LOGGER = Logger.getLogger(DBConnection.class.getName());
 
     /**
-     * Sets up DB connection and initializes variables for DB connection.
+     * Sets up DB CONNECTION and initializes variables for DB CONNECTION.
      */
     static public void initialize() {
         LOGGER.warn("Your current OS is: " + System.getProperty("os.name"));
@@ -38,17 +38,17 @@ public class DBConnection {
         getDBProperties();
         // Registers the driver
         registerDriver();
-        // Test if connection can be set up successfully
+        // Test if CONNECTION can be set up successfully
         testConnection();
     }
 
     /**
-     * Initializes variables for DB connection.
+     * Initializes variables for DB CONNECTION.
      */
     static private void getDBProperties() {
         Properties properties = new Properties();
         FileInputStream inputStream;
-        // Initialize Path to property file for DB connection
+        // Initialize Path to property file for DB CONNECTION
         Path path;
         // Is this Windows?
         if (System.getProperty("os.name").toLowerCase().contains("windows")){
@@ -100,14 +100,14 @@ public class DBConnection {
     }
 
     /**
-     * Attempts to set up and, then, close connection to DB.
+     * Attempts to set up and, then, close CONNECTION to DB.
      */
     static private void testConnection() {
         try {
-            // Set up the connection
+            // Set up the CONNECTION
             LOGGER.info("Logging to database " + JDBC_URL);
             Connection connection = DriverManager.getConnection(JDBC_URL, JDBC_USERNAME, JDBC_PASSWORD);
-            // Close the test connection
+            // Close the test CONNECTION
             LOGGER.info("Successfully logged to database!");
             LOGGER.info("Closing the database!");
             connection.close();
@@ -139,12 +139,14 @@ public class DBConnection {
 
     static public void connect() {
         try {
-            if(!connection.isClosed()){
-                throw new IllegalStateException("Attempt to connect to connected database");
+            if(!(CONNECTION == null)){
+                if(!CONNECTION.isClosed()){
+                    throw new IllegalStateException("Attempt to connect to connected database");
+                }
             }
-            // Set up the connection
+            // Set up the CONNECTION
             LOGGER.info("Logging to database " + JDBC_URL);
-            connection = DriverManager.getConnection(JDBC_URL, JDBC_USERNAME, JDBC_PASSWORD);
+            CONNECTION = DriverManager.getConnection(JDBC_URL, JDBC_USERNAME, JDBC_PASSWORD);
             LOGGER.info("Successfully logged to database!");
 
         } catch ( SQLException SQLEx ) {
@@ -159,12 +161,12 @@ public class DBConnection {
 
     static public void disconnect() {
         try{
-            if (connection.isClosed()){
-                throw new IllegalStateException("Attempt to close closed connection");
+            if (CONNECTION == null || CONNECTION.isClosed()){
+                throw new IllegalStateException("Attempt to close closed or null CONNECTION");
             }
-            // Close the test connection
+            // Close the test CONNECTION
             LOGGER.info("Closing the database!");
-            connection.close();
+            CONNECTION.close();
             LOGGER.info("Database closed.");
         } catch ( SQLException SQLEx ) {
             // Closing has not been successful
