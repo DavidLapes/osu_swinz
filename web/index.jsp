@@ -8,10 +8,17 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <html>
     <head>
-        <title>$Title$</title>
+        <title>DJahoot!</title>
         <link rel="stylesheet" type="text/css" href="style.css">
+        <link rel="icon" href="/images/djicon.png">
     </head>
     <body>
-
+    <div class="formBox">
+        <form action ="" method="post">
+            <label style="margin:25%" for="code">Game Code</label>
+            <input type="text" name="code" id="code">
+            <input type="submit" value="Enter">
+        </form>
+    </div>
     </body>
 </html>
