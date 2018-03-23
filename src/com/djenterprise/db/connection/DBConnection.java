@@ -193,7 +193,7 @@ public class DBConnection {
     /**
      * Executes MySQL script to re-build DB
      */
-    static private void executeSQL() {
+    private static void executeSQL() {
         // Save path to script
         String aSQLScriptFilePath = ProjectBuilder.class.getResource("dbbuilder.sql").toString();
         // Is this Windows?
