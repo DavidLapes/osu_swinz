@@ -1,12 +1,12 @@
 package com.djenterprise.app.game;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 public class GameBO {
 
     private String gameId;
     private String creator;
-    private Date dateCreated;
+    private Timestamp dateCreated;
 
     public String getGameId() {
         return gameId;
@@ -24,11 +24,11 @@ public class GameBO {
         this.creator = creator;
     }
 
-    public Date getDateCreated() {
+    public Timestamp getDateCreated() {
         return dateCreated;
     }
 
-    public void setDateCreated(Date dateCreated) {
+    public void setDateCreated(Timestamp dateCreated) {
         this.dateCreated = dateCreated;
     }
 }

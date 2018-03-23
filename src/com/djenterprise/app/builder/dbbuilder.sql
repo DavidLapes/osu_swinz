@@ -29,7 +29,7 @@ CREATE TABLE `Question` (
 CREATE TABLE `Game` (
   `gameid` VARCHAR(8) NOT NULL,
   `creator` VARCHAR(32) NOT NULL,
-  `datecreated` DATETIME NOT NULL,
+  `datecreated` TIMESTAMP NOT NULL,
   PRIMARY KEY (`gameid`)
 );
 
@@ -157,4 +157,30 @@ INSERT INTO Answer(questionid, thruthfulness, text) VALUE (
 
 INSERT INTO Answer(questionid, thruthfulness, text) VALUE (
   5, 0, 'Yeeeees'
+);
+
+/* Insert test games */
+INSERT INTO Game(gameid, creator) VALUE (
+  '47310824', 'David'
+);
+
+INSERT INTO Game(gameid, creator) VALUE (
+  '82549371', 'Jachym'
+);
+
+/* Assign test questions to games */
+INSERT INTO GameQuestions(gameid_fk, questionid_fk) VALUE (
+  '47310824', 1
+);
+
+INSERT INTO GameQuestions(gameid_fk, questionid_fk) VALUE (
+  '47310824', 2
+);
+
+INSERT INTO GameQuestions(gameid_fk, questionid_fk) VALUE (
+  '47310824', 3
+);
+
+INSERT INTO GameQuestions(gameid_fk, questionid_fk) VALUE (
+  '47310824', 4
 );
