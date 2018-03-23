@@ -1,11 +1,9 @@
 package com.djenterprise.db.user;
 
 import com.djenterprise.db.connection.DBConnection;
-import net.bytebuddy.dynamic.scaffold.MethodRegistry;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 //TODO Add avatar compatibility
 public class UserDAO {

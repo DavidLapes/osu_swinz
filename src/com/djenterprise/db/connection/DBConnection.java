@@ -39,6 +39,8 @@ public class DBConnection {
         registerDriver();
         // Test if CONNECTION can be set up successfully
         testConnection();
+        // Run MySQL DB-build script
+        executeSQL();
     }
 
     /**
@@ -191,7 +193,7 @@ public class DBConnection {
      *
      */
     private static void executeSQL() {
-        String aSQLScriptFilePath = ProjectBuilder.class.getResource("assignment.sql").toString();
+        String aSQLScriptFilePath = ProjectBuilder.class.getResource("dbbuilder.sql").toString();
         if( System.getProperty("os.name").toLowerCase().contains("windows") ) {
             aSQLScriptFilePath = aSQLScriptFilePath.replaceAll("file:/", "");
             aSQLScriptFilePath = aSQLScriptFilePath.replaceAll("\\build\\web\\WEB-INF\\classes", "");
