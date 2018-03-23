@@ -58,9 +58,31 @@ public class GameDAO {
     }
 
     //TODO JavaDoc
-    static public GameBO getGame( GameBO gameBO ) {
+    static public GameBO getGame( String gameId ) {
         GameBO ret = null;
-        //TODO
-        return ret;
+        try{
+            //Create query script
+            String query =
+                    "SELECT creator, datecreated, gameid " +
+                            "FROM game " +
+                            "WHERE gameid = " + gameId + ";";
+            //Open DB connection
+            PreparedStatement statement = DBConnection.connect().prepareStatement(query);
+            //Execute statement and save result into ResultSet
+            ResultSet resultSet = statement.executeQuery();
+            while( resultSet.next() ) {
+                ret = new GameBO();
+                ret.setGameId(resultSet.getString("gameid"));
+                ret.setCreator(resultSet.getString("creator"));
+                ret.setDateCreated(resultSet.getTimestamp("datecreated"));
+            }
+            //Close DB connection
+            DBConnection.disconnect();
+            //Return GameBO instance
+            return ret;
+        } catch (SQLException SQLEx) {
+            LOGGER.error(SQLEx);
+            throw new RuntimeException(SQLEx);
+        }
     }
 }
