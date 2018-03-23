@@ -14,11 +14,12 @@ public class UserDAO {
             String query =
                     "INSERT INTO User (username, password, alias) VALUES (?, ?, ?);";
             PreparedStatement statement = DBConnection.connect().prepareStatement(query);
-            statement.setString(1,userName);
-            statement.setString(2,userPassword);
-            statement.setString(3,userAlias);
+            statement.setString(1, userName);
+            statement.setString(2, userPassword);
+            statement.setString(3, userAlias);
             statement.execute();
             DBConnection.disconnect();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }

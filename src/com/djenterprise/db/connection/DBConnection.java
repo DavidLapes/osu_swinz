@@ -1,11 +1,10 @@
 package com.djenterprise.db.connection;
 
+import com.djenterprise.app.builder.ProjectBuilder;
+import com.ibatis.common.jdbc.ScriptRunner;
 import org.apache.log4j.Logger;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Connection;
@@ -187,5 +186,29 @@ public class DBConnection {
             // Connection has been closed already
             LOGGER.error(ISEx);
         }
+    }
+    /**
+     *
+     */
+    private static void executeSQL() {
+        String aSQLScriptFilePath = ProjectBuilder.class.getResource("assignment.sql").toString();
+        if( System.getProperty("os.name").toLowerCase().contains("windows") ) {
+            aSQLScriptFilePath = aSQLScriptFilePath.replaceAll("file:/", "");
+            aSQLScriptFilePath = aSQLScriptFilePath.replaceAll("\\build\\web\\WEB-INF\\classes", "");
+        } else {
+            aSQLScriptFilePath = aSQLScriptFilePath.replaceAll("file:/", "");
+            aSQLScriptFilePath = aSQLScriptFilePath.replaceAll("//build//web//WEB-INF//classes", "");
+        }
+        connect();
+        try {
+            ScriptRunner sr = new ScriptRunner(CONNECTION, false, false);
+            Reader reader = new BufferedReader(new FileReader(aSQLScriptFilePath));
+            sr.runScript(reader);
+        } catch (IOException IOEx) {
+            throw new RuntimeException("There was an error while reaching the file " + aSQLScriptFilePath);
+        } catch (SQLException SQLEx) {
+            throw new RuntimeException(SQLEx);
+        }
+        disconnect();
     }
 }
