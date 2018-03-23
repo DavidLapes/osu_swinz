@@ -6,7 +6,10 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 //TODO Add avatar compatibility
+//TODO Edit user
+//TODO Get user
 public class UserDAO {
+
     public static void createUser (String userName, String userPassword, String userAlias){
         try{
             String query =
@@ -23,21 +26,3 @@ public class UserDAO {
         }
     }
 }
-
-
-
-/*
-    public static void createPerson( String personName, String personCity ) {
-        try {
-            Statement statement = JDBConnection.getConnection().createStatement();
-            String query =
-                    "INSERT INTO Person(name, city) "
-                            + "VALUES('"
-                            + personName + "','"
-                            + personCity + "');"
-                    ;
-            statement.executeUpdate(query);
-        } catch( SQLException sqlEx ) {
-            LOGGER.error("Connection to DB has failed!");
-        }
-    }*/
