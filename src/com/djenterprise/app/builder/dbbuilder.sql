@@ -1,7 +1,9 @@
+/* Re-create database SWINZDB */
 DROP DATABASE IF EXISTS swinzdb;
 CREATE DATABASE swinzdb;
 USE swinzdb;
 
+/* Create tables */
 CREATE TABLE `User` (
   `username` VARCHAR(32) NOT NULL UNIQUE,
   `password` VARCHAR(32) NOT NULL,
@@ -14,13 +16,13 @@ CREATE TABLE `Answer` (
   `answerid` INT NOT NULL AUTO_INCREMENT,
   `text` TEXT(256) NOT NULL,
   `questionid` INT NOT NULL,
+  `thruthfulness` BIT NOT NULL,
   PRIMARY KEY (`answerid`)
 );
 
 CREATE TABLE `Question` (
   `questionid` INT NOT NULL AUTO_INCREMENT,
   `text` TEXT(256) NOT NULL,
-  `gameid` VARCHAR(8) NOT NULL,
   PRIMARY KEY (`questionid`)
 );
 
@@ -37,9 +39,8 @@ CREATE TABLE `GameQuestions` (
   PRIMARY KEY (`gameid_fk`, `questionid_fk`)
 );
 
+/* Add foreign keys to tables */
 ALTER TABLE `Answer` ADD CONSTRAINT `Answer_fk0` FOREIGN KEY (`questionid`) REFERENCES `Question`(`questionid`);
-
-ALTER TABLE `Question` ADD CONSTRAINT `Question_fk0` FOREIGN KEY (`gameid`) REFERENCES `Game`(`gameid`);
 
 ALTER TABLE `Game` ADD CONSTRAINT `Game_fk0` FOREIGN KEY (`creator`) REFERENCES `User`(`username`);
 
@@ -47,10 +48,34 @@ ALTER TABLE `GameQuestions` ADD CONSTRAINT `Question_fk1` FOREIGN KEY (`question
 
 ALTER TABLE `GameQuestions` ADD CONSTRAINT `Game_fk1` FOREIGN KEY (`gameid_fk`) REFERENCES `Game`(`gameid`);
 
+/* Insert test users */
 INSERT INTO User (username, password, alias) VALUES (
   'David', '1234', 'David'
 );
 
 INSERT INTO User (username, password, alias) VALUES (
-    'Jachym', '4321', 'Chymja'
+  'Jachym', '4321', 'Chymja'
 );
+
+/* Insert test questions */
+INSERT INTO Question(text) VALUES (
+  'What is the music of life?'
+);
+
+INSERT INTO Question(text) VALUES (
+  'Stormcloacks, or Imperials?'
+);
+
+INSERT INTO Question(text) VALUES (
+  'Who is Astrid?'
+);
+
+INSERT INTO Question(text) VALUES (
+  'Shall we execute Cicero?'
+);
+
+INSERT INTO Question(text) VALUES (
+  'Is Ulrfic the High King?'
+);
+
+/* Insert test answers and assign them to questions */

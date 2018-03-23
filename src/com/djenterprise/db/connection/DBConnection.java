@@ -141,6 +141,7 @@ public class DBConnection {
         }
     }
 
+    //TODO Check if 'if' is written correctly
     /**
      * Attempts to establish connection to the database.
      */
