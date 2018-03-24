@@ -11,8 +11,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-//TODO JavaDoC
-//TODO Comments
 public class QuestionDAO {
 
     static final private Logger LOGGER = Logger.getLogger(QuestionDAO.class.getName());
@@ -21,6 +19,7 @@ public class QuestionDAO {
      * Inserts a question into the database
      * @param questionBO question to be added to the database.
      */
+    @Deprecated
     public static void createQuestion(QuestionBO questionBO){
         try
         {
@@ -79,6 +78,7 @@ public class QuestionDAO {
             throw new RuntimeException(SQLEx);
         }
     }
+
     /**
      * Returns list of questions, if none are found returns empty list.
      * @return returns list of all questions.

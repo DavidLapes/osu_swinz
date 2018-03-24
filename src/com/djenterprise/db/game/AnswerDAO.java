@@ -17,6 +17,7 @@ public class AnswerDAO {
      * Adds inserted answer into the database.
      * @param answer answer to be added into the database.
      */
+    @Deprecated
     public static void createAnswer(AnswerBO answer){
         try{
             //Create query

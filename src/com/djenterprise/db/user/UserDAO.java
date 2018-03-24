@@ -11,12 +11,11 @@ import java.sql.SQLException;
 
 //TODO Edit user
 //TODO Avatar DB compatibility
+//TODO Remove user
 public class UserDAO {
 
     // Variable for logging
     static final private Logger LOGGER = Logger.getLogger(UserDAO.class.getName());
-
-    //TODO JavaDoc and comments (visit com.djenterprise.db.game.GameDAO.java)
 
     /**
      * Adds inserted user into the databaase.
@@ -44,9 +43,7 @@ public class UserDAO {
             LOGGER.error(SQLEx);
             throw new RuntimeException(SQLEx);
         }
-    }
-
-    //TODO JavaDoc and comments (visit com.djenterprise.db.game.GameDAO.java)
+    }   
 
     /**
      * Returns the user with inserted username, or throws EntityInstanceNotFoundException if user not found.
