@@ -17,19 +17,26 @@ public class UserDAO {
     static final private Logger LOGGER = Logger.getLogger(UserDAO.class.getName());
 
     //TODO JavaDoc and comments (visit com.djenterprise.db.game.GameDAO.java)
+
+    /**
+     * Adds inserted user into the databaase.
+     * @param user user to be added to the databse.
+     */
     static public void createUser (UserBO user){
         try{
-            //Create query script
+            //Creates query script
             String query =
                     "INSERT INTO User (username, password, avatar, alias) VALUES (?, ?, ?, ?);";
-            //Open DB connection
+            //Opens DB connection
             PreparedStatement statement = DBConnection.connect().prepareStatement(query);
-            //Prepare safe statement
+            //Prepares safe statement
             statement.setString(1, user.getUsername());
             statement.setString(2, user.getPassword());
             statement.setBlob(3,user.getAvatar());
             statement.setString(4, user.getAlias());
+            //Executes SQL command
             statement.execute();
+            //Closes the statement
             statement.close();
             //Close DB connection
             DBConnection.disconnect();
@@ -40,6 +47,12 @@ public class UserDAO {
     }
 
     //TODO JavaDoc and comments (visit com.djenterprise.db.game.GameDAO.java)
+
+    /**
+     * Returns the user with inserted username, or throws EntityInstanceNotFoundException if user not found.
+     * @param username username of the requested user.
+     * @return returns requested user.
+     */
     static public UserBO getUser(String username){
         try{
             //Query creation
@@ -52,7 +65,7 @@ public class UserDAO {
             //Executing query
             ResultSet rs = statement.executeQuery();
             UserBO user = new UserBO();
-            // ALSO... ADD COMMENT HERE (and others missing via TODO)
+            //Checks for data
             if( ! rs.next() ) {
                 throw new EntityInstanceNotFoundException("There is no user with this username.");
             }
@@ -60,11 +73,13 @@ public class UserDAO {
             user.setUsername(rs.getString("username"));
             user.setAlias(rs.getString("alias"));
             user.setAvatar(rs.getBlob("avatar"));
-
+            //Closes the result set
             rs.close();
+            //Closes the statement
             statement.close();
+            //Closes the database connection
             DBConnection.disconnect();
-
+            //Returns the user
             return user;
         } catch (SQLException SQLEx) {
             LOGGER.error(SQLEx);
