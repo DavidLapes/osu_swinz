@@ -6,7 +6,7 @@ import com.djenterprise.db.user.UserDAO;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class TestDAO {
+public class TestUserDAO {
 
     @Test
     public void test01GetUserUsername(){
