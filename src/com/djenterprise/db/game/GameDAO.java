@@ -58,6 +58,8 @@ public class GameDAO {
     }
 
     //TODO JavaDoc
+    //TODO Ošetřit, aby to spadlo, když result set má více než 1 prvek, zároveň, aby se to nějak chovalo, když se nenajde prvek ani jeden (špatné ID)
+    // -------- dialogové okno ŠPATNÝ PIN (např.) ... viz Kahoot
     static public GameBO getGame( String gameId ) {
         GameBO ret = null;
         try{
@@ -70,6 +72,9 @@ public class GameDAO {
             PreparedStatement statement = DBConnection.connect().prepareStatement(query);
             //Execute statement and save result into ResultSet
             ResultSet resultSet = statement.executeQuery();
+            if( ! resultSet.isLast() ) {
+                throw new RuntimeException("There were found more games than 1 with the same code.");
+            }
             while( resultSet.next() ) {
                 ret = new GameBO();
                 ret.setGameId(resultSet.getString("gameid"));
