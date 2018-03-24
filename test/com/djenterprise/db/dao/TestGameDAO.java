@@ -1,9 +1,12 @@
 package com.djenterprise.db.dao;
 
 import com.djenterprise.app.game.GameBO;
+import com.djenterprise.app.game.QuestionBO;
 import com.djenterprise.db.game.GameDAO;
 import org.junit.Assert;
 import org.junit.Test;
+
+import java.util.List;
 
 public class TestGameDAO {
 
@@ -18,4 +21,15 @@ public class TestGameDAO {
 
         Assert.assertEquals(expected.getCreator(), actual.getCreator());
     }
+
+    @Test
+    public void test02GetGameQuestions() {
+        GameBO game = GameDAO.getGame("47310824");
+        List<QuestionBO> list = GameDAO.getQuestions(game);
+        int expected = 4;
+        int actual = list.size();
+        Assert.assertEquals(expected, actual);
+    }
+
+    //TODO Create game test
 }
