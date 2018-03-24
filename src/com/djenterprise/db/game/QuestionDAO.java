@@ -6,7 +6,10 @@ import org.apache.log4j.Logger;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+//TODO JavaDoC
+//TODO Comments
 public class QuestionDAO {
+
     static final private Logger LOGGER = Logger.getLogger(QuestionDAO.class.getName());
 
     public static void createQuestion(String text){
@@ -25,5 +28,4 @@ public class QuestionDAO {
         }
 
     }
-
 }

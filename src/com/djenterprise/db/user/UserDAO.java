@@ -2,6 +2,7 @@ package com.djenterprise.db.user;
 
 import com.djenterprise.app.user.UserBO;
 import com.djenterprise.db.connection.DBConnection;
+import com.djenterprise.db.exceptions.EntityInstanceNotFoundException;
 import org.apache.log4j.Logger;
 import javax.management.InstanceNotFoundException;
 import java.sql.PreparedStatement;
@@ -15,10 +16,8 @@ public class UserDAO {
     // Variable for logging
     static final private Logger LOGGER = Logger.getLogger(UserDAO.class.getName());
 
+    //TODO JavaDoc and comments (visit com.djenterprise.db.game.GameDAO.java)
     static public void createUser (UserBO user){
-        if( user.getUsername() == null || user.getPassword() == null ) {
-            throw new RuntimeException("User " + user + " not set right. Username or password is missing.");
-        }
         try{
             //Create query script
             String query =
@@ -40,6 +39,7 @@ public class UserDAO {
         }
     }
 
+    //TODO JavaDoc and comments (visit com.djenterprise.db.game.GameDAO.java)
     static public UserBO getUser(String username){
         try{
             //Query creation
@@ -52,10 +52,9 @@ public class UserDAO {
             //Executing query
             ResultSet rs = statement.executeQuery();
             UserBO user = new UserBO();
-            rs.next();
-            //Checking if attribute username has value
-            if(rs.getString("username") == null){
-                throw new RuntimeException("Username not found");
+            // ALSO... ADD COMMENT HERE (and others missing via TODO)
+            if( ! rs.next() ) {
+                throw new EntityInstanceNotFoundException("There is no user with this username.");
             }
             //Setting userBO values
             user.setUsername(rs.getString("username"));
@@ -72,5 +71,4 @@ public class UserDAO {
             throw new RuntimeException(SQLEx);
         }
     }
-
 }
