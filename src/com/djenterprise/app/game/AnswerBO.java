@@ -5,7 +5,7 @@ public class AnswerBO {
     private int answerId;
     private String text;
     private int questionId;
-    private boolean thruthfulness; //TODO Be careful! We need proper assigning BIT() -> boolean
+    private boolean truthfulness; //TODO Be careful! We need proper assigning BIT() -> boolean
 
     public int getAnswerId() {
         return answerId;
@@ -32,10 +32,10 @@ public class AnswerBO {
     }
 
     public boolean isCorrect() {
-        return thruthfulness;
+        return truthfulness;
     }
 
-    public void setThruthfulness(int thruthfulness) {
-        this.thruthfulness = thruthfulness != 0;
+    public void setTruthfulness(int truthfulness) {
+        this.truthfulness = truthfulness != 0;
     }
 }
