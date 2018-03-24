@@ -4,7 +4,6 @@ import com.djenterprise.app.user.UserBO;
 import com.djenterprise.db.connection.DBConnection;
 import com.djenterprise.db.exceptions.EntityInstanceNotFoundException;
 import org.apache.log4j.Logger;
-import javax.management.InstanceNotFoundException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -49,6 +48,7 @@ public class UserDAO {
      * Returns the user with inserted username, or throws EntityInstanceNotFoundException if user not found.
      * @param username username of the requested user.
      * @return returns requested user.
+     * @throws EntityInstanceNotFoundException when no User with input username has been found.
      */
     static public UserBO getUser(String username){
         try{

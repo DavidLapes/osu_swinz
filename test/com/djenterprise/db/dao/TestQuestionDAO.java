@@ -6,6 +6,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class TestQuestionDAO {
     //TODO
@@ -33,7 +34,7 @@ public class TestQuestionDAO {
         ArrayList<QuestionBO> expected = new ArrayList<>();
         expected.add(new QuestionBO());
         expected.get(0).setText("Stormcloacks, or Imperials?");
-        ArrayList<QuestionBO> actual = QuestionDAO.getAllQuestions();
+        List<QuestionBO> actual = QuestionDAO.getAllQuestions();
         Assert.assertEquals(actual.get(1).getText(), expected.get(0).getText());
     }
     @Test
@@ -41,7 +42,7 @@ public class TestQuestionDAO {
         ArrayList<QuestionBO> expected = new ArrayList<>();
         expected.add(new QuestionBO());
         expected.get(0).setText("Who is Astrid?");
-        ArrayList<QuestionBO> actual = QuestionDAO.getAllQuestions();
+        List<QuestionBO> actual = QuestionDAO.getAllQuestions();
         Assert.assertEquals(actual.get(2).getText(), expected.get(0).getText());
     }
     @Test
@@ -49,7 +50,7 @@ public class TestQuestionDAO {
         ArrayList<QuestionBO> expected = new ArrayList<>();
         expected.add(new QuestionBO());
         expected.get(0).setText("Shall we execute Cicero?");
-        ArrayList<QuestionBO> actual = QuestionDAO.getAllQuestions();
+        List<QuestionBO> actual = QuestionDAO.getAllQuestions();
         Assert.assertEquals(actual.get(3).getText(), expected.get(0).getText());
     }
     @Test
@@ -57,7 +58,7 @@ public class TestQuestionDAO {
         ArrayList<QuestionBO> expected = new ArrayList<>();
         expected.add(new QuestionBO());
         expected.get(0).setText("Is Ulrfic the High King?");
-        ArrayList<QuestionBO> actual = QuestionDAO.getAllQuestions();
+        List<QuestionBO> actual = QuestionDAO.getAllQuestions();
         Assert.assertEquals(actual.get(4).getText(), expected.get(0).getText());
     }
 

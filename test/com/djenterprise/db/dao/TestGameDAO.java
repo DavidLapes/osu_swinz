@@ -32,4 +32,10 @@ public class TestGameDAO {
     }
 
     //TODO Create game test
+    @Test
+    public void test03CreateGame() {
+        GameBO game = new GameBO();
+        game.generateId();
+        System.out.println(game.getGameId());
+    }
 }

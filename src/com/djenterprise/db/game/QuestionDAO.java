@@ -13,6 +13,7 @@ import java.util.List;
 
 public class QuestionDAO {
 
+    //Variable for logging
     static final private Logger LOGGER = Logger.getLogger(QuestionDAO.class.getName());
 
     /**
@@ -21,8 +22,7 @@ public class QuestionDAO {
      */
     @Deprecated
     public static void createQuestion(QuestionBO questionBO){
-        try
-        {
+        try {
             //Creates query
             String query = "INSERT INTO Question(text) VALUE(?)";
             //Prepares statement and opens connection to the database
@@ -83,7 +83,7 @@ public class QuestionDAO {
      * Returns list of questions, if none are found returns empty list.
      * @return returns list of all questions.
      */
-    public static ArrayList<QuestionBO> getAllQuestions(){
+    public static List<QuestionBO> getAllQuestions(){
         try {
             //Creates query
             String query =
@@ -93,7 +93,7 @@ public class QuestionDAO {
             //Executes query and assigns it to a result set
             ResultSet rs = statement.executeQuery();
             //Creates returned list instance
-            ArrayList <QuestionBO> list = new ArrayList<>();
+            List <QuestionBO> list = new ArrayList<>();
             //Adds all data into the list
             while (rs.next()) {
                 QuestionBO question = new QuestionBO();

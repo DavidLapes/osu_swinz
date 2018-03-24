@@ -11,6 +11,7 @@ import java.sql.SQLException;
 
 public class AnswerDAO {
 
+    //Variable for logging
     static final private Logger LOGGER = Logger.getLogger(AnswerDAO.class.getName());
 
     /**
@@ -48,6 +49,7 @@ public class AnswerDAO {
      * Returns answer with inserted ID if exists, otherwise throws EntityInstancceNotFoundException.
      * @param answerID ID of the requested answer
      * @return returns asnwer with inserted ID
+     * @throws EntityInstanceNotFoundException when no Answer with input ID has been found
      */
     public static AnswerBO getAnswer(int answerID){
         try {

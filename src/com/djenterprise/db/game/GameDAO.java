@@ -97,6 +97,7 @@ public class GameDAO {
      * Returns GameBO objects from database with specific ID
      * @param gameId 8-position ID of game which should be returned
      * @return built GameBO object according to gameID
+     * @throws EntityInstanceNotFoundException when no Game with input ID has been found.
      */
     static public GameBO getGame( String gameId ) {
         try {
