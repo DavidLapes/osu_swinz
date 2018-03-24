@@ -3,6 +3,7 @@ package com.djenterprise.db.game;
 import com.djenterprise.app.game.GameBO;
 import com.djenterprise.app.game.QuestionBO;
 import com.djenterprise.db.connection.DBConnection;
+import com.djenterprise.db.exceptions.EntityInstanceNotFoundException;
 import org.apache.log4j.Logger;
 
 import java.sql.PreparedStatement;
@@ -21,7 +22,17 @@ public class GameDAO {
 
     //TODO JavaDoc
     static public void createGame( GameBO gameBO) {
-
+        try {
+            //Create query script
+            String query =
+                    "";
+            //Open DB connection
+            PreparedStatement statement = DBConnection.connect().prepareStatement(query);
+            //Execute statement and save result into ResultSet
+            ResultSet resultSet = statement.executeQuery();
+        } catch ( SQLException SQLEx ) {
+            throw new RuntimeException(SQLEx);
+        }
     }
 
     /**
@@ -30,8 +41,9 @@ public class GameDAO {
      * @return collection containing questions assigned to the game
      */
     static public List<QuestionBO> getQuestions( GameBO gameBO ) {
-        List<QuestionBO> ret = new ArrayList<>();
         try{
+            // Declare return collection of questions
+            List<QuestionBO> ret = new ArrayList<>();
             //Create query script
             String query =
                     "SELECT question.text " +
@@ -47,6 +59,10 @@ public class GameDAO {
                 questionBO.setText(resultSet.getString("text"));
                 ret.add(questionBO);
             }
+            //Close statement
+            statement.close();
+            //Close result set
+            resultSet.close();
             //Close DB connection
             DBConnection.disconnect();
             //Return questions which game (gameBO) has available
@@ -57,12 +73,15 @@ public class GameDAO {
         }
     }
 
-    //TODO JavaDoc
-    //TODO Ošetřit, aby to spadlo, když result set má více než 1 prvek, zároveň, aby se to nějak chovalo, když se nenajde prvek ani jeden (špatné ID)
-    // -------- dialogové okno ŠPATNÝ PIN (např.) ... viz Kahoot
+    /**
+     * Returns GameBO objects from database with specific ID
+     * @param gameId 8-position ID of game which should be returned
+     * @return built GameBO object according to gameID
+     */
     static public GameBO getGame( String gameId ) {
-        GameBO ret = null;
-        try{
+        try {
+            // Declare return variable
+            GameBO ret = null;
             //Create query script
             String query =
                     "SELECT creator, datecreated, gameid " +
@@ -72,15 +91,17 @@ public class GameDAO {
             PreparedStatement statement = DBConnection.connect().prepareStatement(query);
             //Execute statement and save result into ResultSet
             ResultSet resultSet = statement.executeQuery();
-            if( ! resultSet.isLast() ) {
-                throw new RuntimeException("There were found more games than 1 with the same code.");
+            if( ! resultSet.next() ) {
+                throw new EntityInstanceNotFoundException("No game with ID " + gameId + " was found.");
             }
-            while( resultSet.next() ) {
-                ret = new GameBO();
-                ret.setGameId(resultSet.getString("gameid"));
-                ret.setCreator(resultSet.getString("creator"));
-                ret.setDateCreated(resultSet.getTimestamp("datecreated"));
-            }
+            ret = new GameBO();
+            ret.setGameId(resultSet.getString("gameid"));
+            ret.setCreator(resultSet.getString("creator"));
+            ret.setDateCreated(resultSet.getTimestamp("datecreated"));
+            //Close result set
+            resultSet.close();
+            //Close statement
+            statement.close();
             //Close DB connection
             DBConnection.disconnect();
             //Return GameBO instance
