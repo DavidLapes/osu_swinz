@@ -16,7 +16,7 @@ CREATE TABLE `Answer` (
   `answerid` INT NOT NULL AUTO_INCREMENT,
   `text` TEXT(256) NOT NULL,
   `questionid` INT NOT NULL,
-  `thruthfulness` BIT NOT NULL,
+  truthfulness BIT NOT NULL,
   PRIMARY KEY (`answerid`)
 );
 
@@ -79,83 +79,83 @@ INSERT INTO Question(text) VALUES (
 );
 
 /* Insert test answers and assign them to questions */
-INSERT INTO Answer(questionid, thruthfulness, text) VALUES (
+INSERT INTO Answer(questionid, truthfulness, text) VALUES (
   1, 1, 'Death...'
 );
 
-INSERT INTO Answer(questionid, thruthfulness, text) VALUES (
+INSERT INTO Answer(questionid, truthfulness, text) VALUES (
   1, 0, 'Death Metal!'
 );
 
-INSERT INTO Answer(questionid, thruthfulness, text) VALUES (
+INSERT INTO Answer(questionid, truthfulness, text) VALUES (
   1, 0, 'Jazz'
 );
 
-INSERT INTO Answer(questionid, thruthfulness, text) VALUES (
+INSERT INTO Answer(questionid, truthfulness, text) VALUES (
   1, 0, 'Flute?'
 );
 
-INSERT INTO Answer(questionid, thruthfulness, text) VALUE (
+INSERT INTO Answer(questionid, truthfulness, text) VALUE (
   2, 1, 'Imperials?'
 );
 
-INSERT INTO Answer(questionid, thruthfulness, text) VALUE (
+INSERT INTO Answer(questionid, truthfulness, text) VALUE (
   2, 0, 'Stormcloacks!'
 );
 
-INSERT INTO Answer(questionid, thruthfulness, text) VALUE (
+INSERT INTO Answer(questionid, truthfulness, text) VALUE (
   2, 0, 'Forever Tamriel'
 );
 
-INSERT INTO Answer(questionid, thruthfulness, text) VALUE (
+INSERT INTO Answer(questionid, truthfulness, text) VALUE (
   2, 0, 'Oblivion... is rising again!'
 );
 
-INSERT INTO Answer(questionid, thruthfulness, text) VALUE (
+INSERT INTO Answer(questionid, truthfulness, text) VALUE (
   3, 1, 'The Queen of Death'
 );
 
-INSERT INTO Answer(questionid, thruthfulness, text) VALUE (
+INSERT INTO Answer(questionid, truthfulness, text) VALUE (
   3, 0, 'Get lost, jerk'
 );
 
-INSERT INTO Answer(questionid, thruthfulness, text) VALUE (
+INSERT INTO Answer(questionid, truthfulness, text) VALUE (
   3, 0, 'I have no moeny!'
 );
 
-INSERT INTO Answer(questionid, thruthfulness, text) VALUE (
+INSERT INTO Answer(questionid, truthfulness, text) VALUE (
   3, 0, 'The Queen of Life'
 );
 
-INSERT INTO Answer(questionid, thruthfulness, text) VALUE (
+INSERT INTO Answer(questionid, truthfulness, text) VALUE (
   4, 1, 'Yes'
 );
 
-INSERT INTO Answer(questionid, thruthfulness, text) VALUE (
+INSERT INTO Answer(questionid, truthfulness, text) VALUE (
   4, 0, 'Nooooooooooo'
 );
 
-INSERT INTO Answer(questionid, thruthfulness, text) VALUE (
+INSERT INTO Answer(questionid, truthfulness, text) VALUE (
   4, 0, 'Nooooooo'
 );
 
-INSERT INTO Answer(questionid, thruthfulness, text) VALUE (
+INSERT INTO Answer(questionid, truthfulness, text) VALUE (
   4, 0, 'No'
 );
 
-INSERT INTO Answer(questionid, thruthfulness, text) VALUE (
+INSERT INTO Answer(questionid, truthfulness, text) VALUE (
   5, 1, 'Definitely not'
 );
 
-INSERT INTO Answer(questionid, thruthfulness, text) VALUE (
+INSERT INTO Answer(questionid, truthfulness, text) VALUE (
   5, 0, 'No'
 );
 
-INSERT INTO Answer(questionid, thruthfulness, text) VALUE (
+INSERT INTO Answer(questionid, truthfulness, text) VALUE (
   5, 0, 'Maybe'
 );
 
-INSERT INTO Answer(questionid, thruthfulness, text) VALUE (
+INSERT INTO Answer(questionid, truthfulness, text) VALUE (
   5, 0, 'Yeeeees'
 );
 
