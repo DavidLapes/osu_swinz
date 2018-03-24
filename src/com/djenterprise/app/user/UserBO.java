@@ -1,6 +1,6 @@
 package com.djenterprise.app.user;
 
-import com.mysql.jdbc.Blob;
+import java.sql.Blob;
 
 //TODO JavaDoc
 public class UserBO {

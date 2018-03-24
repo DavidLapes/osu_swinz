@@ -28,6 +28,12 @@ public class DBConnection {
     // Logger variable
     static final private Logger LOGGER = Logger.getLogger(DBConnection.class.getName());
 
+
+    static {
+        getDBProperties();
+        registerDriver();
+    }
+
     /**
      * Sets up DB CONNECTION and initializes variables for DB CONNECTION.
      */
@@ -165,7 +171,7 @@ public class DBConnection {
         } catch ( IllegalStateException ISEx){
             // Connection has not been closed
             LOGGER.error(ISEx);
-            return CONNECTION; 
+            return CONNECTION;
         }
     }
 
@@ -208,6 +214,7 @@ public class DBConnection {
             // Build path correctly due to server directory where app is being run
             aSQLScriptFilePath = aSQLScriptFilePath.replaceAll("file:/", "");
             aSQLScriptFilePath = aSQLScriptFilePath.replaceAll("//build//web//WEB-INF//classes", "");
+            aSQLScriptFilePath = "/" + aSQLScriptFilePath.replaceAll("/osu_swinz/out/production/osu_swinz","/osu_swinz/src");
         }
         // Connect to database
         connect();

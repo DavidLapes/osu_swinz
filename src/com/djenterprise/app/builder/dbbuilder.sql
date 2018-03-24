@@ -53,7 +53,7 @@ INSERT INTO User (username, password, alias) VALUES (
   'David', '1234', 'David'
 );
 
-INSERT INTO User (username, password, alias) VALUES (
+INSERT INTO User (username, password, alias) VALUES (''
   'Jachym', '4321', 'Chymja'
 );
 
