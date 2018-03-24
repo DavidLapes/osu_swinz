@@ -31,6 +31,19 @@ public class GameCycle {
         List<QuestionBO> questions = QuestionDAO.getAllQuestions();
         List<QuestionBO> gameQuestions = new ArrayList<>();
 
+        Collections.shuffle(questions);
+        int questionCount = getQuestionCount();
+        for( int i = 0; i < questionCount; i ++ ) {
+            gameQuestions.add(
+                    questions.get(i)
+            );
+        }
+
+        GameDAO.createGame(gameBO, gameQuestions);
+    }
+
+    //TODO JavaDoc
+    static private int getQuestionCount() {
         Properties properties = new Properties();
         FileInputStream inputStream;
         // Initialize Path to property file for DB CONNECTION
@@ -69,14 +82,8 @@ public class GameCycle {
             throw new RuntimeException("An error has occurred during reading the file '" + path + "'or closing FileInputStream");
         }
 
-        Collections.shuffle(questions);
-        String questionCount = properties.getProperty("question_count");
-        for( int i = 0; i < Integer.parseInt(questionCount); i ++ ) {
-            gameQuestions.add(
-                    questions.get(i)
-            );
-        }
+        String ret = properties.getProperty("question_count");
 
-        GameDAO.createGame(gameBO, gameQuestions);
+        return Integer.parseInt(ret);
     }
 }

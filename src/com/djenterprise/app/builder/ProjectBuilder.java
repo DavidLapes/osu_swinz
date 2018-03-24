@@ -13,6 +13,5 @@ public class ProjectBuilder {
         LOGGER.info("Starting project");
         DBConnection.initialize();
         LOGGER.info("FERTIG!");
-        GameCycle.constructGame("David");
     }
 }
