@@ -13,23 +13,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 //TODO Create Game
-//TODO Get Game
-//TODO Assigning
+//TODO Delete game
 public class GameDAO {
 
     //Variable for logging
     static final private Logger LOGGER = Logger.getLogger(GameDAO.class.getName());
 
     //TODO JavaDoc
-    static public void createGame( GameBO gameBO) {
+    static public void createGame( GameBO gameBO, List<QuestionBO> questions ) {
         try {
             //Create query script
             String query =
-                    "";
-            //Open DB connection
+                    "INSERT INTO Game(gameid, creator) VALUES( ?, ? );";
+            //Open DB connection and prepare a query statement
             PreparedStatement statement = DBConnection.connect().prepareStatement(query);
-            //Execute statement and save result into ResultSet
-            ResultSet resultSet = statement.executeQuery();
+            statement.setString(1, gameBO.getGameId());
+            statement.setString(2, gameBO.getCreator());
+            //Insert into DB and create the game
+            statement.execute();
+            for( QuestionBO question : questions ) {
+                query =
+                        "INSERT INTO GameQuestions(gameid_fk, questionid_fk) VALUE ( ?, ? );";
+
+            }
         } catch ( SQLException SQLEx ) {
             throw new RuntimeException(SQLEx);
         }
@@ -48,10 +54,11 @@ public class GameDAO {
             String query =
                     "SELECT question.text " +
                     "FROM gamequestions, question " +
-                    "WHERE gamequestions.gameid_fk = " + gameBO.getGameId() + " " +
+                    "WHERE gamequestions.gameid_fk = ? " +
                     "AND gamequestions.questionid_fk = question.questionid;";
-            //Open DB connection
+            //Open DB connection and prepare a query statement
             PreparedStatement statement = DBConnection.connect().prepareStatement(query);
+            statement.setString(1, gameBO.getGameId());
             //Execute statement and save result into ResultSet
             ResultSet resultSet = statement.executeQuery();
             while( resultSet.next() ) {
@@ -81,14 +88,13 @@ public class GameDAO {
     static public GameBO getGame( String gameId ) {
         try {
             // Declare return variable
-            GameBO ret = null;
+            GameBO ret;
             //Create query script
             String query =
-                    "SELECT creator, datecreated, gameid " +
-                            "FROM game " +
-                            "WHERE gameid = " + gameId + ";";
-            //Open DB connection
+                    "SELECT creator, datecreated, gameid FROM Game WHERE gameid = ?;";
+            //Open DB connection and prepare a query statement
             PreparedStatement statement = DBConnection.connect().prepareStatement(query);
+            statement.setString(1, gameId);
             //Execute statement and save result into ResultSet
             ResultSet resultSet = statement.executeQuery();
             if( ! resultSet.next() ) {

@@ -9,15 +9,15 @@ import org.junit.Test;
 public class TestDAO {
 
     @Test
-    public void test01GetUser(){
-    UserBO expected = new UserBO();
-    expected.setUsername("David");
-    UserBO actual = UserDAO.getUser("David");
-    Assert.assertEquals(actual.getUsername(), expected.getUsername());
-}
+    public void test01GetUserUsername(){
+        UserBO expected = new UserBO();
+        expected.setUsername("David");
+        UserBO actual = UserDAO.getUser("David");
+        Assert.assertEquals(actual.getUsername(), expected.getUsername());
+    }
 
     @Test
-    public void test02GetUser(){
+    public void test02GetUserAlias(){
         UserBO expected = new UserBO();
         expected.setAlias("David");
         UserBO actual = UserDAO.getUser("David");

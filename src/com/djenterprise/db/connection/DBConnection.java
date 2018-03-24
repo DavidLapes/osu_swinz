@@ -147,23 +147,20 @@ public class DBConnection {
         }
     }
 
-    //TODO Check if 'if' is written correctly
     /**
      * Attempts to establish connection to the database.
+     * @return connected Connection object when Connection is set up newly or return already connected Connection.
      */
     static public Connection connect() {
         try {
-            if(!(CONNECTION == null)){
-                if(!CONNECTION.isClosed()){
-                    throw new IllegalStateException("Attempt to connect to connected database");
-                }
+            if( CONNECTION != null && ! CONNECTION.isClosed() ) {
+                return CONNECTION;
             }
             // Set up the CONNECTION
             LOGGER.info("Logging to database " + JDBC_URL);
             CONNECTION = DriverManager.getConnection(JDBC_URL, JDBC_USERNAME, JDBC_PASSWORD);
             LOGGER.info("Successfully logged to database!");
             return CONNECTION;
-
         } catch ( SQLException SQLEx ) {
             // Connection has not been successful
             LOGGER.error(SQLEx);
