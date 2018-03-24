@@ -165,10 +165,6 @@ public class DBConnection {
             // Connection has not been successful
             LOGGER.error(SQLEx);
             throw new RuntimeException( SQLEx );
-        } catch ( IllegalStateException ISEx){
-            // Connection has not been closed
-            LOGGER.error(ISEx);
-            return CONNECTION;
         }
     }
 

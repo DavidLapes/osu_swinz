@@ -19,7 +19,11 @@ public class GameDAO {
     //Variable for logging
     static final private Logger LOGGER = Logger.getLogger(GameDAO.class.getName());
 
-    //TODO JavaDoc
+    /**
+     * Creates game and assigns questions to that game.
+     * @param gameBO game to be added to DB.
+     * @param questions List of questions which will be assigned to the game.
+     */
     static public void createGame( GameBO gameBO, List<QuestionBO> questions ) {
         try {
             //Create query script
@@ -34,8 +38,18 @@ public class GameDAO {
             for( QuestionBO question : questions ) {
                 query =
                         "INSERT INTO GameQuestions(gameid_fk, questionid_fk) VALUE ( ?, ? );";
-
+                //Prepare query to statement
+                statement = DBConnection.connect().prepareStatement(query);
+                //Prepare statement
+                statement.setString(1, gameBO.getGameId());
+                statement.setInt(2, question.getQuestionId());
+                //Execute query
+                statement.execute();
             }
+            //Close statement
+            statement.close();
+            //Disconnect from DB
+            DBConnection.disconnect();
         } catch ( SQLException SQLEx ) {
             throw new RuntimeException(SQLEx);
         }
