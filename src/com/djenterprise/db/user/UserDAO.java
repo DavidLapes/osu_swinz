@@ -1,5 +1,6 @@
 package com.djenterprise.db.user;
 
+import com.djenterprise.app.user.AESenc;
 import com.djenterprise.app.user.UserBO;
 import com.djenterprise.db.connection.DBConnection;
 import com.djenterprise.db.exceptions.EntityInstanceNotFoundException;
@@ -8,9 +9,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-//TODO Edit user
+//TODO Edit user - display name and avatar and password
 //TODO Avatar DB compatibility
-//TODO Remove user
 public class UserDAO {
 
     // Variable for logging
@@ -29,7 +29,7 @@ public class UserDAO {
             PreparedStatement statement = DBConnection.connect().prepareStatement(query);
             //Prepares safe statement
             statement.setString(1, user.getUsername());
-            statement.setString(2, user.getPassword());
+            statement.setString(2, user.encryptedPassword());
             statement.setBlob(3,user.getAvatar());
             statement.setString(4, user.getAlias());
             //Executes SQL command
@@ -41,6 +41,8 @@ public class UserDAO {
         } catch (SQLException SQLEx) {
             LOGGER.error(SQLEx);
             throw new RuntimeException(SQLEx);
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
         }
     }   
 

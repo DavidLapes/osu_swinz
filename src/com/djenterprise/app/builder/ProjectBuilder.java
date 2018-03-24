@@ -1,6 +1,5 @@
 package com.djenterprise.app.builder;
 
-import com.djenterprise.app.game.GameCycle;
 import com.djenterprise.db.connection.DBConnection;
 import org.apache.log4j.Logger;
 

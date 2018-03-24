@@ -41,4 +41,12 @@ public class UserBO {
     public void setAvatar(Blob avatar) {
         this.avatar = avatar;
     }
+
+    /**
+     * Get encrypted password of the user.
+     * @return encrypted password by AES standard.
+     */
+    public String encryptedPassword() throws Exception {
+        return AESenc.encrypt(password);
+    }
 }
