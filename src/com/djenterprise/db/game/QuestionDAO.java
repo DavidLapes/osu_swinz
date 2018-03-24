@@ -40,8 +40,9 @@ public class QuestionDAO {
             PreparedStatement statement = DBConnection.connect().prepareStatement(query);
             statement.setInt(1, questionID);
             ResultSet rs = statement.executeQuery();
-            rs.next();
-            if (rs.getInt(("questionid")) == 0) throw new EntityInstanceNotFoundException("Entity not found");
+            if( ! rs.next() ) {
+                throw new EntityInstanceNotFoundException("There is no question with this id.");
+            }
             QuestionBO question = new QuestionBO();
             question.setQuestionId(rs.getInt("questionid"));
             question.setText(rs.getString("text"));

@@ -40,8 +40,9 @@ public class AnswerDAO {
             statement.setInt(1, answerID);
             ResultSet rs = statement.executeQuery();
             DBConnection.disconnect();
-            rs.next();
-            if (rs.getInt(("answerid")) == 0) throw new EntityInstanceNotFoundException("Entity not found");
+            if( ! rs.next() ) {
+                throw new EntityInstanceNotFoundException("There is no answer with this id.");
+            }
             AnswerBO answer = new AnswerBO();
             answer.setAnswerId(rs.getInt("answerid"));
             answer.setText(rs.getString("text"));
