@@ -5,7 +5,7 @@ public class AnswerBO {
     private int answerId;
     private String text;
     private int questionId;
-    private boolean truthfulness; //TODO Be careful! We need proper assigning BIT() -> boolean
+    private boolean truthfulness;
 
     public int getAnswerId() {
         return answerId;

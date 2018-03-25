@@ -59,7 +59,7 @@ public class DBConnection {
         Path path;
         // Is this Windows?
         if (System.getProperty("os.name").toLowerCase().contains("windows")){
-            path = Paths.get("src\\com\\djenterprise\\config\\db_schedule.properties");
+            path = Paths.get("src\\com\\djenterprise\\config\\jdbc.properties");
             LOGGER.info("Reading file " + path.toString());
         }
         // It is not Windows

@@ -20,7 +20,7 @@ public class AnswerDAO {
      */
     @Deprecated
     public static void createAnswer(AnswerBO answer){
-        try{
+        try {
             //Create query
             String query =
                     "INSERT INTO Answer(text, questionid, truthfulness) VALUES (?,?,?)";
@@ -80,7 +80,6 @@ public class AnswerDAO {
             DBConnection.disconnect();
             //Returns the answer
             return answer;
-
         } catch (SQLException SQLEx) {
             LOGGER.error(SQLEx);
             throw new RuntimeException(SQLEx);

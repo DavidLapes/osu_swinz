@@ -79,10 +79,10 @@ public class GameDAO {
                 questionBO.setText(resultSet.getString("text"));
                 ret.add(questionBO);
             }
-            //Close statement
-            statement.close();
             //Close result set
             resultSet.close();
+            //Close statement
+            statement.close();
             //Close DB connection
             DBConnection.disconnect();
             //Return questions which game (gameBO) has available
@@ -126,6 +126,76 @@ public class GameDAO {
             DBConnection.disconnect();
             //Return GameBO instance
             return ret;
+        } catch (SQLException SQLEx) {
+            LOGGER.error(SQLEx);
+            throw new RuntimeException(SQLEx);
+        }
+    }
+
+    /**
+     * Returns games older than input time in seconds as a collection.
+     * @param timeInSeconds age of game
+     * @return collection of games older than timeInSeconds
+     */
+    static public List<GameBO> getGamesOlderThan( int timeInSeconds ) {
+        try {
+            //Initialize list
+            List<GameBO> games = new ArrayList<>();
+            //Select games older than timeInSeconds
+            String query = "SELECT * FROM Game WHERE datecreated < (NOW() - INTERVAL ? SECOND );";
+            //Connect to DB and prepare statement
+            PreparedStatement statement = DBConnection.connect().prepareStatement(query);
+            statement.setInt(1, timeInSeconds);
+            //Execute the query
+            ResultSet resultSet = statement.executeQuery();
+            //Add found games to list
+            while( resultSet.next() ) {
+                GameBO gameBO = new GameBO();
+                gameBO.setGameId(resultSet.getString("gameid"));
+                gameBO.setCreator(resultSet.getString("creator"));
+                gameBO.setDateCreated(resultSet.getTimestamp("datecreated"));
+                games.add( gameBO );
+            }
+            //Close ResultSet
+            resultSet.close();
+            //Close statement
+            statement.close();
+            //Close DB
+            DBConnection.disconnect();
+            //Return games found
+            return games;
+        } catch (SQLException SQLEx) {
+            LOGGER.error(SQLEx);
+            throw new RuntimeException(SQLEx);
+        }
+    }
+
+    /**
+     * Delete game by ID.
+     * @param gameID ID of the game to be deleted
+     */
+    static public void deleteGame( String gameID ) {
+        try {
+            //Deleting assigned questions first
+            String query =
+                    "DELETE FROM GameQuestions WHERE gameid_fk = ?;";
+            //Prepare the statement
+            PreparedStatement statement = DBConnection.connect().prepareStatement(query);
+            statement.setString(1, gameID);
+            //Execute the statement
+            statement.execute();
+            //Now prepare the query for deleting game itself from DB
+            query =
+                    "DELETE FROM Game WHERE gameid = ?;";
+            //Initialize statement again
+            statement = DBConnection.connect().prepareStatement(query);
+            statement.setString(1, gameID);
+            //Execute the statement
+            statement.execute();
+            //Close statement
+            statement.close();
+            //Close DB
+            DBConnection.disconnect();
         } catch (SQLException SQLEx) {
             LOGGER.error(SQLEx);
             throw new RuntimeException(SQLEx);

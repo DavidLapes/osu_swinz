@@ -31,11 +31,28 @@ public class TestGameDAO {
         Assert.assertEquals(expected, actual);
     }
 
-    //TODO Create game test
     @Test
     public void test03CreateGame() {
         GameBO game = new GameBO();
         game.generateId();
         System.out.println(game.getGameId());
+    }
+
+    @Test
+    public void test04GetGamesByDateCreated() {
+        int timeInSeconds = 1;
+        List<GameBO> list = GameDAO.getGamesOlderThan(timeInSeconds);
+        for( GameBO x : list ) {
+            System.out.println(x.getGameId() + ", " + x.getCreator() + ", " + x.getDateCreated().toString());
+        }
+    }
+
+    @Test
+    public void test05DeleteGamesOlderThan() {
+        int timeInSeconds = 1;
+        List<GameBO> list = GameDAO.getGamesOlderThan(timeInSeconds);
+        for( GameBO x : list ) {
+            GameDAO.deleteGame(x.getGameId());
+        }
     }
 }

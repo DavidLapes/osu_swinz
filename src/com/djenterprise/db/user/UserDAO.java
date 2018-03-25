@@ -25,7 +25,7 @@ public class UserDAO {
      * @param user user to be added to the databse.
      */
     static public void createUser (UserBO user){
-        try{
+        try {
             //Creates query script
             String query =
                     "INSERT INTO User (username, password, avatar, alias) VALUES (?, ?, ?, ?);";
@@ -56,6 +56,7 @@ public class UserDAO {
             LOGGER.error(FNFEx);
             throw new RuntimeException(FNFEx);
         } */catch (Exception ex) {
+            LOGGER.error(ex);
             throw new RuntimeException(ex);
         }
     }   
@@ -67,7 +68,7 @@ public class UserDAO {
      * @throws EntityInstanceNotFoundException when no User with input username has been found.
      */
     static public UserBO getUser(String username){
-        try{
+        try {
             //Query creation
             String query =
                     "SELECT * FROM USER WHERE username = ?";
@@ -100,8 +101,9 @@ public class UserDAO {
         }
     }
 
+    //TODO JavaDoc
     public static void editUserAvatar(UserBO user){
-        try{
+        try {
             //Query creation
             String query =
                     "UPDATE USER SET avatar = ? WHERE username = ?";
@@ -130,6 +132,8 @@ public class UserDAO {
             throw new RuntimeException(FNFEx);
         }
     }
+
+    //TODO JavaDoc
     public static void editUserAlias(UserBO user){
         try {
             //Query creation
@@ -152,6 +156,7 @@ public class UserDAO {
         }
     }
 
+    //TODO JavaDoc
     public static void editUserPassword(UserBO user){
         try {
             //Query creation

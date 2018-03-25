@@ -45,6 +45,7 @@ public class QuestionDAO {
      * Returns question with inserted ID if exists, otherwise throws EntityInstanceNotFoundException.
      * @param questionID ID of the requested question
      * @return returns question with inserted ID
+     * @throws EntityInstanceNotFoundException when no question with input ID has been found
      */
     public static QuestionBO getQuestion(int questionID){
         try {
