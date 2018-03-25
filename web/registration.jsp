@@ -14,7 +14,7 @@
     </head>
     <body>
         <div class="regBox">
-            <form action ="" method="post">
+            <form action ="" method="post" enctype="multipart/form-data">
                 <label for="username">Username</label>
                 <input type = text name="username" id="username">
                 <label for="password">Password</label>
