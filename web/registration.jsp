@@ -23,6 +23,8 @@
                 <input type="password" name="confirmPassword" id="confirmPassword">
                 <label for="alias">Display Name</label>
                 <input type="text" name="alias" id="alias">
+                <label for="avatar">Display Name</label>
+                <input type="file" accept="image" name="avatar" id="avatar">
                 <input type="submit" value="Register" name="submit" id="submit">
             </form>
         </div>

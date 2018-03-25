@@ -20,14 +20,14 @@ public class TestQuestionDAO {
         QuestionBO expected = new QuestionBO();
         expected.setQuestionId(1);
         QuestionBO actual = QuestionDAO.getQuestion(1);
-        Assert.assertEquals(actual.getQuestionId(), expected.getQuestionId());
+        Assert.assertEquals(expected.getQuestionId(), actual.getQuestionId());
     }
     @Test
     public void test03GetQuestionQuestionText(){
         QuestionBO expected = new QuestionBO();
         expected.setText("What is the music of life?");
         QuestionBO actual = QuestionDAO.getQuestion(1);
-        Assert.assertEquals(actual.getText(), expected.getText());
+        Assert.assertEquals(expected.getText(), actual.getText());
     }
     @Test
     public void test04GetQuestionsPos1Text(){
@@ -35,7 +35,7 @@ public class TestQuestionDAO {
         expected.add(new QuestionBO());
         expected.get(0).setText("Stormcloacks, or Imperials?");
         List<QuestionBO> actual = QuestionDAO.getAllQuestions();
-        Assert.assertEquals(actual.get(1).getText(), expected.get(0).getText());
+        Assert.assertEquals(expected.get(1).getText(), actual.get(0).getText());
     }
     @Test
     public void test05GetQuestionsPos2Text(){
@@ -43,7 +43,7 @@ public class TestQuestionDAO {
         expected.add(new QuestionBO());
         expected.get(0).setText("Who is Astrid?");
         List<QuestionBO> actual = QuestionDAO.getAllQuestions();
-        Assert.assertEquals(actual.get(2).getText(), expected.get(0).getText());
+        Assert.assertEquals(expected.get(2).getText(), actual.get(0).getText());
     }
     @Test
     public void test06GetQuestionsPos3Text(){
@@ -51,7 +51,7 @@ public class TestQuestionDAO {
         expected.add(new QuestionBO());
         expected.get(0).setText("Shall we execute Cicero?");
         List<QuestionBO> actual = QuestionDAO.getAllQuestions();
-        Assert.assertEquals(actual.get(3).getText(), expected.get(0).getText());
+        Assert.assertEquals(expected.get(3).getText(), actual.get(0).getText());
     }
     @Test
     public void test07GetQuestionsPos4Text(){
@@ -59,7 +59,7 @@ public class TestQuestionDAO {
         expected.add(new QuestionBO());
         expected.get(0).setText("Is Ulrfic the High King?");
         List<QuestionBO> actual = QuestionDAO.getAllQuestions();
-        Assert.assertEquals(actual.get(4).getText(), expected.get(0).getText());
+        Assert.assertEquals(expected.get(4).getText(), actual.get(0).getText());
     }
 
 
