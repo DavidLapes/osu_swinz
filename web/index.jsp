@@ -10,14 +10,15 @@
     <head>
         <title>DJahoot!</title>
         <link rel="stylesheet" type="text/css" href="style.css">
-        <link rel="icon" href="/images/djicon.png">
+        <link rel="icon" href="${pageContext.request.contextPath}/images/djicon.png">
     </head>
     <body>
     <div class="formBox">
-        <form action ="" method="post">
-            <label style="margin:25%" for="code">Game Code</label>
-            <input type="text" name="code" id="code">
-            <input type="submit" value="Enter">
+        <form action ="RegistrationServlet" method="post">
+            <label class="gamePinLabel" for="code">DJAHOOT!</label>
+            <%-- When you click / tab on / select this input field, default value disappears --%>
+            <input type="text" name="code" id="code" value="GAME PIN" onblur=" if (this.value == '') {this.value = 'GAME PIN';}" onfocus="if (this.value == 'GAME PIN') {this.value = '';}">
+            <input type="submit" value="ENTER" >
         </form>
     </div>
     </body>
