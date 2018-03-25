@@ -31,14 +31,20 @@ public final class ScheduledTask extends TimerTask {
     }
 
     /**
-     *
+     * Removes games which are older than specified in property file.
      */
     static private void removeGames() {
+        //Get resources for game removal from DB
         Properties properties = getResources();
+        //Get period timer property
         int interval = Integer.parseInt(properties.getProperty("time"));
+        //Calculate interval ( transfer from milliseconds to seconds )
         interval /= 1000;
+        //Find games older than specified time
         List<GameBO> gameBOList = GameDAO.getGamesOlderThan(interval);
+        //Go through the list
         for( GameBO game : gameBOList ) {
+            //Delete those games
             GameDAO.deleteGame(game.getGameId());
         }
     }
