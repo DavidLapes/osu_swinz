@@ -28,14 +28,14 @@ body {
 }
 
 .regBox {
-    width:120px;
+    width:400px;
     margin:10% auto auto auto;
 }
 
 .formBox {
     width: 400px;
     height: 300px;
-    margin: 20% auto auto auto;
+    margin: 15% auto auto auto;
 }
 
 .formInput, .inputLabel {
@@ -55,9 +55,9 @@ body {
 }
 
 .gamePinLabel {
-    font-size: 60px;
+    font-size: 105px;
     font-family: fantasy;
-    margin-left: 23%;
+    margin-left: 0%;
     color: white;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -67,6 +67,63 @@ body {
     user-select: none;
 }
 
+.gamePinInput {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding:5px 15px;
+    border:2px solid #ccc;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    float: left;
+    width: 400px;
+    height: 60px;
+    text-align: center;
+    color: #cccccc;
+    font-size: 20px;
+}
+
+.gamePinInput:focus {
+    border: 5px solid #333333;
+}
+
+.gamePinSubmit {
+    margin-top: 1px;
+    margin-bottom: 20px;
+    padding:5px 15px;
+    background:#333333;
+    color: white;
+    border:0 none;
+    cursor:pointer;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    float: left;
+    width: 400px;
+    height: 60px;
+    font-size: 20px;
+}
+
+.regUploadFile {
+
+}
+
+input[type=file] {
+    display: none;
+}
+
+.custom-file-upload {
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+    margin-top: 20px;
+    margin-bottom: 30px;
+    margin-left: 36%;
+    color: white;
+    font-family: fantasy;
+    background-color: #333333;
+    font-size: 30px;
+}
+
+/*
 input[type=text] {
     margin-top: 20px;
     margin-bottom: 20px;
@@ -87,15 +144,22 @@ input[type=text]:focus {
 }
 
 input[type=password] {
-    margin-bottom: 10px;
-    padding:5px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding:5px 15px;
     border:2px solid #ccc;
     -webkit-border-radius: 5px;
     border-radius: 5px;
+    float: left;
+    width: 400px;
+    height: 60px;
+    text-align: center;
+    color: #cccccc;
+    font-size: 20px;
 }
 
 input[type=password]:focus {
-    border-color:#333;
+    border: 5px solid #333333;
 }
 
 input[type=submit] {
@@ -113,3 +177,4 @@ input[type=submit] {
     height: 60px;
     font-size: 20px;
 }
+*/
