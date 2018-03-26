@@ -36,20 +36,33 @@ public class GameBO {
         return dateCreated;
     }
 
-    //TODO JavaDoc and comments
+    /**
+     * Generates random 8-number ID.
+     * @return generated ID.
+     */
     public String generateId() {
+        //Initialize Random generator
         Random rand = new Random();
+        //ID has not been set yet - false
         boolean correctlySet = false;
+        //No gameID yet - null
         String gameId = null;
+        //Found yet?
         while( ! correctlySet ) {
             try {
+                //Generate ID between 10000000 and 99999999
                 int id = rand.nextInt(90000000) + 10000000;
+                //Convert number to string
                 gameId = Integer.toString(id);
+                //Some game with this ID has been found, repeat
                 GameDAO.getGame(gameId);
+            //No such game with this ID has been found, exit generating
             } catch ( EntityInstanceNotFoundException EINFEx ) {
+                //ID set correctly
                 correctlySet = true;
             }
         }
+        //Return ID
         return gameId;
     }
 }

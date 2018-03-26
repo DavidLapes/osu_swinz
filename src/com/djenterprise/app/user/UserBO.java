@@ -2,7 +2,6 @@ package com.djenterprise.app.user;
 
 import java.sql.Blob;
 
-//TODO JavaDoc
 public class UserBO {
 
     private String username;

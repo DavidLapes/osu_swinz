@@ -1,6 +1,5 @@
 package com.djenterprise.db.user;
 
-import com.djenterprise.app.user.AESenc;
 import com.djenterprise.app.user.UserBO;
 import com.djenterprise.db.connection.DBConnection;
 import com.djenterprise.db.exceptions.EntityInstanceNotFoundException;
@@ -13,13 +12,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-//TODO Edit user - display name and avatar and password
-//TODO Avatar DB compatibility
 public class UserDAO {
 
     // Variable for logging
     static final private Logger LOGGER = Logger.getLogger(UserDAO.class.getName());
 
+    //TODO Avatar in register form
     /**
      * Adds inserted user into the databaase.
      * @param user user to be added to the databse.
@@ -101,7 +99,10 @@ public class UserDAO {
         }
     }
 
-    //TODO JavaDoc
+    /**
+     * Edit avatar of the user passed as argument.
+     * @param user user of whom the alias is being changed.
+     */
     public static void editUserAvatar(UserBO user){
         try {
             //Query creation
@@ -114,7 +115,6 @@ public class UserDAO {
             File file = new File(/*File Path String Variable*/"");
             FileInputStream fis = new FileInputStream(file);
 
-            //Inserting values into prepared statement
             //Transforms file into binary stream
             statement.setBinaryStream(1, fis, (int) file.length());
             statement.setString(2, user.getUsername());
@@ -133,7 +133,10 @@ public class UserDAO {
         }
     }
 
-    //TODO JavaDoc
+    /**
+     * Edit alias of the user passed as argument.
+     * @param user user of whom the alias is being changed.
+     */
     public static void editUserAlias(UserBO user){
         try {
             //Query creation
@@ -156,7 +159,10 @@ public class UserDAO {
         }
     }
 
-    //TODO JavaDoc
+    /**
+     * Edit password of the user passed as argument.
+     * @param user user of whom the password is being changed
+     */
     public static void editUserPassword(UserBO user){
         try {
             //Query creation
