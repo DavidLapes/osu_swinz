@@ -1,6 +1,6 @@
 package com.djenterprise.app.game;
 
-import com.djenterprise.db.connection.DBConnection;
+import com.djenterprise.db.game.GameDAO;
 import org.apache.log4j.Logger;
 
 import java.io.File;
@@ -9,9 +9,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.util.List;
 import java.util.Properties;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -32,21 +30,22 @@ public final class ScheduledTask extends TimerTask {
         removeGames();
     }
 
-    //TODO
+    /**
+     * Removes games which are older than specified in property file.
+     */
     static private void removeGames() {
-        try {
-
-            Properties properties = getResources();
-            int interval = Integer.parseInt(properties.getProperty("time"));
-            interval /= 1000;
-
-            String query = "";
-            PreparedStatement statement = DBConnection.connect().prepareStatement(query);
-            ResultSet resultSet = statement.executeQuery();
-
-        } catch (SQLException SQLEx) {
-            LOGGER.error(SQLEx);
-            throw new RuntimeException(SQLEx);
+        //Get resources for game removal from DB
+        Properties properties = getResources();
+        //Get period timer property
+        int interval = Integer.parseInt(properties.getProperty("time"));
+        //Calculate interval ( transfer from milliseconds to seconds )
+        interval /= 1000;
+        //Find games older than specified time
+        List<GameBO> gameBOList = GameDAO.getGamesOlderThan(interval);
+        //Go through the list
+        for( GameBO game : gameBOList ) {
+            //Delete those games
+            GameDAO.deleteGame(game.getGameId());
         }
     }
 
@@ -54,11 +53,17 @@ public final class ScheduledTask extends TimerTask {
      * Method to be run at server container startup. Initializes periodical game deleting.
      */
     static public void init() {
+        //Initialize object with run() method
         TimerTask scheduledTask = new ScheduledTask();
+        //Initialize Timer object
         Timer timer = new Timer();
+        //Get resources for Timer
         Properties properties = getResources();
+        //Get delay value
         int delay = Integer.parseInt(properties.getProperty("delay"));
+        //Get period value
         int period = Integer.parseInt(properties.getProperty("period"));
+        //Start schedule
         timer.scheduleAtFixedRate(scheduledTask, delay, period);
     }
 
@@ -66,7 +71,7 @@ public final class ScheduledTask extends TimerTask {
      * Gets property file with configuration attributes for scheduler.
      * @return Property file
      */
-    static public Properties getResources() {
+    static private Properties getResources() {
         Properties properties = new Properties();
         FileInputStream inputStream;
         // Initialize Path to property file

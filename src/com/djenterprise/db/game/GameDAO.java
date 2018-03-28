@@ -12,7 +12,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-//TODO Delete game
 public class GameDAO {
 
     //Variable for logging

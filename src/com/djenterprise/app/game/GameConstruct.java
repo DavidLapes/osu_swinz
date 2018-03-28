@@ -15,34 +15,47 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 
-public class GameCycle {
+public class GameConstruct {
 
     //Variable for logging
-    static final private Logger LOGGER = Logger.getLogger(GameCycle.class.getName());
+    static final private Logger LOGGER = Logger.getLogger(GameConstruct.class.getName());
 
-    //TODO ( + JavaDoc, comments )
+    /**
+     * Creates a game and configures needed attributes like adding questions.
+     * @param creator user who created the game
+     */
     static public void constructGame( String creator ) {
+        //Game to be created
         GameBO gameBO = new GameBO();
+        //Set randomly-generated ID to this game
         gameBO.setGameId(
                 gameBO.generateId()
         );
+        //Set user to this game who created it
         gameBO.setCreator(creator);
-
+        //Get all possible questions
         List<QuestionBO> questions = QuestionDAO.getAllQuestions();
+        //Prepare list for questions which will be selected in upcoming step
         List<QuestionBO> gameQuestions = new ArrayList<>();
-
+        //Shuffle those questions so we don't get same questions
         Collections.shuffle(questions);
+        //Obtain a number of how many questions game should have
         int questionCount = getQuestionCount();
+        //Go through those questions
         for( int i = 0; i < questionCount; i ++ ) {
+            //Add questions to the game
             gameQuestions.add(
                     questions.get(i)
             );
         }
-
+        //Construct instance in DB
         GameDAO.createGame(gameBO, gameQuestions);
     }
 
-    //TODO JavaDoc
+    /**
+     * Returns number how many questions should game have according to property file
+     * @return int number of questions
+     */
     static private int getQuestionCount() {
         Properties properties = new Properties();
         FileInputStream inputStream;
