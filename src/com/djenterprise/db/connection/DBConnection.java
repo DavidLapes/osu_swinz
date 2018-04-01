@@ -28,12 +28,13 @@ public class DBConnection {
     // Logger variable
     static final private Logger LOGGER = Logger.getLogger(DBConnection.class.getName());
 
-
+    //TODO
     static {
-        getDBProperties();
-        registerDriver();
+        //getDBProperties();
+        //registerDriver();
     }
 
+    //TODO
     /**
      * Sets up DB CONNECTION and initializes variables for DB CONNECTION.
      */
@@ -49,6 +50,7 @@ public class DBConnection {
         executeSQL();
     }
 
+    @SuppressWarnings("ALL")
     /**
      * Initializes variables for DB CONNECTION.
      */
@@ -57,14 +59,15 @@ public class DBConnection {
         FileInputStream inputStream;
         // Initialize Path to property file for DB CONNECTION
         Path path;
+        // 08:24:07  INFO - file:/S:/SWINZ/osu_swinz/out/artifacts/osu_swinz_war_exploded/WEB-INF/classes/com/djenterprise/app/builder/ProjectBuilder.class
         // Is this Windows?
         if (System.getProperty("os.name").toLowerCase().contains("windows")){
-            path = Paths.get("src\\com\\djenterprise\\config\\jdbc.properties");
+            path = Paths.get("src\\com\\djenterprise\\resources\\jdbc.properties");
             LOGGER.info("Reading file " + path.toString());
         }
         // It is not Windows
         else {
-            path = Paths.get("src//com//djenterprise//config//jdbc.properties");
+            path = Paths.get("src//com//djenterprise//resources//jdbc.properties");
             LOGGER.info("Reading file " + path.toString());
         }
 

@@ -1,5 +1,9 @@
 package com.djenterprise.web.user;
 
+import com.djenterprise.app.builder.ProjectBuilder;
+import com.djenterprise.app.user.UserBO;
+import com.djenterprise.db.user.UserDAO;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -22,8 +26,36 @@ public class RegistrationServlet extends HttpServlet {
     private void processRequest( HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            RequestDispatcher view = getServletContext().getRequestDispatcher("/index.jsp");
-            view.forward(request, response);
+
+            String username = request.getParameter("username");
+            String password = request.getParameter("password");
+            String confirmPassword = request.getParameter("confirmPassword");
+            String alias = request.getParameter("alias");
+
+            if( password == null || confirmPassword == null || ! password.equals(confirmPassword) || password.isEmpty() ) {
+                RequestDispatcher view = getServletContext().getRequestDispatcher("/registration.jsp");
+                view.forward(request, response);
+                return;
+            } else {
+                ProjectBuilder.main(null);
+
+
+                //Initialize a dispatcher
+                RequestDispatcher view = getServletContext().getRequestDispatcher("/index.jsp");
+                //Redirect to another page
+                view.forward(request, response);
+            }
+
+            /*
+            UserBO user = new UserBO();
+            user.setUsername(username);
+            user.setPassword(password);
+            user.setAlias(alias);
+
+            UserDAO.createUser(user);
+            */
+
+
         }
     }
 }
