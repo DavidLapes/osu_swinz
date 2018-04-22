@@ -16,9 +16,6 @@ import java.io.PrintWriter;
 
 @WebServlet(name = "LoginServlet", urlPatterns = {"/LoginServlet"})
 public class LoginServlet extends HttpServlet {
-    public static final String LOGINKEY = "__DJLOGIN__";
-    public static final String ALIASKEY = "__DJALIAS__";
-
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         processRequest(request, response);
     }
@@ -33,15 +30,15 @@ public class LoginServlet extends HttpServlet {
             HttpSession session = request.getSession();
             String username = request.getParameter("username");
             String password = request.getParameter("password");
-            if (username.isEmpty()|| password.isEmpty()){
+            if (username.isEmpty()|| password.isEmpty() || username.equals("USERNAME") || password.equals("PASSWORD") ){
                 response.sendRedirect("index.jsp?field=0");
             } else {
                 UserBO user = new UserBO();
                 user.setUsername(username);
                 user.setPassword(password);
                 if (Login.testLogin(user)) {
-                    session.setAttribute(LOGINKEY, user.getUsername());
-                    session.setAttribute(ALIASKEY, UserDAO.getUser(username).getAlias());
+                    session.setAttribute(Keys.LOGINKEY, user.getUsername());
+                    session.setAttribute(Keys.ALIASKEY, UserDAO.getUser(username).getAlias());
                 }
                 response.sendRedirect("index.jsp");
             }
