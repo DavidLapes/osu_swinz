@@ -66,6 +66,12 @@ body {
     user-select: none;
 }
 
+.errorText {
+    color: white;
+    font-size: 26px;
+    font-family: fantasy;
+}
+
 .gamePinInput {
     margin-top: 20px;
     margin-bottom: 20px;
