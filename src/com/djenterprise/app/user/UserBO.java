@@ -1,5 +1,6 @@
 package com.djenterprise.app.user;
 
+import java.io.InputStream;
 import java.sql.Blob;
 
 public class UserBO {
@@ -8,6 +9,8 @@ public class UserBO {
     private String password;
     private String alias;
     private Blob avatar;
+    private long fileLength;
+    private InputStream inputStream;
 
     public String getUsername() {
         return username;
@@ -47,5 +50,21 @@ public class UserBO {
      */
     public String encryptedPassword() throws Exception {
         return AESenc.encrypt(password);
+    }
+
+    public InputStream getInputStream() {
+        return inputStream;
+    }
+
+    public void setInputStream(InputStream inputStream) {
+        this.inputStream = inputStream;
+    }
+
+    public long getFileLength() {
+        return fileLength;
+    }
+
+    public void setFileLength(long fileLength) {
+        this.fileLength = fileLength;
     }
 }
