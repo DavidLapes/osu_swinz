@@ -18,7 +18,7 @@
             <label class="gamePinLabel" for="code">DJAHOOT!</label>
             <%-- When you click / tab on / select this input field, default value disappears --%>
             <input class="gamePinInput" type="text" name="code" id="code" value="GAME PIN" onblur=" if (this.value === '') {this.value = 'GAME PIN';}" onfocus="if (this.value === 'GAME PIN') {this.value = '';}">
-            <input class="gamePinSubmit" type="submit" value="ENTER" >
+            <input class="gamePinSubmit" style="margin-top: -18px;" type="submit" value="ENTER" >
         </form>
         <%
             if( session.getAttribute(Keys.LOGINKEY) != null && ! ((String) session.getAttribute(Keys.LOGINKEY)).isEmpty() ) {

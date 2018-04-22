@@ -1,4 +1,4 @@
-<%--
+<%@ page import="com.djenterprise.web.user.Keys" %><%--
   Created by IntelliJ IDEA.
   User: davel
   Date: 19.03.2018
@@ -18,11 +18,19 @@
             <label class="gamePinLabel" for="code">DJAHOOT!</label>
             <%-- When you click / tab on / select this input field, default value disappears --%>
             <input class="gamePinInput" type="text" name="code" id="code" value="GAME PIN" onblur=" if (this.value === '') {this.value = 'GAME PIN';}" onfocus="if (this.value === 'GAME PIN') {this.value = '';}">
-            <input class="gamePinSubmit" type="submit" value="ENTER" >
+            <input class="gamePinSubmit" style="margin-top: -18px;" type="submit" value="ENTER" >
         </form>
-        <form action="login.jsp" method="post">
-            <input class="gamePinSubmit" type="submit" value="LOG IN">
-        </form>
+        <%
+            if( session.getAttribute(Keys.LOGINKEY) != null && ! ((String) session.getAttribute(Keys.LOGINKEY)).isEmpty() ) {
+                out.println("<form action=\"LogoutServlet\" method=\"post\">");
+                out.println("<input class=\"gamePinSubmit\" type=\"submit\" value=\"LOG OUT\">");
+                out.println("</form>");
+            } else {
+                out.println("<form action=\"login.jsp\" method=\"post\">");
+                out.println("<input class=\"gamePinSubmit\" type=\"submit\" value=\"LOG IN\">");
+                out.println("</form>");
+            }
+        %>
     </div>
     </body>
 </html>
