@@ -33,6 +33,7 @@ public class LoginServlet extends HttpServlet {
 
             }
             UserBO user = new UserBO();
+            
             user.setUsername(username);
             user.setPassword(password);
             if(Login.testLogin(user)){
