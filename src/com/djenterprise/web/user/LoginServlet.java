@@ -31,7 +31,7 @@ public class LoginServlet extends HttpServlet {
             String username = request.getParameter("username");
             String password = request.getParameter("password");
             if (username.isEmpty()|| password.isEmpty() || username.equals("USERNAME") || password.equals("PASSWORD") ){
-                response.sendRedirect("index.jsp?field=0");
+                response.sendRedirect("login.jsp?errMsg=1");
             } else {
                 UserBO user = new UserBO();
                 user.setUsername(username);
@@ -39,8 +39,11 @@ public class LoginServlet extends HttpServlet {
                 if (Login.testLogin(user)) {
                     session.setAttribute(Keys.LOGINKEY, user.getUsername());
                     session.setAttribute(Keys.ALIASKEY, UserDAO.getUser(username).getAlias());
+                    response.sendRedirect("index.jsp");
+                } else {
+                    session.setAttribute(Keys.LOGINFAILKEY,username);
+                    response.sendRedirect("login.jsp?errMsg=2");
                 }
-                response.sendRedirect("index.jsp");
             }
         }
     }
