@@ -15,8 +15,8 @@
     <body>
     <div class="formBox">
         <form action ="LoginServlet" method="post">
-            <input class="gamePinInput" type ="text" style="margin-bottom: -8px;" name="username" id="username" value="USERNAME" onblur=" if (this.value === '') {this.value = 'USERNAME';}" onfocus="if (this.value === 'USERNAME') {this.value = '';}">
-            <input class="gamePinInput" type="password" style="margin-bottom: 10px;" name="password" id="password" value="PASSWORD" onblur=" if (this.value === '') {this.value = 'PASSWORD';}" onfocus="if (this.value === 'PASSWORD') {this.value = '';}">
+            <input class="loginInput" type ="text" name="username" id="username" value="USERNAME" onblur=" if (this.value === '') {this.value = 'USERNAME';}" onfocus="if (this.value === 'USERNAME') {this.value = '';}">
+            <input class="loginInput" type="password" name="password" id="password" value="PASSWORD" onblur=" if (this.value === '') {this.value = 'PASSWORD';}" onfocus="if (this.value === 'PASSWORD') {this.value = '';}">
             <input class="gamePinSubmit" type="submit" value="LOG IN" >
         </form>
     </div>
