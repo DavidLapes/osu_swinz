@@ -13,7 +13,7 @@
         <link rel="icon" href="${pageContext.request.contextPath}/images/djicon.png">
     </head>
     <body>
-    <div class="formBox">
+    <div class="formBox" style="margin-top: 20%;">
         <form action ="LoginServlet" method="post">
             <input class="loginInput" type ="text" name="username" id="username" value="USERNAME" onblur=" if (this.value === '') {this.value = 'USERNAME';}" onfocus="if (this.value === 'USERNAME') {this.value = '';}">
             <input class="loginInput" type="password" name="password" id="password" value="PASSWORD" onblur=" if (this.value === '') {this.value = 'PASSWORD';}" onfocus="if (this.value === 'PASSWORD') {this.value = '';}">
