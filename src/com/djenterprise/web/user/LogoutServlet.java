@@ -1,5 +1,6 @@
 package com.djenterprise.web.user;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -22,7 +23,8 @@ public class LogoutServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             request.getSession().invalidate();
-            response.sendRedirect("index.jsp");
+            RequestDispatcher view = getServletContext().getRequestDispatcher("/index.jsp");
+            view.forward(request, response);
         }
     }
 }
