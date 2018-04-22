@@ -11,12 +11,6 @@ public class ProjectBuilder {
     static final private Logger LOGGER = Logger.getLogger(ProjectBuilder.class.getName());
 
     static public void main( String[] args ) {
-        //System.out.println(Paths.get("..\\osu_swinz\\src\\com\\djenterprise\\config\\jdbc.properties"));
-        //LOGGER.info(ProjectBuilder.class.getResource("ProjectBuilder.class").toString());
-        //LOGGER.info("Starting project");
-        //DBConnection.initialize();
-        //LOGGER.info("FERTIG!");
-        //System.out.println("\\build\\web\\WEB-INF\\classes");
         DBConnection.initialize();
     }
 }

@@ -35,9 +35,8 @@ public class RegistrationServlet extends HttpServlet {
             if( password == null || confirmPassword == null || ! password.equals(confirmPassword) || password.isEmpty() ) {
                 RequestDispatcher view = getServletContext().getRequestDispatcher("/registration.jsp");
                 view.forward(request, response);
-                return;
             } else {
-                ProjectBuilder.main(null);
+                //ProjectBuilder.main(null);
 
 
                 //Initialize a dispatcher
