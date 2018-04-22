@@ -11,7 +11,7 @@ import java.sql.SQLException;
 public class Login {
 
     //Variable for logging
-    static final private Logger LOGGER = Logger.getLogger(Logger.class.getName());
+    static final private Logger LOGGER = Logger.getLogger(Login.class.getName());
 
     /**
      * Tests the login with username and password of UserBO passed as parameter.
