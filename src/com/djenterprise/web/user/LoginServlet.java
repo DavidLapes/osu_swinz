@@ -36,7 +36,7 @@ public class LoginServlet extends HttpServlet {
             user.setUsername(username);
             user.setPassword(password);
             if(Login.testLogin(user)){
-                
+
             }
         }
     }

@@ -1,6 +1,5 @@
 package com.djenterprise.web.user;
 
-import com.djenterprise.app.builder.ProjectBuilder;
 import com.djenterprise.app.user.UserBO;
 import com.djenterprise.db.user.UserDAO;
 
