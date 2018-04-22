@@ -27,5 +27,6 @@
     <orderEntry type="library" name="selenium-server-standalone-3.11.0" level="project" />
     <orderEntry type="library" name="ibatis" level="project" />
     <orderEntry type="library" name="junit:junit:4.12" level="project" />
+    <orderEntry type="library" name="jstl-1.2" level="project" />
   </component>
 </module>
