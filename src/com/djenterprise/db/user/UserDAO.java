@@ -39,8 +39,13 @@ public class UserDAO {
             statement.setString(2, user.encryptedPassword());
             statement.setBlob(3,user.getAvatar());
             //Transforms file into binary stream
-            //statement.setBinaryStream(3, fis, (int) file.length());
-            statement.setString(4, user.getAlias());
+            //statement.setBinaryStream(3, fis, (int) file.length());] //TODO What is this? (David -> Jáchym)
+            //Sets Alias - if there is no alias filled in form, assign username as alias
+            if( user.getAlias() == null || user.getAlias().isEmpty() ) {
+                statement.setString(4, user.getUsername());
+            } else {
+                statement.setString(4, user.getAlias());
+            }
             //Executes SQL command
             statement.execute();
             //Closes the statement
@@ -49,7 +54,7 @@ public class UserDAO {
             DBConnection.disconnect();
         } catch (SQLException SQLEx) {
             LOGGER.error(SQLEx);
-            throw new RuntimeException(SQLEx);
+            throw new RuntimeException(SQLEx.getMessage(), SQLEx);
         } /*catch (FileNotFoundException FNFEx){
             LOGGER.error(FNFEx);
             throw new RuntimeException(FNFEx);
@@ -129,7 +134,7 @@ public class UserDAO {
             throw new RuntimeException(SQLEx);
         } catch (FileNotFoundException FNFEx){
             LOGGER.error(FNFEx);
-            throw new RuntimeException(FNFEx);
+            throw new RuntimeException("File was not found.", FNFEx);
         }
     }
 
