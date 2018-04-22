@@ -23,11 +23,14 @@
         <%
             if( session.getAttribute(Keys.LOGINKEY) != null && ! ((String) session.getAttribute(Keys.LOGINKEY)).isEmpty() ) {
                 out.println("<form action=\"LogoutServlet\" method=\"post\">");
-                out.println("<input class=\"gamePinSubmit\" type=\"submit\" value=\"LOG OUT\">");
+                out.println("<img src=\"images/man.png\" style=\"height: 60px; width: 60px; float: left;\">");
+                out.println("<p class=\"loginText\">" + session.getAttribute(Keys.ALIASKEY).toString().toUpperCase() + "</p>");
+                out.println("<input class=\"gamePinSubmit\" type=\"submit\" value=\"LOG OUT\" style=\"margin-top: 10px;\">");
                 out.println("</form>");
             } else {
                 out.println("<form action=\"login.jsp\" method=\"post\">");
-                out.println("<input class=\"gamePinSubmit\" type=\"submit\" value=\"LOG IN\">");
+                out.println("<img src=\"images/man.png\" style=\"height: 60px; width: 60px; float: left;\">");
+                out.println("<input class=\"gamePinSubmit\" type=\"submit\" value=\"LOG IN\" style=\"width:310px; margin-left: 30px;\">");
                 out.println("</form>");
             }
         %>

@@ -35,7 +35,7 @@ body {
 .formBox {
     width: 400px;
     height: 300px;
-    margin: 15% auto auto auto;
+    margin: 13% auto auto auto;
 }
 
 .formInput, .inputLabel {
@@ -114,6 +114,15 @@ body {
     text-align: center;
     color: #cccccc;
     font-size: 20px;
+}
+
+.loginText {
+    width: 400px;
+    text-align: right;
+    height: 60px;
+    font-family: fantasy;
+    font-size: 40px;
+    color: #333333;
 }
 
 input[type=file] {
