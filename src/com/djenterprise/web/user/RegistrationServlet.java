@@ -36,25 +36,20 @@ public class RegistrationServlet extends HttpServlet {
                 RequestDispatcher view = getServletContext().getRequestDispatcher("/registration.jsp");
                 view.forward(request, response);
             } else {
-                //ProjectBuilder.main(null);
 
+                UserBO user = new UserBO();
+
+                user.setUsername(username);
+                user.setPassword(password);
+                user.setAlias(alias);
+
+                UserDAO.createUser(user);
 
                 //Initialize a dispatcher
                 RequestDispatcher view = getServletContext().getRequestDispatcher("/index.jsp");
                 //Redirect to another page
                 view.forward(request, response);
             }
-
-            /*
-            UserBO user = new UserBO();
-            user.setUsername(username);
-            user.setPassword(password);
-            user.setAlias(alias);
-
-            UserDAO.createUser(user);
-            */
-
-
         }
     }
 }
