@@ -20,7 +20,9 @@
             <input class="gamePinInput" type="text" name="code" id="code" value="GAME PIN" onblur=" if (this.value === '') {this.value = 'GAME PIN';}" onfocus="if (this.value === 'GAME PIN') {this.value = '';}">
             <input class="gamePinSubmit" type="submit" value="ENTER" >
         </form>
-
+        <form action="login.jsp" method="post">
+            <input class="gamePinSubmit" type="submit" value="LOG IN">
+        </form>
     </div>
     </body>
 </html>
