@@ -32,6 +32,9 @@
                 out.println("<img src=\"images/man.png\" style=\"height: 60px; width: 60px; float: left;\">");
                 out.println("<input class=\"gamePinSubmit\" type=\"submit\" value=\"LOG IN\" style=\"width:310px; margin-left: 30px;\">");
                 out.println("</form>");
+                out.println("<form action=\"registration.jsp\" method=\"post\">");
+                out.println("<input class=\"gamePinSubmit\" type=\"submit\" value=\"REGISTER\">");
+                out.println("</form>");
             }
         %>
     </div>
