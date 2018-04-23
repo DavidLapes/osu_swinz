@@ -28,12 +28,12 @@ body {
 }
 
 .regBox {
-    width:400px;
+    width:600px;
     margin:10% auto auto auto;
 }
 
 .formBox {
-    width: 400px;
+    width: 600px;
     height: 300px;
     margin: 13% auto auto auto;
 }
@@ -55,7 +55,7 @@ body {
 }
 
 .gamePinLabel {
-    font-size: 105px;
+    font-size: 160px;
     font-family: fantasy;
     color: white;
     -webkit-touch-callout: none;
@@ -68,8 +68,9 @@ body {
 
 .errorText {
     color: white;
-    font-size: 26px;
+    font-size: 35px;
     font-family: fantasy;
+    text-align: center;
 }
 
 .gamePinInput {
@@ -80,7 +81,7 @@ body {
     -webkit-border-radius: 5px;
     border-radius: 5px;
     float: left;
-    width: 400px;
+    width: 600px;
     height: 60px;
     text-align: center;
     color: #cccccc;
@@ -102,7 +103,7 @@ body {
     -webkit-border-radius: 5px;
     border-radius: 5px;
     float: left;
-    width: 400px;
+    width: 600px;
     height: 60px;
     font-size: 20px;
 }
@@ -115,7 +116,7 @@ body {
     -webkit-border-radius: 5px;
     border-radius: 5px;
     float: left;
-    width: 400px;
+    width: 600px;
     height: 60px;
     text-align: center;
     color: #cccccc;
@@ -123,7 +124,7 @@ body {
 }
 
 .loginText {
-    width: 400px;
+    width: 540px;
     text-align: right;
     height: 60px;
     font-family: fantasy;

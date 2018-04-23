@@ -23,7 +23,7 @@
         </script>
     </head>
     <body>
-        <div class="formBox">
+        <div class="formBox" style="margin-top: 10%;">
             <form action ="registration.jsp" method="post">
                 <label class="gamePinLabel" for="code">DJAHOOT!</label>
                 <%-- When you click / tab on / select this input field, default value disappears --%>
@@ -43,7 +43,7 @@
                 } else {
                     out.println("<form action=\"login.jsp\" method=\"get\">");
                     out.println("<img src=\"images/man.png\" style=\"height: 60px; width: 60px; float: left;\">");
-                    out.println("<input class=\"gamePinSubmit\" type=\"submit\" value=\"LOG IN\" style=\"width:310px; margin-left: 30px;\">");
+                    out.println("<input class=\"gamePinSubmit\" type=\"submit\" value=\"LOG IN\" style=\"width:510px; margin-left: 30px; text-indent: -90px;\">");
                     out.println("</form>");
                     out.println("<form action=\"registration.jsp\" method=\"post\">");
                     out.println("<input class=\"gamePinSubmit\" type=\"submit\" value=\"REGISTER\">");
