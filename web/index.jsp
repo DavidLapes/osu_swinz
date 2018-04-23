@@ -20,15 +20,18 @@
             <input class="gamePinInput" style="margin-top: -10px;" type="text" name="code" id="code" value="GAME PIN" onblur=" if (this.value === '') {this.value = 'GAME PIN';}" onfocus="if (this.value === 'GAME PIN') {this.value = '';}">
             <input class="gamePinSubmit" style="margin-top: -18px;" type="submit" value="ENTER" >
         </form>
+        <form action="createGame.jsp" method="get">
+            <input class="gamePinSubmit" style="margin-top: -10px;" type="submit" value="CREATE GAME">
+        </form>
         <%
             if( session.getAttribute(Keys.LOGINKEY) != null && ! ((String) session.getAttribute(Keys.LOGINKEY)).isEmpty() ) {
-                out.println("<form action=\"LogoutServlet\" method=\"post\">");
+                out.println("<form action=\"LogoutServlet\" method=\"get\">");
                 out.println("<img src=\"images/man.png\" style=\"height: 60px; width: 60px; float: left;\">");
                 out.println("<p class=\"loginText\">" + session.getAttribute(Keys.ALIASKEY).toString().toUpperCase() + "</p>");
                 out.println("<input class=\"gamePinSubmit\" type=\"submit\" value=\"LOG OUT\" style=\"margin-top: 10px;\">");
                 out.println("</form>");
             } else {
-                out.println("<form action=\"login.jsp\" method=\"post\">");
+                out.println("<form action=\"login.jsp\" method=\"get\">");
                 out.println("<img src=\"images/man.png\" style=\"height: 60px; width: 60px; float: left;\">");
                 out.println("<input class=\"gamePinSubmit\" type=\"submit\" value=\"LOG IN\" style=\"width:310px; margin-left: 30px;\">");
                 out.println("</form>");
