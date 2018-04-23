@@ -23,6 +23,8 @@ public class RegistrationServlet extends HttpServlet {
         processRequest(request, response);
     }
 
+    //TODO Authentication Regex Match and Handling
+
     private void processRequest( HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {

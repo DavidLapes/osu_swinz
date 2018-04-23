@@ -1,4 +1,4 @@
-package com.djenterprise.app.user;
+package com.djenterprise.app.authentication;
 
 import java.security.Key;
 import javax.crypto.Cipher;

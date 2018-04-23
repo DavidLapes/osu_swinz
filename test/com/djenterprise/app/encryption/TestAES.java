@@ -1,6 +1,6 @@
 package com.djenterprise.app.encryption;
 
-import com.djenterprise.app.user.AESenc;
+import com.djenterprise.app.authentication.AESenc;
 import org.junit.Assert;
 import org.junit.Test;
 

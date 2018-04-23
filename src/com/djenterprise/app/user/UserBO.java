@@ -1,5 +1,7 @@
 package com.djenterprise.app.user;
 
+import com.djenterprise.app.authentication.AESenc;
+
 import java.io.InputStream;
 import java.sql.Blob;
 
