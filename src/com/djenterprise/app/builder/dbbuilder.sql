@@ -6,7 +6,7 @@ USE swinzdb;
 /* Create tables */
 CREATE TABLE `User` (
   `username` VARCHAR(32) NOT NULL UNIQUE,
-  `password` VARCHAR(32) NOT NULL,
+  `password` VARCHAR(256) NOT NULL,
   `avatar` BLOB,
   `alias` VARCHAR(32) NOT NULL UNIQUE,
   PRIMARY KEY (`username`)
