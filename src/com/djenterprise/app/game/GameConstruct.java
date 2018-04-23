@@ -53,6 +53,24 @@ public class GameConstruct {
     }
 
     /**
+     * Creates a game and configures needed attributes.
+     * @param creator user who created the game
+     * @param gameQuestions questions to be added to quiz
+     */
+    static public void constructGame( String creator, List<QuestionBO> gameQuestions ) {
+        //Game to be created
+        GameBO gameBO = new GameBO();
+        //Set randomly-generated ID to this game
+        gameBO.setGameId(
+                gameBO.generateId()
+        );
+        //Set user to this game who created it
+        gameBO.setCreator(creator);
+        //Construct instance in DB
+        GameDAO.createGame(gameBO, gameQuestions);
+    }
+
+    /**
      * Returns number how many questions should game have according to property file
      * @return int number of questions
      */
