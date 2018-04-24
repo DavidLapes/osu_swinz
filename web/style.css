@@ -126,9 +126,10 @@ body {
 .loginText {
     width: 540px;
     text-align: right;
+    float: right;
     height: 60px;
     font-family: fantasy;
-    font-size: 40px;
+    font-size: 60px;
     color: #333333;
 }
 

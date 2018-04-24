@@ -28,25 +28,25 @@
                 <label class="gamePinLabel" for="code">DJAHOOT!</label>
                 <%-- When you click / tab on / select this input field, default value disappears --%>
                 <input class="gamePinInput" style="margin-top: -10px;" type="text" name="code" id="code" value="GAME PIN" onblur=" if (this.value === '') {this.value = 'GAME PIN';}" onfocus="if (this.value === 'GAME PIN') {this.value = '';}">
-                <input class="gamePinSubmit" style="margin-top: -18px;" type="submit" value="ENTER" >
+                <input class="gamePinSubmit" style="margin-top: -16px;" type="submit" value="ENTER" >
             </form>
             <form action="javascript:redirectToGameCreation()" method="get">
-                <input class="gamePinSubmit" style="margin-top: -10px;" type="submit" value="CREATE GAME">
+                <input class="gamePinSubmit" style="margin-top: -16px; margin-bottom: 0px;" type="submit" value="CREATE GAME">
             </form>
             <%
                 if( session.getAttribute(Keys.LOGINKEY) != null && ! ((String) session.getAttribute(Keys.LOGINKEY)).isEmpty() ) {
                     out.println("<form action=\"LogoutServlet\" method=\"get\">");
-                    out.println("<img src=\"images/man.png\" style=\"height: 60px; width: 60px; float: left;\">");
-                    out.println("<p class=\"loginText\">" + session.getAttribute(Keys.ALIASKEY).toString().toUpperCase() + "</p>");
-                    out.println("<input class=\"gamePinSubmit\" type=\"submit\" value=\"LOG OUT\" style=\"margin-top: 10px;\">");
+                    out.println("<img src=\"images/man.png\" name=\"userImg\" style=\"height: 60px; width: 60px; float: left; margin-top: 4px;\">");
+                    out.println("<label class=\"loginText\" for=\"userImg\">" + session.getAttribute(Keys.ALIASKEY).toString().toUpperCase() + "</label>");
+                    out.println("<input class=\"gamePinSubmit\" type=\"submit\" value=\"LOG OUT\" style=\"margin-top: 4px;\">");
                     out.println("</form>");
                 } else {
                     out.println("<form action=\"login.jsp\" method=\"get\">");
-                    out.println("<img src=\"images/man.png\" style=\"height: 60px; width: 60px; float: left;\">");
-                    out.println("<input class=\"gamePinSubmit\" type=\"submit\" value=\"LOG IN\" style=\"width:510px; margin-left: 30px; text-indent: -90px;\">");
+                    out.println("<img src=\"images/man.png\" style=\"height: 60px; width: 60px; float: left; margin-top: 4px;\">");
+                    out.println("<input class=\"gamePinSubmit\" type=\"submit\" value=\"LOG IN\" style=\"width:510px; margin-left: 30px; margin-top: 4px; text-indent: -90px;\">");
                     out.println("</form>");
                     out.println("<form action=\"registration.jsp\" method=\"post\">");
-                    out.println("<input class=\"gamePinSubmit\" type=\"submit\" value=\"REGISTER\">");
+                    out.println("<input class=\"gamePinSubmit\" type=\"submit\" value=\"REGISTER\" style=\"margin-top: -16px;\">");
                     out.println("</form>");
                 }
             %>
