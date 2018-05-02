@@ -18,6 +18,10 @@ public class GameBO {
         return playerOne;
     }
 
+    /**
+     * Set Alias of PlayerOne
+     * @param playerOne alis of player one
+     */
     public void setPlayerOne(String playerOne) {
         this.playerOne = playerOne;
     }
@@ -26,6 +30,10 @@ public class GameBO {
         return playerTwo;
     }
 
+    /**
+     * Set Alias of PlayerTwo
+     * @param playerTwo alias of player two
+     */
     public void setPlayerTwo(String playerTwo) {
         this.playerTwo = playerTwo;
     }

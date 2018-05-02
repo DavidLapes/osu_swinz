@@ -53,6 +53,10 @@ public class GameDAO {
                 //Execute query
                 statement.execute();
             }
+            //Close statement
+            statement.close();
+            //Disconnect from DB
+            DBConnection.disconnect();
             //Prepare state of game
             GameStateBO gameState = new GameStateBO();
             gameState.setPlayerOneAnswered(0);
@@ -64,10 +68,6 @@ public class GameDAO {
             gameState.setCurrentRound(1);
             //Create state of game
             GameStateDAO.createGameState(gameState);
-            //Close statement
-            statement.close();
-            //Disconnect from DB
-            DBConnection.disconnect();
         } catch ( SQLException SQLEx ) {
             throw new RuntimeException(SQLEx);
         }
@@ -197,6 +197,8 @@ public class GameDAO {
      */
     static public void deleteGame( String gameID ) {
         try {
+            //Delete state of the game
+            GameStateDAO.deleteGameState(gameID);
             //Deleting assigned questions first
             String query =
                     "DELETE FROM GameQuestions WHERE gameid_fk = ?;";
@@ -205,8 +207,6 @@ public class GameDAO {
             statement.setString(1, gameID);
             //Execute the statement
             statement.execute();
-            //Delete state of the game
-            GameStateDAO.deleteGameState(gameID);
             //Now prepare the query for deleting game itself from DB
             query =
                     "DELETE FROM Game WHERE gameid = ?;";
