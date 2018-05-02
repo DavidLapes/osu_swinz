@@ -26,6 +26,14 @@ CREATE TABLE `Question` (
   PRIMARY KEY (`questionid`)
 );
 
+CREATE TABLE `GameState` (
+  `gameid_fk` VARCHAR(8) NOT NULL UNIQUE,
+  `number_of_questions` INT NOT NULL,
+  `current_round` INT NOT NULL,
+  `player_one_points` INT NOT NULL,
+  `player_two_points` INT NOT NULL
+);
+
 CREATE TABLE `Game` (
   `gameid` VARCHAR(8) NOT NULL,
   `creator` VARCHAR(32) NOT NULL,
@@ -49,6 +57,8 @@ ALTER TABLE `Game` ADD CONSTRAINT `Game_fk0` FOREIGN KEY (`creator`) REFERENCES 
 ALTER TABLE `GameQuestions` ADD CONSTRAINT `Question_fk1` FOREIGN KEY (`questionid_fk`) REFERENCES `Question`(`questionid`);
 
 ALTER TABLE `GameQuestions` ADD CONSTRAINT `Game_fk1` FOREIGN KEY (`gameid_fk`) REFERENCES `Game`(`gameid`);
+
+ALTER TABLE `GameState` ADD CONSTRAINT `GameState_fk0` FOREIGN KEY (`gameid_fk`) REFERENCES `Game`(`gameid`);
 
 /* Insert test users */
 INSERT INTO User (username, password, alias) VALUES (
