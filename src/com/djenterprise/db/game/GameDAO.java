@@ -4,6 +4,7 @@ import com.djenterprise.app.game.GameBO;
 import com.djenterprise.app.game.QuestionBO;
 import com.djenterprise.db.connection.DBConnection;
 import com.djenterprise.db.exceptions.EntityInstanceNotFoundException;
+import com.djenterprise.db.user.UserDAO;
 import org.apache.log4j.Logger;
 
 import java.sql.PreparedStatement;
@@ -21,16 +22,23 @@ public class GameDAO {
      * Creates game and assigns questions to that game.
      * @param gameBO game to be added to DB.
      * @param questions List of questions which will be assigned to the game.
+     * @throws EntityInstanceNotFoundException one of players' alias does not exist
      */
     static public void createGame( GameBO gameBO, List<QuestionBO> questions ) {
+        //Check if players exist
+        UserDAO.getUserByAlias(gameBO.getPlayerOne());
+        UserDAO.getUserByAlias(gameBO.getPlayerTwo());
+
         try {
             //Create query script
             String query =
-                    "INSERT INTO Game(gameid, creator) VALUES( ?, ? );";
+                    "INSERT INTO Game(gameid, creator, player_one, player_two) VALUES( ?, ?, ?, ? );";
             //Open DB connection and prepare a query statement
             PreparedStatement statement = DBConnection.connect().prepareStatement(query);
             statement.setString(1, gameBO.getGameId());
             statement.setString(2, gameBO.getCreator());
+            statement.setString(3, gameBO.getPlayerOne());
+            statement.setString(4, gameBO.getPlayerTwo());
             //Insert into DB and create the game
             statement.execute();
             for( QuestionBO question : questions ) {
@@ -104,7 +112,7 @@ public class GameDAO {
             GameBO ret;
             //Create query script
             String query =
-                    "SELECT creator, datecreated, gameid FROM Game WHERE gameid = ?;";
+                    "SELECT creator, datecreated, gameid, player_one, player_two FROM Game WHERE gameid = ?;";
             //Open DB connection and prepare a query statement
             PreparedStatement statement = DBConnection.connect().prepareStatement(query);
             statement.setString(1, gameId);
@@ -117,6 +125,8 @@ public class GameDAO {
             ret.setGameId(resultSet.getString("gameid"));
             ret.setCreator(resultSet.getString("creator"));
             ret.setDateCreated(resultSet.getTimestamp("datecreated"));
+            ret.setPlayerOne(resultSet.getString("player_one"));
+            ret.setPlayerTwo(resultSet.getString("player_two"));
             //Close result set
             resultSet.close();
             //Close statement

@@ -62,10 +62,11 @@ public class DBConnection {
         try {
             if (System.getProperty("os.name").toLowerCase().contains("windows")) {
                 path = Paths.get(DBConnection.class.getResource("jdbc.properties").toURI());
+                LOGGER.info("Reading file " + path.toString());
             }
             // It is not Windows
             else {
-                path = Paths.get("src//com//djenterprise//resources//jdbc.properties");
+                path = Paths.get(DBConnection.class.getResource("jdbc.properties").toURI());
                 LOGGER.info("Reading file " + path.toString());
             }
         } catch (URISyntaxException ex ) {

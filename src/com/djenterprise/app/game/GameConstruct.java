@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -23,8 +24,10 @@ public class GameConstruct {
     /**
      * Creates a game and configures needed attributes like adding questions.
      * @param creator user who created the game
+     * @param playerOne first player
+     * @param playerTwo second player
      */
-    static public void constructGame( String creator ) {
+    static public void constructGame( String creator, String playerOne, String playerTwo ) {
         //Game to be created
         GameBO gameBO = new GameBO();
         //Set randomly-generated ID to this game
@@ -33,6 +36,10 @@ public class GameConstruct {
         );
         //Set user to this game who created it
         gameBO.setCreator(creator);
+        //Set first player
+        gameBO.setPlayerOne(playerOne);
+        //Set second player
+        gameBO.setPlayerTwo(playerTwo);
         //Get all possible questions
         List<QuestionBO> questions = QuestionDAO.getAllQuestions();
         //Prepare list for questions which will be selected in upcoming step
@@ -79,15 +86,19 @@ public class GameConstruct {
         FileInputStream inputStream;
         // Initialize Path to property file for DB CONNECTION
         Path path;
-        // Is this Windows?
-        if (System.getProperty("os.name").toLowerCase().contains("windows")){
-            path = Paths.get("src\\com\\djenterprise\\config\\game_config.properties");
-            LOGGER.info("Reading file " + path.toString());
-        }
-        // It is not Windows
-        else {
-            path = Paths.get("src//com//djenterprise//config//game_config.properties");
-            LOGGER.info("Reading file " + path.toString());
+        try {
+            // Is this Windows?
+            if (System.getProperty("os.name").toLowerCase().contains("windows")) {
+                path = Paths.get(GameConstruct.class.getResource("game_config.properties").toURI());
+                LOGGER.info("Reading file " + path.toString());
+            }
+            // It is not Windows
+            else {
+                path = Paths.get(GameConstruct.class.getResource("game_config.properties").toURI());
+                LOGGER.info("Reading file " + path.toString());
+            }
+        } catch (URISyntaxException ex ) {
+            throw new RuntimeException(ex);
         }
 
         // Get the File by specified Path

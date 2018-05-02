@@ -105,6 +105,46 @@ public class UserDAO {
     }
 
     /**
+     * Returns the user with inserted alias, or throws EntityInstanceNotFoundException if user not found.
+     * @param alias alias of the requested user.
+     * @return returns requested user.
+     * @throws EntityInstanceNotFoundException when no User with input alias has been found.
+     */
+    static public UserBO getUserByAlias(String alias){
+        try {
+            //Query creation
+            String query =
+                    "SELECT * FROM USER WHERE alias = ?";
+            //Retrieving connection to the database
+            PreparedStatement statement = DBConnection.connect().prepareStatement(query);
+            //Inserting values into prepared statement
+            statement.setString(1, alias);
+            //Executing query
+            ResultSet rs = statement.executeQuery();
+            UserBO user = new UserBO();
+            //Checks for data
+            if( ! rs.next() ) {
+                throw new EntityInstanceNotFoundException("There is no user with this username.");
+            }
+            //Setting userBO values
+            user.setUsername(rs.getString("username"));
+            user.setAlias(rs.getString("alias"));
+            user.setAvatar(rs.getBlob("avatar"));
+            //Closes the result set
+            rs.close();
+            //Closes the statement
+            statement.close();
+            //Closes the database connection
+            DBConnection.disconnect();
+            //Returns the user
+            return user;
+        } catch (SQLException SQLEx) {
+            LOGGER.error(SQLEx);
+            throw new RuntimeException(SQLEx);
+        }
+    }
+
+    /**
      * Edit avatar of the user passed as argument.
      * @param user user of whom the alias is being changed.
      */

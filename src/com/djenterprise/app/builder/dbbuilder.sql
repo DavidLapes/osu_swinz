@@ -30,6 +30,8 @@ CREATE TABLE `Game` (
   `gameid` VARCHAR(8) NOT NULL,
   `creator` VARCHAR(32) NOT NULL,
   `datecreated` TIMESTAMP NOT NULL,
+  `player_one` VARCHAR(32) NOT NULL,
+  `player_two` VARCHAR(32) NOT NULL,
   PRIMARY KEY (`gameid`)
 );
 
@@ -160,12 +162,12 @@ INSERT INTO Answer(questionid, truthfulness, text) VALUE (
 );
 
 /* Insert test games */
-INSERT INTO Game(gameid, creator) VALUE (
-  '47310824', 'David'
+INSERT INTO Game(gameid, creator, player_one, player_two) VALUE (
+  '47310824', 'David', 'David', 'Jachym'
 );
 
-INSERT INTO Game(gameid, creator) VALUE (
-  '82549371', 'Jachym'
+INSERT INTO Game(gameid, creator, player_one, player_two) VALUE (
+  '82549371', 'Jachym', 'David', 'Jachym'
 );
 
 /* Assign test questions to games */
