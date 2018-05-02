@@ -123,6 +123,22 @@ body {
     font-size: 20px;
 }
 
+.createGameSubmit {
+    margin-top: 1px;
+    margin-bottom: 5px;
+    padding:5px 15px;
+    background:#333333;
+    color: white;
+    border:0 none;
+    cursor:pointer;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    float: left;
+    width: 600px;
+    height: 60px;
+    font-size: 20px;
+}
+
 .loginInput {
     margin-top: 2px;
     margin-bottom: 2px;

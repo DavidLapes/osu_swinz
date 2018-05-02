@@ -2,7 +2,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
     <head>
-        <title>Title</title>
+        <title>DJahoot!</title>
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <link rel="icon" href="${pageContext.request.contextPath}/images/djicon.png">
     </head>
     <body>
         <%
@@ -11,15 +13,19 @@
             }
         %>
         <div class="formBox">
-            <form action ="registration.jsp" method="post">
-                <label class="gamePinLabel" for="code">DJAHOOT!</label>
-                <%-- When you click / tab on / select this input field, default value disappears --%>
-                <input class="gamePinInput" style="margin-top: -10px;" type="text" name="code" id="code" value="INVALID" onblur=" if (this.value === '') {this.value = 'GAME PIN';}" onfocus="if (this.value === 'GAME PIN') {this.value = '';}">
-                <input class="gamePinSubmit" style="margin-top: -18px;" type="submit" value="INVALID" >
+            <form action ="GenerateGameServlet" method="post">
+                <input class="createGameSubmit" type="submit" value="GENERATE GAME" >
             </form>
-            <form action="" method="get">
-                <input class="gamePinSubmit" style="margin-top: -10px;" type="submit" value="INVALID">
+            <form action="createCustomGame.jsp" method="post">
+                <input class="createGameSubmit" type="submit" value="CREATE CUSTOM GAME">
             </form>
+            <%
+                out.println("<form action=\"LogoutServlet\" method=\"get\">");
+                out.println("<img src=\"images/man.png\" name=\"userImg\" style=\"height: 60px; width: 60px; float: left; margin-top: 4px;\">");
+                out.println("<label class=\"loginText\" for=\"userImg\">" + session.getAttribute(Keys.ALIASKEY).toString().toUpperCase() + "</label>");
+                out.println("<input class=\"createGameSubmit\" type=\"submit\" value=\"LOG OUT\" style=\"margin-top: 4px;\">");
+                out.println("</form>");
+            %>
         </div>
     </body>
 </html>
