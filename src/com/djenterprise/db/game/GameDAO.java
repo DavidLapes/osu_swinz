@@ -1,6 +1,7 @@
 package com.djenterprise.db.game;
 
 import com.djenterprise.app.game.GameBO;
+import com.djenterprise.app.game.GameStateBO;
 import com.djenterprise.app.game.QuestionBO;
 import com.djenterprise.db.connection.DBConnection;
 import com.djenterprise.db.exceptions.EntityInstanceNotFoundException;
@@ -52,6 +53,17 @@ public class GameDAO {
                 //Execute query
                 statement.execute();
             }
+            //Prepare state of game
+            GameStateBO gameState = new GameStateBO();
+            gameState.setPlayerOneAnswered(0);
+            gameState.setPlayerTwoAnswered(0);
+            gameState.setPlayerOnePoints(0);
+            gameState.setPlayerTwoPoints(0);
+            gameState.setGameId(gameBO.getGameId());
+            gameState.setNumberOfQuestions(questions.size());
+            gameState.setCurrentRound(1);
+            //Create state of game
+            GameStateDAO.createGameState(gameState);
             //Close statement
             statement.close();
             //Disconnect from DB
@@ -193,6 +205,8 @@ public class GameDAO {
             statement.setString(1, gameID);
             //Execute the statement
             statement.execute();
+            //Delete state of the game
+            GameStateDAO.deleteGameState(gameID);
             //Now prepare the query for deleting game itself from DB
             query =
                     "DELETE FROM Game WHERE gameid = ?;";

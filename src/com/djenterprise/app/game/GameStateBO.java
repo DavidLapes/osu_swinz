@@ -7,6 +7,8 @@ public class GameStateBO {
     private int currentRound;
     private int playerOnePoints;
     private int playerTwoPoints;
+    private boolean playerOneAnswered;
+    private boolean playerTwoAnswered;
 
     /**
      * Proceeds to next round and adds winning points.
@@ -33,6 +35,30 @@ public class GameStateBO {
      */
     private void playerTwoIncreaseBy( int playerTwoPoints ) {
         this.playerTwoPoints = playerTwoPoints;
+    }
+
+    public boolean isPlayerOneAnswered() {
+        return playerOneAnswered;
+    }
+
+    public void setPlayerOneAnswered(int playerOneAnswered) {
+        if( playerOneAnswered <= 0 ) {
+            this.playerOneAnswered = false;
+        } else {
+            this.playerOneAnswered = true;
+        }
+    }
+
+    public boolean isPlayerTwoAnswered() {
+        return playerTwoAnswered;
+    }
+
+    public void setPlayerTwoAnswered(int playerTwoAnswered) {
+        if( playerTwoAnswered <= 0 ) {
+            this.playerTwoAnswered = false;
+        } else {
+            this.playerTwoAnswered = true;
+        }
     }
 
     public String getGameId() {

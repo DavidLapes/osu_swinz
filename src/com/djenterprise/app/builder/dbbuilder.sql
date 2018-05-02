@@ -31,7 +31,9 @@ CREATE TABLE `GameState` (
   `number_of_questions` INT NOT NULL,
   `current_round` INT NOT NULL,
   `player_one_points` INT NOT NULL,
-  `player_two_points` INT NOT NULL
+  `player_two_points` INT NOT NULL,
+  `player_one_answered` BIT,
+  `player_two_answered` BIT
 );
 
 CREATE TABLE `Game` (
