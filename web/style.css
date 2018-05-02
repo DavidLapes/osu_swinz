@@ -73,6 +73,21 @@ body {
     text-align: center;
 }
 
+.regInput {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding:5px 15px;
+    border:2px solid #ccc;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    float: left;
+    width: 600px;
+    height: 60px;
+    text-align: center;
+    color: #cccccc;
+    font-size: 20px;
+}
+
 .gamePinInput {
     margin-top: 20px;
     margin-bottom: 20px;

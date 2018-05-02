@@ -15,10 +15,10 @@
     <body>
         <div class="regBox">
             <form action ="RegistrationServlet" method="post">
-                <input class="gamePinInput" type ="text" name="username" id="username" value="USERNAME" onblur=" if (this.value === '') {this.value = 'USERNAME';}" onfocus="if (this.value === 'USERNAME') {this.value = '';}">
-                <input class="gamePinInput" type="password" name="password" id="password" value="PASSWORD" onblur=" if (this.value === '') {this.value = 'PASSWORD';}" onfocus="if (this.value === 'PASSWORD') {this.value = '';}">
-                <input class="gamePinInput" type="password" name="confirmPassword" id="confirmPassword" value="PASSWORD" onblur=" if (this.value === '') {this.value = 'PASSWORD';}" onfocus="if (this.value === 'PASSWORD') {this.value = '';}">
-                <input class="gamePinInput" type="text" name="alias" id="alias" value="ALIAS" onblur=" if (this.value === '') {this.value = 'ALIAS';}" onfocus="if (this.value === 'ALIAS') {this.value = '';}">
+                <input class="regInput" type ="text" name="username" id="username" value="USERNAME" onblur=" if (this.value === '') {this.value = 'USERNAME';}" onfocus="if (this.value === 'USERNAME') {this.value = '';}">
+                <input class="regInput" type="password" name="password" id="password" value="PASSWORD" onblur=" if (this.value === '') {this.value = 'PASSWORD';}" onfocus="if (this.value === 'PASSWORD') {this.value = '';}">
+                <input class="regInput" type="password" name="confirmPassword" id="confirmPassword" value="PASSWORD" onblur=" if (this.value === '') {this.value = 'PASSWORD';}" onfocus="if (this.value === 'PASSWORD') {this.value = '';}">
+                <input class="regInput" type="text" name="alias" id="alias" value="ALIAS" onblur=" if (this.value === '') {this.value = 'ALIAS';}" onfocus="if (this.value === 'ALIAS') {this.value = '';}">
                 <input type="file" accept="image" name="file" id="file">
                 <label class="custom-file-upload" for="file">AVATAR</label>
                 <input class="gamePinSubmit" type="submit" value="REGISTER" name="submit" id="submit">

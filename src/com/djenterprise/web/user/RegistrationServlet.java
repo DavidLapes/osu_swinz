@@ -24,6 +24,7 @@ public class RegistrationServlet extends HttpServlet {
     }
 
     //TODO Authentication Regex Match and Handling
+    //TODO Registration check and error messages
 
     private void processRequest( HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
