@@ -63,14 +63,18 @@ public class GameConstruct {
      * Creates a game and configures needed attributes.
      * @param creator user who created the game
      * @param gameQuestions questions to be added to quiz
+     * @param playerOne first player
+     * @param playerTwo second player
      */
-    static public void constructGame( String creator, List<QuestionBO> gameQuestions ) {
+    static public void constructGame( String creator, List<QuestionBO> gameQuestions, String playerOne, String playerTwo ) {
         //Game to be created
         GameBO gameBO = new GameBO();
         //Set randomly-generated ID to this game
         gameBO.setGameId(
                 gameBO.generateId()
         );
+        gameBO.setPlayerOne(playerOne);
+        gameBO.setPlayerTwo(playerTwo);
         //Set user to this game who created it
         gameBO.setCreator(creator);
         //Construct instance in DB
