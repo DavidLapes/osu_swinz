@@ -12,7 +12,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-@SuppressWarnings("ALL")
 public class GameStateDAO {
 
     //Variable for logging
