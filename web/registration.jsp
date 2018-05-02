@@ -14,7 +14,7 @@
     </head>
     <body>
         <div class="regBox">
-            <form action ="RegistrationServlet" method="post">
+            <form action ="RegistrationServlet" method="post" enctype="multipart/form-data">
                 <input class="regInput" type ="text" name="username" id="username" value="USERNAME" onblur=" if (this.value === '') {this.value = 'USERNAME';}" onfocus="if (this.value === 'USERNAME') {this.value = '';}">
                 <input class="regInput" type="password" name="password" id="password" value="PASSWORD" onblur=" if (this.value === '') {this.value = 'PASSWORD';}" onfocus="if (this.value === 'PASSWORD') {this.value = '';}">
                 <input class="regInput" type="password" name="confirmPassword" id="confirmPassword" value="PASSWORD" onblur=" if (this.value === '') {this.value = 'PASSWORD';}" onfocus="if (this.value === 'PASSWORD') {this.value = '';}">
