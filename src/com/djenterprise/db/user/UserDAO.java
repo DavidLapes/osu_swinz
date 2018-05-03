@@ -84,7 +84,11 @@ public class UserDAO {
             user.setUsername(rs.getString("username"));
             user.setAlias(rs.getString("alias"));
             user.setAvatar(rs.getBlob("avatar"));
-            user.setInputStream(rs.getBlob("avatar").getBinaryStream());
+            if( rs.getBlob("avatar") != null ) {
+                user.setInputStream(rs.getBlob("avatar").getBinaryStream());
+            } else {
+                user.setInputStream(null);
+            }
             //Closes the result set
             rs.close();
             //Closes the statement
@@ -142,7 +146,7 @@ public class UserDAO {
 
     /**
      * Edit avatar of the user passed as argument.
-     * @param user user of whom the alias is being changed.
+     * @param user user of whom the avatar is being changed.
      */
     public static void editUserAvatar(UserBO user){
         try {

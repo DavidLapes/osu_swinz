@@ -3,6 +3,7 @@ package com.djenterprise.web.user;
 import com.djenterprise.app.authentication.Registration;
 import com.djenterprise.app.user.UserBO;
 import com.djenterprise.db.exceptions.UserAlreadyExistsException;
+import com.djenterprise.db.user.Login;
 import com.djenterprise.db.user.UserDAO;
 
 import javax.servlet.RequestDispatcher;
@@ -17,9 +18,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 
-@WebServlet(name = "RegistrationServlet", urlPatterns = {"/RegistrationServlet"})
+@WebServlet(name = "EditAccountServlet", urlPatterns = {"/EditAccountServlet"})
 @MultipartConfig
-public class RegistrationServlet extends HttpServlet {
+public class EditAccountServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         processRequest(request, response);
     }
@@ -27,14 +28,13 @@ public class RegistrationServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         processRequest(request, response);
     }
-    
-    //TODO Check image format and size and resolution
+
+    //TODO Display current USERNAME at editUser.jsp
 
     private void processRequest( HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
 
-            String username = request.getParameter("username");
             String password = request.getParameter("password");
             String confirmPassword = request.getParameter("confirmPassword");
             String alias = request.getParameter("alias");
@@ -44,9 +44,11 @@ public class RegistrationServlet extends HttpServlet {
 
             String errorURL = "";
 
+            UserBO oldUser = UserDAO.getUser((String)request.getSession().getAttribute(Keys.LOGINKEY));
+
             if( password == null || confirmPassword == null || password.isEmpty() || confirmPassword.isEmpty() ) {
 
-                RequestDispatcher view = getServletContext().getRequestDispatcher("/registration.jsp?errMsgDef=0");
+                RequestDispatcher view = getServletContext().getRequestDispatcher("/editUser.jsp?errMsgDef=0");
                 view.forward(request, response);
 
             } else {
@@ -55,19 +57,11 @@ public class RegistrationServlet extends HttpServlet {
                     errorURL += "?errMsgAlias=1";
                 }
 
-                if( ! Registration.checkPassword(password) ) {
+                if( ! Registration.checkPassword(password) && ! password.equals("PASSWORD") ) {
                     if( errorURL.isEmpty() ) {
                         errorURL += "?errMsgPass=2";
                     } else {
                         errorURL += "&errMsgPass=2";
-                    }
-                }
-
-                if( ! Registration.checkUsername(username) ) {
-                    if( errorURL.isEmpty() ) {
-                        errorURL += "?errMsgUser=3";
-                    } else {
-                        errorURL += "&errMsgUser=3";
                     }
                 }
 
@@ -79,47 +73,46 @@ public class RegistrationServlet extends HttpServlet {
                     }
                 }
 
-                try {
-                    Registration.checkUsernameAvailability(username);
-                } catch (UserAlreadyExistsException ex) {
-                    if( errorURL.isEmpty()) {
-                        errorURL += "?errMsgUserTaken=33";
-                    } else {
-                        errorURL += "&errMsgUserTaken=33";
-                    }
-                }
-
-                try {
-                    Registration.checkAliasAvailability(alias);
-                } catch (UserAlreadyExistsException ex) {
-                    if( errorURL.isEmpty()) {
-                        errorURL += "?errMsgAliasTaken=11";
-                    } else {
-                        errorURL += "&errMsgAliasTaken=11";
+                if( ! alias.equals(oldUser.getAlias()) ) {
+                    try {
+                        Registration.checkAliasAvailability(alias);
+                    } catch (UserAlreadyExistsException ex) {
+                        if (errorURL.isEmpty()) {
+                            errorURL = "?errMsgAliasTaken=11";
+                        } else {
+                            errorURL += "&errMsgAliasTaken=11";
+                        }
                     }
                 }
 
                 if( errorURL.isEmpty() ) {
 
                     UserBO user = new UserBO();
-
-                    user.setUsername(username);
-                    user.setPassword(password);
+                    user.setUsername((String)request.getSession().getAttribute(Keys.LOGINKEY));
                     user.setAlias(alias);
+                    user.setPassword(password);
+                    user.setInputStream(inputStream);
 
-                    if( inputStream.read() != - 1 ) {
-                        user.setInputStream(inputStream);
+                    if( ! alias.equals(oldUser.getAlias()) ) {
+                        UserDAO.editUserAlias(user);
                     }
 
-                    Registration.register(user);
+                    if( ! password.equals("PASSWORD") ) {
+                        UserDAO.editUserPassword(user);
+                    }
+
+                    //TODO Doesnt work - wrong parse
+                    if( inputStream.read() != -1 ) {
+                        UserDAO.editUserAvatar(user);
+                    }
 
                     //Initialize a dispatcher
-                    RequestDispatcher view = getServletContext().getRequestDispatcher("/LoginServlet");
+                    RequestDispatcher view = getServletContext().getRequestDispatcher("/index.jsp");
                     //Redirect to another page
                     view.forward(request, response);
 
                 } else {
-                    response.sendRedirect("registration.jsp" + errorURL);
+                    response.sendRedirect("editUser.jsp" + errorURL);
                 }
             }
         }
