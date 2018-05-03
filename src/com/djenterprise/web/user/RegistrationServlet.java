@@ -1,6 +1,8 @@
 package com.djenterprise.web.user;
 
+import com.djenterprise.app.authentication.Registration;
 import com.djenterprise.app.user.UserBO;
+import com.djenterprise.db.exceptions.UserAlreadyExistsException;
 import com.djenterprise.db.user.UserDAO;
 
 import javax.servlet.RequestDispatcher;
@@ -25,9 +27,8 @@ public class RegistrationServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         processRequest(request, response);
     }
-
-    //TODO Authentication Regex Match and Handling
-    //TODO Registration check and error messages
+    
+    //TODO Check image format and size and resolution
 
     private void processRequest( HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -41,24 +42,82 @@ public class RegistrationServlet extends HttpServlet {
             Part filePart = request.getPart("file");
             InputStream inputStream = filePart.getInputStream();
 
-            if( password == null || confirmPassword == null || ! password.equals(confirmPassword) || password.isEmpty() ) {
-                RequestDispatcher view = getServletContext().getRequestDispatcher("/registration.jsp");
+            String errorURL = "";
+
+            if( password == null || confirmPassword == null || password.isEmpty() || confirmPassword.isEmpty() ) {
+
+                RequestDispatcher view = getServletContext().getRequestDispatcher("/registration.jsp?errMsgDef=0");
                 view.forward(request, response);
+
             } else {
 
-                UserBO user = new UserBO();
+                if( ! Registration.checkAlias(alias) ) {
+                    errorURL += "?errMsgAlias=1";
+                }
 
-                user.setUsername(username);
-                user.setPassword(password);
-                user.setAlias(alias);
-                user.setInputStream(inputStream);
+                if( ! Registration.checkPassword(password) ) {
+                    if( errorURL.isEmpty() ) {
+                        errorURL += "?errMsgPass=2";
+                    } else {
+                        errorURL += "&errMsgPass=2";
+                    }
+                }
 
-                UserDAO.createUser(user);
+                if( ! Registration.checkUsername(username) ) {
+                    if( errorURL.isEmpty() ) {
+                        errorURL += "?errMsgUser=3";
+                    } else {
+                        errorURL += "&errMsgUser=3";
+                    }
+                }
 
-                //Initialize a dispatcher
-                RequestDispatcher view = getServletContext().getRequestDispatcher("/LoginServlet");
-                //Redirect to another page
-                view.forward(request, response);
+                if( ! password.equals(confirmPassword) ) {
+                    if( errorURL.isEmpty() ) {
+                        errorURL += "?errMsgConfirm=4";
+                    } else {
+                        errorURL += "&errMsgConfirm=4";
+                    }
+                }
+
+                try {
+                    Registration.checkUsernameAvailability(username);
+                } catch (UserAlreadyExistsException ex) {
+                    if( errorURL.isEmpty()) {
+                        errorURL += "?errMsgUserTaken=33";
+                    } else {
+                        errorURL += "&errMsgUserTaken=33";
+                    }
+                }
+
+                try {
+                    Registration.checkAliasAvailability(alias);
+                } catch (UserAlreadyExistsException ex) {
+                    if( errorURL.isEmpty()) {
+                        errorURL += "?errMsgAliasTaken=11";
+                    } else {
+                        errorURL += "&errMsgAliasTaken=11";
+                    }
+                }
+
+                if( errorURL.isEmpty() ) {
+
+                    UserBO user = new UserBO();
+
+                    user.setUsername(username);
+                    user.setPassword(password);
+                    user.setAlias(alias);
+                    user.setInputStream(inputStream);
+
+                    Registration.register(user);
+
+                    //Initialize a dispatcher
+                    RequestDispatcher view = getServletContext().getRequestDispatcher("/LoginServlet");
+                    //Redirect to another page
+                    view.forward(request, response);
+
+                } else {
+                    response.sendRedirect("registration.jsp" + errorURL);
+                }
             }
         }
     }

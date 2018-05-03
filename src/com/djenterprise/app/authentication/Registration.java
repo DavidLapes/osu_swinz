@@ -21,14 +21,38 @@ public class Registration {
     /**
      * Registers user.
      * @param user user to be registered.
-     * @throws UserAlreadyExistsException when trying to register user with username which is already registered.
      */
     static public void register( UserBO user ) {
+        UserDAO.createUser(user);
+    }
+
+    /**
+     * Check if alias is taken or not
+     * @param alias alias to check
+     * @throws UserAlreadyExistsException when alias is already taken
+     * @return true if alias is available, otherwise throws exception
+     */
+    static public boolean checkAliasAvailability( String alias ) {
         try {
-            UserDAO.getUser(user.getUsername());
-            throw new UserAlreadyExistsException("User " + user.getUsername() + " already exists.");
-        } catch ( EntityInstanceNotFoundException ex ) {
-            UserDAO.createUser(user);
+            UserDAO.getUserByAlias(alias);
+            throw new UserAlreadyExistsException("User " + alias + " already exists.");
+        } catch (EntityInstanceNotFoundException ex) {
+            return true;
+        }
+    }
+
+    /**
+     * Check if username is taken or not
+     * @param username username to check
+     * @throws UserAlreadyExistsException when username is already taken
+     * @return true if alias is available, otherwise throws exception
+     */
+    static public boolean checkUsernameAvailability( String username ) {
+        try {
+            UserDAO.getUser(username);
+            throw new UserAlreadyExistsException("User " + username + " already exists.");
+        } catch (EntityInstanceNotFoundException ex) {
+            return true;
         }
     }
 
@@ -52,6 +76,7 @@ public class Registration {
         Pattern pattern = Pattern.compile(ALIAS_REGEX);
         Matcher matcher = pattern.matcher(alias);
         return matcher.find();
+
     }
 
     /**

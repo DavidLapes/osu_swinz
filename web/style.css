@@ -73,6 +73,14 @@ body {
     text-align: center;
 }
 
+.errorTextRegistration {
+    color: white;
+    font-size: 20px;
+    font-family: fantasy;
+    text-align: center;
+    margin-bottom: 2px;
+}
+
 .regInput {
     margin-top: 5px;
     margin-bottom: 5px;
@@ -187,4 +195,12 @@ input[type=file] {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+}
+
+.tooltip {
+    position: absolute;
+    display: none;
+    background:#333333;
+    padding: 5px;
+    color: white;
 }
