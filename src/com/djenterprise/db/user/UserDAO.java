@@ -17,7 +17,6 @@ public class UserDAO {
     // Variable for logging
     static final private Logger LOGGER = Logger.getLogger(UserDAO.class.getName());
 
-    //TODO Avatar in register form
     /**
      * Adds inserted user into the databaase.
      * @param user user to be added to the databse.
@@ -152,13 +151,9 @@ public class UserDAO {
                     "UPDATE USER SET avatar = ? WHERE username = ?";
             //Retrieving connection to the database
             PreparedStatement statement = DBConnection.connect().prepareStatement(query);
-            //Locates and opens the file
-
-            File file = new File(/*File Path String Variable*/"");
-            FileInputStream fis = new FileInputStream(file);
 
             //Transforms file into binary stream
-            statement.setBinaryStream(1, fis, (int) file.length());
+            statement.setBlob(1, user.getInputStream());
             statement.setString(2, user.getUsername());
             //Executes SQL command
             statement.execute();
@@ -169,9 +164,6 @@ public class UserDAO {
         } catch (SQLException SQLEx) {
             LOGGER.error(SQLEx);
             throw new RuntimeException(SQLEx);
-        } catch (FileNotFoundException FNFEx){
-            LOGGER.error(FNFEx);
-            throw new RuntimeException("File was not found.", FNFEx);
         }
     }
 
