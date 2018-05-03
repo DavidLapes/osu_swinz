@@ -29,17 +29,12 @@ public class UserDAO {
                     "INSERT INTO User (username, password, avatar, alias) VALUES (?, ?, ?, ?);";
             //Opens DB connection
             PreparedStatement statement = DBConnection.connect().prepareStatement(query);
-            /*
-            //Locates and opens the file
-            File file = new File(File Path String Variable"");
-            FileInputStream fis = new FileInputStream(file);
             //Prepares safe statement
-            */
             statement.setString(1, user.getUsername());
             statement.setString(2, user.encryptedPassword());
-            statement.setBlob(3,user.getAvatar());
+            statement.setBlob(3,user.getInputStream());
             //Transforms file into binary stream
-            //statement.setBinaryStream(3, fis, (int) file.length());] //TODO What is this? (David -> Jáchym)
+            //statement.setBinaryStream(3, fis, (int) file.length());
             //Sets Alias - if there is no alias filled in form, assign username as alias
             if( user.getAlias() == null || user.getAlias().isEmpty() ) {
                 statement.setString(4, user.getUsername());
@@ -90,6 +85,7 @@ public class UserDAO {
             user.setUsername(rs.getString("username"));
             user.setAlias(rs.getString("alias"));
             user.setAvatar(rs.getBlob("avatar"));
+            user.setInputStream(rs.getBlob("avatar").getBinaryStream());
             //Closes the result set
             rs.close();
             //Closes the statement
@@ -130,6 +126,7 @@ public class UserDAO {
             user.setUsername(rs.getString("username"));
             user.setAlias(rs.getString("alias"));
             user.setAvatar(rs.getBlob("avatar"));
+            user.setInputStream(rs.getBlob("avatar").getBinaryStream());
             //Closes the result set
             rs.close();
             //Closes the statement

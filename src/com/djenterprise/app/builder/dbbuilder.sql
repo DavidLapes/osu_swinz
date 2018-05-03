@@ -7,7 +7,7 @@ USE swinzdb;
 CREATE TABLE `User` (
   `username` VARCHAR(32) NOT NULL UNIQUE,
   `password` VARCHAR(256) NOT NULL,
-  `avatar` BLOB,
+  `avatar` MEDIUMBLOB,
   `alias` VARCHAR(32) NOT NULL UNIQUE,
   PRIMARY KEY (`username`)
 );

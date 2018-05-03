@@ -10,7 +10,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 
 @WebServlet(name = "RegistrationServlet", urlPatterns = {"/RegistrationServlet"})
@@ -36,6 +38,9 @@ public class RegistrationServlet extends HttpServlet {
             String confirmPassword = request.getParameter("confirmPassword");
             String alias = request.getParameter("alias");
 
+            Part filePart = request.getPart("file");
+            InputStream inputStream = filePart.getInputStream();
+
             if( password == null || confirmPassword == null || ! password.equals(confirmPassword) || password.isEmpty() ) {
                 RequestDispatcher view = getServletContext().getRequestDispatcher("/registration.jsp");
                 view.forward(request, response);
@@ -46,6 +51,7 @@ public class RegistrationServlet extends HttpServlet {
                 user.setUsername(username);
                 user.setPassword(password);
                 user.setAlias(alias);
+                user.setInputStream(inputStream);
 
                 UserDAO.createUser(user);
 

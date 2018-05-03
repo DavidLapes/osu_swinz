@@ -1,4 +1,5 @@
-<%@ page import="com.djenterprise.web.user.Keys" %><%--
+<%@ page import="com.djenterprise.web.user.Keys" %>
+<%@ page import="com.djenterprise.db.user.UserDAO" %><%--
   Created by IntelliJ IDEA.
   User: davel
   Date: 19.03.2018
@@ -35,9 +36,12 @@
             </form>
             <%
                 if( session.getAttribute(Keys.LOGINKEY) != null && ! ((String) session.getAttribute(Keys.LOGINKEY)).isEmpty() ) {
-                    out.println("<form action=\"LogoutServlet\" method=\"get\">");
-                    out.println("<img src=\"images/man.png\" name=\"userImg\" style=\"height: 60px; width: 60px; float: left; margin-top: 4px;\">");
+                    out.println("<img src=\"DisplayAvatarServlet\" name=\"userImg\" style=\"height: 60px; width: 60px; float: left; margin-top: 4px;\">");
                     out.println("<label class=\"loginText\" for=\"userImg\">" + session.getAttribute(Keys.ALIASKEY).toString().toUpperCase() + "</label>");
+                    out.println("<form action=\"editUser.jsp\" method=\"get\">");
+                    out.println("<input class=\"gamePinSubmit\" type=\"submit\" value=\"EDIT ACCOUNT\" style=\"margin-top: 4px; margin-bottom: 0px;\">");
+                    out.println("</form>");
+                    out.println("<form action=\"LogoutServlet\" method=\"get\">");
                     out.println("<input class=\"gamePinSubmit\" type=\"submit\" value=\"LOG OUT\" style=\"margin-top: 4px;\">");
                     out.println("</form>");
                 } else {

@@ -11,7 +11,6 @@ public class UserBO {
     private String password;
     private String alias;
     private Blob avatar;
-    private long fileLength;
     private InputStream inputStream;
 
     public String getUsername() {
@@ -60,13 +59,5 @@ public class UserBO {
 
     public void setInputStream(InputStream inputStream) {
         this.inputStream = inputStream;
-    }
-
-    public long getFileLength() {
-        return fileLength;
-    }
-
-    public void setFileLength(long fileLength) {
-        this.fileLength = fileLength;
     }
 }
