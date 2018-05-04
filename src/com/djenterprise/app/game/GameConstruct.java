@@ -60,13 +60,51 @@ public class GameConstruct {
     }
 
     /**
+     * Creates a game and configures needed attributes like adding questions.
+     * @param creator user who created the game
+     * @param playerOne first player
+     * @param playerTwo second player
+     * @param questionCount number of questions to be generated
+     */
+    static public void constructGame( String creator, String playerOne, String playerTwo, int questionCount ) {
+        //Game to be created
+        GameBO gameBO = new GameBO();
+        //Set randomly-generated ID to this game
+        gameBO.setGameId(
+                gameBO.generateId()
+        );
+        //Set user to this game who created it
+        gameBO.setCreator(creator);
+        //Set first player
+        gameBO.setPlayerOne(playerOne);
+        //Set second player
+        gameBO.setPlayerTwo(playerTwo);
+        //Get all possible questions
+        List<QuestionBO> questions = QuestionDAO.getAllQuestions();
+        //Prepare list for questions which will be selected in upcoming step
+        List<QuestionBO> gameQuestions = new ArrayList<>();
+        //Shuffle those questions so we don't get same questions
+        Collections.shuffle(questions);
+        //Obtain a number of how many questions game should have
+        //Go through those questions
+        for( int i = 0; i < questionCount; i ++ ) {
+            //Add questions to the game
+            gameQuestions.add(
+                    questions.get(i)
+            );
+        }
+        //Construct instance in DB
+        GameDAO.createGame(gameBO, gameQuestions);
+    }
+
+    /**
      * Creates a game and configures needed attributes.
      * @param creator user who created the game
      * @param gameQuestions questions to be added to quiz
      * @param playerOne first player
      * @param playerTwo second player
      */
-    static public void constructGame( String creator, List<QuestionBO> gameQuestions, String playerOne, String playerTwo ) {
+    static public void constructGame( String creator, String playerOne, String playerTwo, List<QuestionBO> gameQuestions ) {
         //Game to be created
         GameBO gameBO = new GameBO();
         //Set randomly-generated ID to this game
