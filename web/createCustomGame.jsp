@@ -11,6 +11,8 @@
             if( session.getAttribute(Keys.LOGINKEY) == null || ((String) session.getAttribute(Keys.LOGINKEY)).isEmpty() ) {
                 response.sendRedirect("index.jsp");
             }
+
+            //TODO Everything
         %>
         <div class="formBox">
             <form action ="GenerateGameServlet" method="post">
