@@ -1,10 +1,4 @@
-<%@ page import="com.djenterprise.web.user.Keys" %><%--
-  Created by IntelliJ IDEA.
-  User: davel
-  Date: 02.05.2018
-  Time: 15:15
-  To change this template use File | Settings | File Templates.
---%>
+<%@ page import="com.djenterprise.web.user.Keys" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -17,6 +11,8 @@
             if( session.getAttribute(Keys.LOGINKEY) == null || ((String) session.getAttribute(Keys.LOGINKEY)).isEmpty() ) {
                 response.sendRedirect("index.jsp");
             }
+
+            //TODO Everything
         %>
         <div class="formBox">
             <form action ="GenerateGameServlet" method="post">

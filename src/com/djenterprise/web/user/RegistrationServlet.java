@@ -5,6 +5,7 @@ import com.djenterprise.app.user.UserBO;
 import com.djenterprise.db.exceptions.UserAlreadyExistsException;
 import com.djenterprise.db.user.UserDAO;
 
+import javax.imageio.ImageIO;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -107,11 +108,14 @@ public class RegistrationServlet extends HttpServlet {
                     user.setPassword(password);
                     user.setAlias(alias);
 
-                    if( inputStream.read() != - 1 ) {
+                    try {
+                        ImageIO.read(inputStream).toString();
                         user.setInputStream(inputStream);
+                    } catch (Exception ex) {
+                        user.setInputStream(null);
                     }
 
-                    Registration.register(user);
+                    UserDAO.createUser(user);
 
                     //Initialize a dispatcher
                     RequestDispatcher view = getServletContext().getRequestDispatcher("/LoginServlet");

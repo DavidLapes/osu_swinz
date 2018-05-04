@@ -18,6 +18,7 @@ public class CustomGameServlet extends HttpServlet {
         processRequest(request, response);
     }
 
+    //TODO Everything
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try (PrintWriter out = response.getWriter()){
 

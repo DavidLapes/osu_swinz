@@ -28,7 +28,8 @@ public class DisplayAvatarServlet extends HttpServlet {
                 OutputStream output = response.getOutputStream();
                 response.setContentType("image/jpg");
                 output.write(
-                        user.getAvatar().getBytes(1, (int) user.getAvatar().length()));
+                        user.getAvatar().getBytes(1, (int) user.getAvatar().length())
+                );
             } else {
                 user = UserDAO.getUser("root_username");
                 OutputStream output = response.getOutputStream();

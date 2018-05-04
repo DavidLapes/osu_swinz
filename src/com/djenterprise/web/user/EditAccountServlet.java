@@ -6,6 +6,7 @@ import com.djenterprise.db.exceptions.UserAlreadyExistsException;
 import com.djenterprise.db.user.Login;
 import com.djenterprise.db.user.UserDAO;
 
+import javax.imageio.ImageIO;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -29,8 +30,6 @@ public class EditAccountServlet extends HttpServlet {
         processRequest(request, response);
     }
 
-    //TODO Display current USERNAME at editUser.jsp
-
     private void processRequest( HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
@@ -53,27 +52,30 @@ public class EditAccountServlet extends HttpServlet {
 
             } else {
 
-                if( ! Registration.checkAlias(alias) ) {
-                    errorURL += "?errMsgAlias=1";
-                }
+                if( ! password.equals("PASSWORD") ) {
+                    if( ! Registration.checkPassword(password) ) {
+                        if (errorURL.isEmpty()) {
+                            errorURL += "?errMsgPass=2";
+                        } else {
+                            errorURL += "&errMsgPass=2";
+                        }
+                    }
 
-                if( ! Registration.checkPassword(password) && ! password.equals("PASSWORD") ) {
-                    if( errorURL.isEmpty() ) {
-                        errorURL += "?errMsgPass=2";
-                    } else {
-                        errorURL += "&errMsgPass=2";
+                    if( ! password.equals(confirmPassword) ) {
+                        if( errorURL.isEmpty() ) {
+                            errorURL += "?errMsgConfirm=4";
+                        } else {
+                            errorURL += "&errMsgConfirm=4";
+                        }
                     }
                 }
 
-                if( ! password.equals(confirmPassword) ) {
-                    if( errorURL.isEmpty() ) {
-                        errorURL += "?errMsgConfirm=4";
-                    } else {
-                        errorURL += "&errMsgConfirm=4";
-                    }
-                }
+                if( ! alias.equals("ALIAS") ) {
 
-                if( ! alias.equals(oldUser.getAlias()) ) {
+                    if( ! Registration.checkAlias(alias) ) {
+                        errorURL += "?errMsgAlias=1";
+                    }
+
                     try {
                         Registration.checkAliasAvailability(alias);
                     } catch (UserAlreadyExistsException ex) {
@@ -101,9 +103,12 @@ public class EditAccountServlet extends HttpServlet {
                         UserDAO.editUserPassword(user);
                     }
 
-                    //TODO Doesnt work - wrong parse
-                    if( inputStream.read() != -1 ) {
+                    try {
+                        ImageIO.read(inputStream).toString();
+                        user.setInputStream(inputStream);
                         UserDAO.editUserAvatar(user);
+                    } catch (Exception ex) {
+                        user.setInputStream(null);
                     }
 
                     //Initialize a dispatcher
