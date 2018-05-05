@@ -36,8 +36,7 @@
             <span style="float: right; color: white; margin-right: 300px; font-size: 40px; font-family: fantasy"><%=UserDAO.getUserByAlias(GameDAO.getGame(request.getParameter("gameID")).getPlayerTwo()).getAlias()%></span>
         </div>
         <div class="regBox" style="margin-top: 10%;">
-
-            <form action="WaitingForOtherPlayerServlet?gameID=<%= request.getParameter("gameID")%>" method="get">
+            <form action="WaitingForOtherPlayerServlet?gameID=<%= request.getParameter("gameID")%>" method="post">
                 <input class="gamePinSubmit" type="submit" value="I AM READY!">
             </form>
         </div>
