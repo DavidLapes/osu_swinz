@@ -21,17 +21,26 @@
                     alert("You must first log in to DJAHOOT to be able to create or enter games. Please, log in or sign up.");
                 }
             }
+
+            function enterGame() {
+                var isUserLoggedIn = <%= session.getAttribute(Keys.LOGINKEY) != null %>;
+                if( isUserLoggedIn ) {
+                    document.getElementById("enterGameForm").submit();
+                } else {
+                    alert("You must first log in to DJAHOOT to be able to create or enter games. Please, log in or sign up.")
+                }
+            }
         </script>
     </head>
     <body>
         <div class="formBox" style="margin-top: 10%;">
-            <form action ="registration.jsp" method="post">
+            <form action="EnterGameServlet" method="get" id="enterGameForm">
                 <label class="gamePinLabel" for="code">DJAHOOT!</label>
                 <%-- When you click / tab on / select this input field, default value disappears --%>
                 <input class="gamePinInput" style="margin-top: -10px;" type="text" name="code" id="code" value="GAME PIN" onblur=" if (this.value === '') {this.value = 'GAME PIN';}" onfocus="if (this.value === 'GAME PIN') {this.value = '';}">
-                <input class="gamePinSubmit" style="margin-top: -16px;" type="submit" value="ENTER" >
+                <input class="gamePinSubmit" style="margin-top: -16px;" type="button" onclick="enterGame()" value="ENTER" >
             </form>
-            <form action="javascript:redirectToGameCreation()" method="get">
+            <form action="javascript:redirectToGameCreation()" method="post">
                 <input class="gamePinSubmit" style="margin-top: -16px; margin-bottom: 0px;" type="submit" value="CREATE GAME">
             </form>
             <%

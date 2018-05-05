@@ -26,69 +26,79 @@ public class DisplayAvatarServlet extends HttpServlet {
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        UserBO user;
+        while( true ) {
 
-        if(
-                request.getParameter("player") != null
-                && ! request.getParameter("player").isEmpty()
-                &&
-                        (
-                            request.getParameter("player").equals("player_one") ||
-                            request.getParameter("player").equals("player_two")
-                        )
-                ) {
+            try {
 
-            String gameID = request.getParameter("gameID");
+                UserBO user;
+
+                if (
+                        request.getParameter("player") != null
+                                && !request.getParameter("player").isEmpty()
+                                &&
+                                (
+                                        request.getParameter("player").equals("player_one") ||
+                                                request.getParameter("player").equals("player_two")
+                                )
+                        ) {
+
+                    String gameID = request.getParameter("gameID");
 
 
-            if(
-                    request.getParameter("gameID") == null
-                    || request.getParameter("gameID").isEmpty()
+                    if (
+                            request.getParameter("gameID") == null
+                                    || request.getParameter("gameID").isEmpty()
 
-                    ) {
-                response.sendRedirect("index.jsp?gameIDError=NO_GAME_ID_ERROR");
-                return;
-            } else {
-                try {
-                    GameDAO.getGame(gameID);
-                } catch (EntityInstanceNotFoundException ex) {
-                    response.sendRedirect("index.jsp?gameIDError=NOT_EXISTING_GAME");
-                    return;
+                            ) {
+                        response.sendRedirect("index.jsp?gameIDError=NO_GAME_ID_ERROR");
+                        return;
+                    } else {
+                        try {
+                            GameDAO.getGame(gameID);
+                        } catch (EntityInstanceNotFoundException ex) {
+                            response.sendRedirect("index.jsp?gameIDError=NOT_EXISTING_GAME");
+                            return;
+                        }
+                    }
+
+
+                    String playerParameter = request.getParameter("player");
+                    GameBO game = GameDAO.getGame(gameID);
+
+                    if (playerParameter.equals("player_one")) {
+                        user = UserDAO.getUserByAlias(game.getPlayerOne());
+                    } else {
+                        user = UserDAO.getUserByAlias(game.getPlayerTwo());
+                    }
+
+                } else {
+                    user = UserDAO.getUser((String) request.getSession().getAttribute(Keys.LOGINKEY));
                 }
+
+                try {
+
+                    if (user.getAvatar() != null) {
+                        OutputStream output = response.getOutputStream();
+                        response.setContentType("image/jpg");
+                        output.write(
+                                user.getAvatar().getBytes(1, (int) user.getAvatar().length())
+                        );
+                    } else {
+                        user = UserDAO.getUser("root_username");
+                        OutputStream output = response.getOutputStream();
+                        response.setContentType("image/jpg");
+                        output.write(
+                                user.getAvatar().getBytes(1, (int) user.getAvatar().length())
+                        );
+                    }
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
+
+                return;
+            } catch (RuntimeException ex) {
+                //
             }
-
-
-            String playerParameter = request.getParameter("player");
-            GameBO game = GameDAO.getGame(gameID);
-
-            if( playerParameter.equals("player_one") ) {
-                user = UserDAO.getUserByAlias(game.getPlayerOne());
-            } else {
-                user = UserDAO.getUserByAlias(game.getPlayerTwo());
-            }
-
-        } else {
-            user = UserDAO.getUser((String) request.getSession().getAttribute(Keys.LOGINKEY));
-        }
-
-        try {
-
-            if (user.getAvatar() != null) {
-                OutputStream output = response.getOutputStream();
-                response.setContentType("image/jpg");
-                output.write(
-                        user.getAvatar().getBytes(1, (int) user.getAvatar().length())
-                );
-            } else {
-                user = UserDAO.getUser("root_username");
-                OutputStream output = response.getOutputStream();
-                response.setContentType("image/jpg");
-                output.write(
-                        user.getAvatar().getBytes(1, (int) user.getAvatar().length())
-                );
-            }
-        } catch (Exception ex) {
-            throw new RuntimeException(ex);
         }
     }
 }
