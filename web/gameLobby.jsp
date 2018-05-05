@@ -2,6 +2,8 @@
 <%@ page import="com.djenterprise.db.game.GameDAO" %>
 <%@ page import="com.djenterprise.app.game.GameBO" %>
 <%@ page import="com.djenterprise.db.exceptions.EntityInstanceNotFoundException" %>
+<%@ page import="com.djenterprise.app.user.UserBO" %>
+<%@ page import="com.djenterprise.db.user.UserDAO" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
     <head>
@@ -16,8 +18,12 @@
             } else {
                 try {
                     GameBO game = GameDAO.getGame(request.getParameter("gameID"));
+                    UserBO loggedUser = UserDAO.getUser(Keys.LOGINKEY);
+                    if( ! ( loggedUser.getAlias().equals(game.getPlayerOne()) || loggedUser.getAlias().equals(game.getPlayerTwo()) ) ) {
+                        response.sendRedirect("index.jsp?userErrMsg=AUTHENTICATION_VIOLATED");
+                    }
                 } catch (EntityInstanceNotFoundException ex) {
-                    
+                    response.sendRedirect("index.jsp");
                 }
             }
         %>
