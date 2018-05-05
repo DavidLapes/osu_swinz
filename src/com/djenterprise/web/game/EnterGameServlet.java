@@ -20,7 +20,7 @@ public class EnterGameServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         processRequest(request, response);
     }
-    
+
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try(PrintWriter out = response.getWriter()) {
             String gameID = request.getParameter("code");
