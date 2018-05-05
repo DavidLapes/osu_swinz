@@ -5,9 +5,6 @@ import com.djenterprise.db.connection.DBConnection;
 import com.djenterprise.db.exceptions.EntityInstanceNotFoundException;
 import org.apache.log4j.Logger;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -23,11 +20,14 @@ public class UserDAO {
      */
     static public void createUser (UserBO user){
         try {
+            //Connects to DB
+            DBConnection connection = new DBConnection();
+            connection.connect();
             //Creates query script
             String query =
                     "INSERT INTO User (username, password, avatar, alias) VALUES (?, ?, ?, ?);";
             //Opens DB connection
-            PreparedStatement statement = DBConnection.connect().prepareStatement(query);
+            PreparedStatement statement = connection.getCONNECTION().prepareStatement(query);
             //Prepares safe statement
             statement.setString(1, user.getUsername());
             statement.setString(2, user.encryptedPassword());
@@ -45,7 +45,7 @@ public class UserDAO {
             //Closes the statement
             statement.close();
             //Close DB connection
-            DBConnection.disconnect();
+            connection.disconnect();
         } catch (SQLException SQLEx) {
             LOGGER.error(SQLEx);
             throw new RuntimeException(SQLEx.getMessage(), SQLEx);
@@ -66,11 +66,14 @@ public class UserDAO {
      */
     static public UserBO getUser(String username){
         try {
+            //Connects to DB
+            DBConnection connection = new DBConnection();
+            connection.connect();
             //Query creation
             String query =
                     "SELECT * FROM USER WHERE username = ?";
             //Retrieving connection to the database
-            PreparedStatement statement = DBConnection.connect().prepareStatement(query);
+            PreparedStatement statement = connection.getCONNECTION().prepareStatement(query);
             //Inserting values into prepared statement
             statement.setString(1, username);
             //Executing query
@@ -94,7 +97,7 @@ public class UserDAO {
             //Closes the statement
             statement.close();
             //Closes the database connection
-            DBConnection.disconnect();
+            connection.disconnect();
             //Returns the user
             return user;
         } catch (SQLException SQLEx) {
@@ -111,11 +114,14 @@ public class UserDAO {
      */
     static public UserBO getUserByAlias(String alias){
         try {
+            //Connects to DB
+            DBConnection connection = new DBConnection();
+            connection.connect();
             //Query creation
             String query =
                     "SELECT * FROM USER WHERE alias = ?";
             //Retrieving connection to the database
-            PreparedStatement statement = DBConnection.connect().prepareStatement(query);
+            PreparedStatement statement = connection.getCONNECTION().prepareStatement(query);
             //Inserting values into prepared statement
             statement.setString(1, alias);
             //Executing query
@@ -139,7 +145,7 @@ public class UserDAO {
             //Closes the statement
             statement.close();
             //Closes the database connection
-            DBConnection.disconnect();
+            connection.disconnect();
             //Returns the user
             return user;
         } catch (SQLException SQLEx) {
@@ -154,11 +160,14 @@ public class UserDAO {
      */
     public static void editUserAvatar(UserBO user){
         try {
+            //Connects to DB
+            DBConnection connection = new DBConnection();
+            connection.connect();
             //Query creation
             String query =
                     "UPDATE USER SET avatar = ? WHERE username = ?";
             //Retrieving connection to the database
-            PreparedStatement statement = DBConnection.connect().prepareStatement(query);
+            PreparedStatement statement = connection.getCONNECTION().prepareStatement(query);
 
             //Transforms file into binary stream
             statement.setBlob(1, user.getInputStream());
@@ -168,7 +177,7 @@ public class UserDAO {
             //Closes the statement
             statement.close();
             //Close DB connection
-            DBConnection.disconnect();
+            connection.disconnect();
         } catch (SQLException SQLEx) {
             LOGGER.error(SQLEx);
             throw new RuntimeException(SQLEx);
@@ -181,11 +190,14 @@ public class UserDAO {
      */
     public static void editUserAlias(UserBO user){
         try {
+            //Connects to DB
+            DBConnection connection = new DBConnection();
+            connection.connect();
             //Query creation
             String query =
                     "UPDATE USER SET alias = ? WHERE username = ?";
             //Retrieving connection to the database
-            PreparedStatement statement = DBConnection.connect().prepareStatement(query);
+            PreparedStatement statement = connection.getCONNECTION().prepareStatement(query);
             //Inserting values into prepared statement
             statement.setString(1, user.getAlias());
             statement.setString(2, user.getUsername());
@@ -194,7 +206,7 @@ public class UserDAO {
             //Closes the statement
             statement.close();
             //Close DB connection
-            DBConnection.disconnect();
+            connection.disconnect();
         } catch (SQLException SQLEx) {
             LOGGER.error(SQLEx);
             throw new RuntimeException(SQLEx);
@@ -207,11 +219,14 @@ public class UserDAO {
      */
     public static void editUserPassword(UserBO user){
         try {
+            //Connects to DB
+            DBConnection connection = new DBConnection();
+            connection.connect();
             //Query creation
             String query =
                     "UPDATE USER SET password = ? WHERE username = ?";
             //Retrieving connection to the database
-            PreparedStatement statement = DBConnection.connect().prepareStatement(query);
+            PreparedStatement statement = connection.getCONNECTION().prepareStatement(query);
             //Inserting values into prepared statement
             statement.setString(1, user.encryptedPassword());
             statement.setString(2, user.getUsername());
@@ -220,7 +235,7 @@ public class UserDAO {
             //Closes the statement
             statement.close();
             //Close DB connection
-            DBConnection.disconnect();
+            connection.disconnect();
         } catch (SQLException SQLEx) {
             LOGGER.error(SQLEx);
             throw new RuntimeException(SQLEx);

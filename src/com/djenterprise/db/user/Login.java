@@ -20,12 +20,16 @@ public class Login {
      */
     static public boolean testLogin( UserBO userBO ) {
         try {
+            //Connects to DB
+            DBConnection connection = new DBConnection();
+            connection.connect();
+            //Get username
             String username = userBO.getUsername();
             //Obtain encrypted password
             String password = userBO.encryptedPassword();
             String query = "SELECT * FROM User WHERE username = ? AND password = ?";
             //Prepare statement and connect to DB
-            PreparedStatement statement = DBConnection.connect().prepareStatement(query);
+            PreparedStatement statement = connection.getCONNECTION().prepareStatement(query);
             statement.setString(1, username);
             statement.setString(2, password);
             ResultSet resultSet = statement.executeQuery();
@@ -36,7 +40,7 @@ public class Login {
             //Close statement
             statement.close();
             //Close DB connection
-            DBConnection.disconnect();
+            connection.disconnect();
             //Sending to logger if login was successful or not
             if( ret ) {
                 LOGGER.info("Login was successful.");

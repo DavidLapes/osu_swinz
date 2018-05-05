@@ -24,7 +24,7 @@ public class DBConnection {
     // Database password login
     static private String JDBC_PASSWORD;
     // Database CONNECTION
-    static private Connection CONNECTION = null;
+    private Connection CONNECTION = null;
 
     // Logger variable
     static final private Logger LOGGER = Logger.getLogger(DBConnection.class.getName());
@@ -37,7 +37,7 @@ public class DBConnection {
     /**
      * Sets up DB CONNECTION and initializes variables for DB CONNECTION.
      */
-    static public void initialize() {
+    public void initialize() {
         LOGGER.warn("Your current OS is: " + System.getProperty("os.name"));
         // Initialize variables
         getDBProperties();
@@ -154,18 +154,13 @@ public class DBConnection {
 
     /**
      * Attempts to establish connection to the database.
-     * @return connected Connection object when Connection is set up newly or return already connected Connection.
      */
-    static public Connection connect() {
+    public void connect() {
         try {
-            if( CONNECTION != null && ! CONNECTION.isClosed() ) {
-                return CONNECTION;
-            }
             // Set up the CONNECTION
             LOGGER.info("Logging to database " + JDBC_URL);
             CONNECTION = DriverManager.getConnection(JDBC_URL, JDBC_USERNAME, JDBC_PASSWORD);
             LOGGER.info("Successfully logged to database!");
-            return CONNECTION;
         } catch ( SQLException SQLEx ) {
             // Connection has not been successful
             LOGGER.error(SQLEx);
@@ -176,11 +171,8 @@ public class DBConnection {
     /**
      * Attempts to close the connection to the database.
      */
-    static public void disconnect() {
+    public void disconnect() {
         try{
-            if (CONNECTION == null || CONNECTION.isClosed()){
-                throw new IllegalStateException("Attempt to close closed or null CONNECTION");
-            }
             // Close the test CONNECTION
             LOGGER.info("Closing the database!");
             CONNECTION.close();
@@ -196,9 +188,17 @@ public class DBConnection {
     }
 
     /**
+     * Returns Connection object
+     * @return this Connection
+     */
+    public Connection getCONNECTION() {
+        return this.CONNECTION;
+    }
+
+    /**
      * Executes MySQL script to re-build DB
      */
-    static private void executeSQL() {
+    private void executeSQL() {
         // Save path to script
         String aSQLScriptFilePath = ProjectBuilder.class.getResource("dbbuilder.sql").toString();
         // Is this Windows?

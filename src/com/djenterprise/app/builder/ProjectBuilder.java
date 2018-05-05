@@ -21,7 +21,8 @@ public class ProjectBuilder {
     static final private Logger LOGGER = Logger.getLogger(ProjectBuilder.class.getName());
 
     static public void main( String[] args ) throws Exception {
-        DBConnection.initialize();
+        DBConnection connection = new DBConnection();
+        connection.initialize();
 
         File file = new File("web/images/man.png");
         Path path = file.toPath().toAbsolutePath();
