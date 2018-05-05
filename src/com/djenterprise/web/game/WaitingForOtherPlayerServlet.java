@@ -2,6 +2,8 @@ package com.djenterprise.web.game;
 
 import com.djenterprise.app.game.GameConstruct;
 import com.djenterprise.db.exceptions.EntityInstanceNotFoundException;
+import com.djenterprise.db.game.GameDAO;
+import com.djenterprise.db.game.GameStateDAO;
 import com.djenterprise.db.user.UserDAO;
 import com.djenterprise.web.user.Keys;
 
@@ -28,7 +30,29 @@ public class WaitingForOtherPlayerServlet {
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try(PrintWriter out = response.getWriter()) {
+            String gameId = request.getParameter("gameID");
+            if (gameId == null || gameId.isEmpty()){
+                response.sendRedirect("index.jsp?errWrongGameID=1");
+                return;
+            }
 
+            try{
+                GameDAO.getGame(gameId);
+            } catch(EntityInstanceNotFoundException ex){
+                response.sendRedirect("index.jsp?errWrongGameID=1");
+                return;
+            }
+
+            while(!GameStateDAO.bothConnected(gameId)){
+                try{
+                    Thread.sleep(1000);
+                } catch (InterruptedException ex){
+                    response.sendRedirect("index.jsp?userErrMsg=AUTHENTICATION_VIOLATED");
+                    return;
+                }
+            }
+            //TODO Redirect
+            response.sendRedirect("");
 
         }
     }
