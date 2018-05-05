@@ -3,6 +3,7 @@ package com.djenterprise.web.game;
 import com.djenterprise.db.exceptions.EntityInstanceNotFoundException;
 import com.djenterprise.db.game.GameDAO;
 import com.djenterprise.db.game.GameStateDAO;
+import com.djenterprise.web.user.Keys;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -23,8 +24,11 @@ public class WaitingForOtherPlayerServlet extends HttpServlet {
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String gameId = request.getParameter("gameID");
+
+        String alias = (String) request.getSession().getAttribute(Keys.ALIASKEY);
+
         if (gameId == null || gameId.isEmpty()){
-            response.sendRedirect("index.jsp?errWrongGameID=1");
+            response.sendRedirect("index.jsp?errWrongGameID=2");
             return;
         }
 
@@ -34,6 +38,8 @@ public class WaitingForOtherPlayerServlet extends HttpServlet {
             response.sendRedirect("index.jsp?errWrongGameID=1");
             return;
         }
+
+        GameStateDAO.playerPresent(gameId, alias);
 
         while(!GameStateDAO.bothConnected(gameId)){
             try{

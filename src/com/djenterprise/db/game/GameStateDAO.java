@@ -41,8 +41,8 @@ public class GameStateDAO {
             statement.setInt(5, 0);
             statement.setBoolean(6, false);
             statement.setBoolean(7, false);
-            statement.setBoolean(8, gameStateBO.isPlayerOneConnected());
-            statement.setBoolean(9, gameStateBO.isPlayerTwoConnected());
+            statement.setBoolean(8, false);
+            statement.setBoolean(9, false);
             //Insert into DB and create the game
             statement.execute();
             //Close statement
@@ -224,6 +224,49 @@ public class GameStateDAO {
             //Return GameBO instance
             return ret;
         } catch (SQLException SQLEx) {
+            LOGGER.error(SQLEx);
+            throw new RuntimeException(SQLEx);
+        }
+    }
+
+    public static void playerPresent(String gameId, String alias){
+        try {
+            String query =
+                    "SELECT player_one FROM Game WHERE gameid = ?;";
+
+            PreparedStatement statement = DBConnection.connect().prepareStatement(query);
+            statement.setString(1, gameId);
+            //Execute statement and save result into ResultSet
+            ResultSet resultSet = statement.executeQuery();
+            if( ! resultSet.next() ) {
+                throw new EntityInstanceNotFoundException("No game with ID " + gameId + " was found.");
+            }
+            String testAlias = resultSet.getString("player_one");
+
+            //Close result set
+            resultSet.close();
+            //Close statement
+            statement.close();
+            //Close DB connection
+            DBConnection.disconnect();
+
+            if (alias.equals(testAlias)){
+                query =
+                        "UPDATE GameState SET player_one_connected = 1";
+            } else {
+                query =
+                        "UPDATE GameState SET player_two_connected = 1";
+            }
+
+            statement = DBConnection.connect().prepareStatement(query);
+            statement.execute();
+
+            //Close statement
+            statement.close();
+            //Close DB connection
+            DBConnection.disconnect();
+
+        } catch (SQLException SQLEx){
             LOGGER.error(SQLEx);
             throw new RuntimeException(SQLEx);
         }
