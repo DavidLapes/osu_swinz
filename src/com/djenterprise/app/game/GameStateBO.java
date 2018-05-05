@@ -9,6 +9,8 @@ public class GameStateBO {
     private int playerTwoPoints;
     private boolean playerOneAnswered;
     private boolean playerTwoAnswered;
+    private boolean playerOneConnected;
+    private boolean playerTwoConnected;
 
     /**
      * Proceeds to next round and adds winning points.
@@ -104,4 +106,45 @@ public class GameStateBO {
     public void setPlayerTwoPoints(int playerTwoPoints) {
         this.playerTwoPoints = playerTwoPoints;
     }
+
+    public void setPlayerOneAnswered(boolean playerOneAnswered) {
+        this.playerOneAnswered = playerOneAnswered;
+    }
+
+    public void setPlayerTwoAnswered(boolean playerTwoAnswered) {
+        this.playerTwoAnswered = playerTwoAnswered;
+    }
+
+    public boolean isPlayerOneConnected() {
+        return playerOneConnected;
+    }
+
+    public void setPlayerOneConnected(int playerOneConnected) {
+        if( playerOneConnected <= 0 ) {
+            this.playerOneConnected = false;
+        } else {
+            this.playerOneConnected = true;
+        }
+    }
+
+    public void setPlayerOneConnected(boolean playerOneConnected) {
+        this.playerOneConnected = playerOneConnected;
+    }
+
+    public boolean isPlayerTwoConnected() {
+        return playerTwoConnected;
+    }
+
+    public void setPlayerTwoConnected(int playerTwoConnected) {
+        if( playerTwoConnected <= 0 ) {
+            this.playerTwoConnected = false;
+        } else {
+            this.playerTwoConnected = true;
+        }
+    }
+
+    public void setPlayerTwoConnected(boolean playerTwoConnected) {
+        this.playerTwoConnected = playerTwoConnected;
+    }
+
 }

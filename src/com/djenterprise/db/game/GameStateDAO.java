@@ -31,7 +31,7 @@ public class GameStateDAO {
             List<QuestionBO> questions = GameDAO.getQuestions(game);
             //Create query script
             String query =
-                    "INSERT INTO GameState(gameid_fk, number_of_questions, current_round, player_one_points, player_two_points, player_one_answered, player_two_answered) VALUES( ?, ?, ?, ?, ?, ?, ?);";
+                    "INSERT INTO GameState(gameid_fk, number_of_questions, current_round, player_one_points, player_two_points, player_one_answered, player_two_answered, player_one_connected, player_two_connected) VALUES( ?, ?, ?, ?, ?, ?, ?, ?, ?);";
             //Open DB connection and prepare a query statement
             PreparedStatement statement = DBConnection.connect().prepareStatement(query);
             statement.setString(1, gameStateBO.getGameId());
@@ -41,6 +41,8 @@ public class GameStateDAO {
             statement.setInt(5, 0);
             statement.setBoolean(6, false);
             statement.setBoolean(7, false);
+            statement.setBoolean(8, gameStateBO.isPlayerOneConnected());
+            statement.setBoolean(9, gameStateBO.isPlayerTwoConnected());
             //Insert into DB and create the game
             statement.execute();
             //Close statement
@@ -63,7 +65,7 @@ public class GameStateDAO {
             GameStateBO ret;
             //Create query script
             String query =
-                    "SELECT gameid_fk, number_of_questions, current_round, player_one_points, player_two_points FROM GameState WHERE gameid_fk = ?;";
+                    "SELECT gameid_fk, number_of_questions, current_round, player_one_points, player_two_points, player_one_connected, player_two_connected FROM GameState WHERE gameid_fk = ?;";
             //Open DB connection and prepare a query statement
             PreparedStatement statement = DBConnection.connect().prepareStatement(query);
             statement.setString(1, gameId);
@@ -78,6 +80,8 @@ public class GameStateDAO {
             ret.setCurrentRound(resultSet.getInt("current_round"));
             ret.setPlayerOnePoints(resultSet.getInt("player_one_points"));
             ret.setPlayerTwoPoints(resultSet.getInt("player_two_points"));
+            ret.setPlayerOneConnected(resultSet.getInt("player_one_connected"));
+            ret.setPlayerTwoConnected(resultSet.getInt("player_two_connected"));
             //Close result set
             resultSet.close();
             //Close statement
@@ -183,6 +187,42 @@ public class GameStateDAO {
             statement.close();
             //Close DB
             DBConnection.disconnect();
+        } catch (SQLException SQLEx) {
+            LOGGER.error(SQLEx);
+            throw new RuntimeException(SQLEx);
+        }
+    }
+
+    /**
+     * Connection status of both players
+     * @param gameId id of game
+     * @return true if both players are connected
+     * @throws EntityInstanceNotFoundException
+     */
+    static public boolean bothConnected(String gameId){
+        try{
+            // Declare return variable
+            boolean ret;
+            //Create query script
+            String query =
+                    "SELECT player_one_connected, player_two_connected FROM GameState WHERE gameid_fk = ?;";
+            PreparedStatement statement = DBConnection.connect().prepareStatement(query);
+            statement.setString(1, gameId);
+            //Execute statement and save result into ResultSet
+            ResultSet resultSet = statement.executeQuery();
+            if( ! resultSet.next() ) {
+                throw new EntityInstanceNotFoundException("No game with ID " + gameId + " was found.");
+            }
+            ret = (0 != resultSet.getInt("player_one_connected"));
+            ret = (ret && ( 0 != resultSet.getInt("player_two_connected")));
+            //Close result set
+            resultSet.close();
+            //Close statement
+            statement.close();
+            //Close DB connection
+            DBConnection.disconnect();
+            //Return GameBO instance
+            return ret;
         } catch (SQLException SQLEx) {
             LOGGER.error(SQLEx);
             throw new RuntimeException(SQLEx);
