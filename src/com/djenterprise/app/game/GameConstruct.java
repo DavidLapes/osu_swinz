@@ -27,7 +27,7 @@ public class GameConstruct {
      * @param playerOne first player
      * @param playerTwo second player
      */
-    static public void constructGame( String creator, String playerOne, String playerTwo ) {
+    static public String constructGame( String creator, String playerOne, String playerTwo ) {
         //Game to be created
         GameBO gameBO = new GameBO();
         //Set randomly-generated ID to this game
@@ -57,6 +57,7 @@ public class GameConstruct {
         }
         //Construct instance in DB
         GameDAO.createGame(gameBO, gameQuestions);
+        return gameBO.getGameId();
     }
 
     /**
@@ -66,7 +67,7 @@ public class GameConstruct {
      * @param playerTwo second player
      * @param questionCount number of questions to be generated
      */
-    static public void constructGame( String creator, String playerOne, String playerTwo, int questionCount ) {
+    static public String constructGame( String creator, String playerOne, String playerTwo, int questionCount ) {
         //Game to be created
         GameBO gameBO = new GameBO();
         //Set randomly-generated ID to this game
@@ -95,6 +96,7 @@ public class GameConstruct {
         }
         //Construct instance in DB
         GameDAO.createGame(gameBO, gameQuestions);
+        return gameBO.getGameId();
     }
 
     /**
@@ -104,7 +106,7 @@ public class GameConstruct {
      * @param playerOne first player
      * @param playerTwo second player
      */
-    static public void constructGame( String creator, String playerOne, String playerTwo, List<QuestionBO> gameQuestions ) {
+    static public String constructGame( String creator, String playerOne, String playerTwo, List<QuestionBO> gameQuestions ) {
         //Game to be created
         GameBO gameBO = new GameBO();
         //Set randomly-generated ID to this game
@@ -117,6 +119,7 @@ public class GameConstruct {
         gameBO.setCreator(creator);
         //Construct instance in DB
         GameDAO.createGame(gameBO, gameQuestions);
+        return gameBO.getGameId();
     }
 
     /**

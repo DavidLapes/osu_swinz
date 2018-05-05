@@ -1,7 +1,9 @@
 package com.djenterprise.app.builder;
 
+import com.djenterprise.app.game.GameConstruct;
 import com.djenterprise.app.user.UserBO;
 import com.djenterprise.db.connection.DBConnection;
+import com.djenterprise.db.game.GameDAO;
 import com.djenterprise.db.user.UserDAO;
 import com.djenterprise.web.user.DisplayAvatarServlet;
 import org.apache.log4j.Logger;
@@ -30,5 +32,21 @@ public class ProjectBuilder {
         user.setPassword("r007_//_84ssw036d");
         user.setInputStream(new FileInputStream(path.toFile()));
         UserDAO.createUser(user);
+
+        UserBO testUserOne = new UserBO();
+        testUserOne.setAlias("test_alias_one");
+        testUserOne.setUsername("test_username_one");
+        testUserOne.setPassword("test_password_one");
+        testUserOne.setInputStream(null);
+        UserDAO.createUser(testUserOne);
+
+        UserBO testUserTwo = new UserBO();
+        testUserTwo.setAlias("test_alias_two");
+        testUserTwo.setUsername("test_username_two");
+        testUserTwo.setPassword("test_password_two");
+        testUserTwo.setInputStream(null);
+        UserDAO.createUser(testUserTwo);
+
+        GameConstruct.constructGame(user.getUsername(), testUserOne.getAlias(), testUserTwo.getAlias());
     }
 }

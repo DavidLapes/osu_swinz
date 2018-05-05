@@ -7,15 +7,20 @@
         <link rel="icon" href="${pageContext.request.contextPath}/images/djicon.png">
     </head>
     <body>
+        <div>
+            <img src="DisplayAvatarServlet?player=player_one&gameID=<%= request.getParameter("gameID")%>" name="playerOneImg" id="playerOneImg" style="height: 256px; width: 256px; float: left; margin-left: 300px;">
+            <img src="DisplayAvatarServlet?player=player_two&gameID=<%= request.getParameter("gameID")%>" name="playerTwoImg" id="playerTwoImg" style="height: 256px; width: 256px; float: left; margin-left: 820px;">
+        </div>
+        <div class="regBox" style="margin-top: 2%;">
         <%
+            /*
             if( session.getAttribute(Keys.LOGINKEY) == null || ((String) session.getAttribute(Keys.LOGINKEY)).isEmpty() ) {
                 response.sendRedirect("index.jsp");
-            }
-        %>
-        UNDER CONSTRUCTION
+            } else {
 
-        <%
-            //TODO Game Lobby
+            }
+            */
         %>
+        </div>
     </body>
 </html>

@@ -26,6 +26,7 @@ public class CustomGameServlet extends HttpServlet {
     }
 
     //TODO Custom questions
+    //TODO Players cant be same
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try(PrintWriter out = response.getWriter()) {
@@ -60,9 +61,9 @@ public class CustomGameServlet extends HttpServlet {
             String playerOne = request.getParameter("playerOne");
             String playerTwo = request.getParameter("playerTwo");
 
-            GameConstruct.constructGame( creator, playerOne, playerTwo, questionCount );
+            String gameID = GameConstruct.constructGame( creator, playerOne, playerTwo, questionCount );
 
-            RequestDispatcher view = request.getServletContext().getRequestDispatcher("/gameLobby.jsp");
+            RequestDispatcher view = request.getServletContext().getRequestDispatcher("/gameLobby.jsp?gameID=" + gameID);
             view.forward(request, response);
         }
     }

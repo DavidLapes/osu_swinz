@@ -129,7 +129,11 @@ public class UserDAO {
             user.setUsername(rs.getString("username"));
             user.setAlias(rs.getString("alias"));
             user.setAvatar(rs.getBlob("avatar"));
-            user.setInputStream(rs.getBlob("avatar").getBinaryStream());
+            if( rs.getBlob("avatar") != null ) {
+                user.setInputStream(rs.getBlob("avatar").getBinaryStream());
+            } else {
+                user.setInputStream(null);
+            }
             //Closes the result set
             rs.close();
             //Closes the statement

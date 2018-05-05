@@ -93,7 +93,6 @@ public class EditAccountServlet extends HttpServlet {
                     user.setUsername((String)request.getSession().getAttribute(Keys.LOGINKEY));
                     user.setAlias(alias);
                     user.setPassword(password);
-                    user.setInputStream(inputStream);
 
                     if( ! alias.equals(oldUser.getAlias()) ) {
                         UserDAO.editUserAlias(user);
