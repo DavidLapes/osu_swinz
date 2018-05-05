@@ -42,7 +42,6 @@ public class TestAnswerDAO {
 
     @Test //Note: Requires test01CreateQuestion to be run beforehand to function correctly
     public void test05CreateAnswer(){
-        DBConnection.initialize();
         AnswerBO expected = new AnswerBO();
         expected.setText("This is a test");
         AnswerBO question = new AnswerBO();

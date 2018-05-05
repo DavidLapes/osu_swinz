@@ -47,7 +47,6 @@ public class TestUserDAO {
 
     @Test
     public void test04editUserAlias (){
-        DBConnection.initialize();
         UserBO user = new UserBO();
         user.setUsername("TestAlias01");
         user.setPassword("Test");
@@ -63,7 +62,6 @@ public class TestUserDAO {
 
     @Test
     public void test05editUserPassword (){
-        DBConnection.initialize();
         UserBO user = new UserBO();
         user.setUsername("TestPassword01");
         user.setPassword("TestPassword01");
