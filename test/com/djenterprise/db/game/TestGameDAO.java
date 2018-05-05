@@ -32,4 +32,13 @@ public class TestGameDAO {
     public void test02DeleteGame() {
         GameDAO.deleteGame(GAME_ID);
     }
+
+    @Test
+    public void test03GetGame() {
+        while( true ) {
+            String gameID = "17315254";
+            GameBO game = GameDAO.getGame(gameID);
+            System.out.println(game.toString());
+        }
+    }
 }
