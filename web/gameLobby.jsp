@@ -23,7 +23,7 @@
                         response.sendRedirect("index.jsp?userErrMsg=AUTHENTICATION_VIOLATED");
                     }
                 } catch (EntityInstanceNotFoundException ex) {
-                    response.sendRedirect("index.jsp?err=USER_LOGIN_VIOLATION");
+                    response.sendRedirect("index.jsp?err=WRONG_GAME_ID");
                 }
             }
         %>
