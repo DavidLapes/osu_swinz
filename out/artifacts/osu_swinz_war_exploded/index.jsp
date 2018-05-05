@@ -7,6 +7,8 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <html>
     <head>
         <title>DJahoot!</title>
@@ -27,12 +29,19 @@
                 if( isUserLoggedIn ) {
                     document.getElementById("enterGameForm").submit();
                 } else {
-                    alert("You must first log in to DJAHOOT to be able to create or enter games. Please, log in or sign up.")
+                    alert("You must first log in to DJAHOOT to be able to create or enter games. Please, log in or sign up.");
                 }
             }
         </script>
     </head>
     <body>
+
+        <c:if test="${param.userErrMsg == 'AUTHENTICATION_VIOLATED'}">
+            <script>
+                alert("You don't belong to that game! Please, play with YOUR friends!");
+            </script>
+        </c:if>
+
         <div class="formBox" style="margin-top: 10%;">
             <form action="EnterGameServlet" method="get" id="enterGameForm">
                 <label class="gamePinLabel" for="code">DJAHOOT!</label>

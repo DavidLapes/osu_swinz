@@ -18,12 +18,12 @@
             } else {
                 try {
                     GameBO game = GameDAO.getGame(request.getParameter("gameID"));
-                    UserBO loggedUser = UserDAO.getUser(Keys.LOGINKEY);
+                    UserBO loggedUser = UserDAO.getUser((String)session.getAttribute(Keys.LOGINKEY));
                     if( ! ( loggedUser.getAlias().equals(game.getPlayerOne()) || loggedUser.getAlias().equals(game.getPlayerTwo()) ) ) {
                         response.sendRedirect("index.jsp?userErrMsg=AUTHENTICATION_VIOLATED");
                     }
                 } catch (EntityInstanceNotFoundException ex) {
-                    response.sendRedirect("index.jsp");
+                    response.sendRedirect("index.jsp?err=USER_LOGIN_VIOLATION");
                 }
             }
         %>
@@ -32,7 +32,9 @@
             <img src="DisplayAvatarServlet?player=player_two&gameID=<%= request.getParameter("gameID")%>" name="playerTwoImg" id="playerTwoImg" style="height: 256px; width: 256px; float: left; margin-left: 820px;">
         </div>
         <div class="regBox" style="margin-top: 2%;">
+            <form action="WaitingForOtherPlayerServlet" method="post">
 
+            </form>
         </div>
     </body>
 </html>
