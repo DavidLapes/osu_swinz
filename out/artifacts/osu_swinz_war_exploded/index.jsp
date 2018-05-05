@@ -42,6 +42,12 @@
             </script>
         </c:if>
 
+        <c:if test="${param.err == 'WRONG_GAME_ID'}">
+            <script>
+                alert("Wrong game ID entered!");
+            </script>
+        </c:if>
+
         <div class="formBox" style="margin-top: 10%;">
             <form action="EnterGameServlet" method="get" id="enterGameForm">
                 <label class="gamePinLabel" for="code">DJAHOOT!</label>

@@ -27,15 +27,15 @@
                 }
             }
         %>
-        <div style="width: 1920px; height: 256px; margin-top: 100px;">
+        <div style="width: 1900px; height: 256px; margin-top: 100px;">
             <img src="DisplayAvatarServlet?player=player_one&gameID=<%= request.getParameter("gameID")%>" name="playerOneImg" id="playerOneImg" style="height: 256px; width: 256px; float: left; margin-left: 300px;">
-            <img src="DisplayAvatarServlet?player=player_two&gameID=<%= request.getParameter("gameID")%>" name="playerTwoImg" id="playerTwoImg" style="height: 256px; width: 256px; float: left; margin-left: 808px; margin-right: 300px;">
+            <img src="DisplayAvatarServlet?player=player_two&gameID=<%= request.getParameter("gameID")%>" name="playerTwoImg" id="playerTwoImg" style="height: 256px; width: 256px; float: left; margin-left: 788px; margin-right: 300px;">
         </div>
-        <div style="width: 1920px; height: 40px;">
+        <div style="width: 1900px; height: 40px;">
             <span style="float:left; color: white; margin-left: 300px; font-size: 40px; font-family: fantasy"><%=UserDAO.getUserByAlias(GameDAO.getGame(request.getParameter("gameID")).getPlayerOne()).getAlias()%></span>
             <span style="float: right; color: white; margin-right: 300px; font-size: 40px; font-family: fantasy"><%=UserDAO.getUserByAlias(GameDAO.getGame(request.getParameter("gameID")).getPlayerTwo()).getAlias()%></span>
         </div>
-        <div class="regBox" style="margin-top: 2%;">
+        <div class="regBox" style="margin-top: 10%;">
 
             <form action="WaitingForOtherPlayerServlet?gameID=<%= request.getParameter("gameID")%>" method="get">
                 <input class="gamePinSubmit" type="submit" value="I AM READY!">

@@ -53,8 +53,7 @@ public class GenerateGameServlet extends HttpServlet {
 
             String gameID = GameConstruct.constructGame( creator,playerOne,playerTwo);
 
-            RequestDispatcher view = request.getServletContext().getRequestDispatcher("/gameLobby.jsp?gameID=" + gameID);
-            view.forward(request, response);
+            response.sendRedirect("/gameLobby.jsp?gameID=" + gameID);
         }
     }
 }
