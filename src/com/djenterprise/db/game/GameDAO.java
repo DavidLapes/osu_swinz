@@ -31,11 +31,14 @@ public class GameDAO {
         UserDAO.getUserByAlias(gameBO.getPlayerTwo());
 
         try {
+            //Connect to DB
+            DBConnection connection = new DBConnection();
+            connection.connect();
             //Create query script
             String query =
                     "INSERT INTO Game(gameid, creator, player_one, player_two) VALUES( ?, ?, ?, ? );";
             //Open DB connection and prepare a query statement
-            PreparedStatement statement = DBConnection.connect().prepareStatement(query);
+            PreparedStatement statement = connection.getCONNECTION().prepareStatement(query);
             statement.setString(1, gameBO.getGameId());
             statement.setString(2, gameBO.getCreator());
             statement.setString(3, gameBO.getPlayerOne());
@@ -46,7 +49,7 @@ public class GameDAO {
                 query =
                         "INSERT INTO GameQuestions(gameid_fk, questionid_fk) VALUE ( ?, ? );";
                 //Prepare query to statement
-                statement = DBConnection.connect().prepareStatement(query);
+                statement = connection.getCONNECTION().prepareStatement(query);
                 //Prepare statement
                 statement.setString(1, gameBO.getGameId());
                 statement.setInt(2, question.getQuestionId());
@@ -56,7 +59,7 @@ public class GameDAO {
             //Close statement
             statement.close();
             //Disconnect from DB
-            DBConnection.disconnect();
+            connection.disconnect();
             //Prepare state of game
             GameStateBO gameState = new GameStateBO();
             gameState.setPlayerOneAnswered(0);
@@ -80,6 +83,9 @@ public class GameDAO {
      */
     static public List<QuestionBO> getQuestions( GameBO gameBO ) {
         try{
+            //Connect to DB
+            DBConnection connection = new DBConnection();
+            connection.connect();
             // Declare return collection of questions
             List<QuestionBO> ret = new ArrayList<>();
             //Create query script
@@ -89,7 +95,7 @@ public class GameDAO {
                     "WHERE gamequestions.gameid_fk = ? " +
                     "AND gamequestions.questionid_fk = question.questionid;";
             //Open DB connection and prepare a query statement
-            PreparedStatement statement = DBConnection.connect().prepareStatement(query);
+            PreparedStatement statement = connection.getCONNECTION().prepareStatement(query);
             statement.setString(1, gameBO.getGameId());
             //Execute statement and save result into ResultSet
             ResultSet resultSet = statement.executeQuery();
@@ -103,7 +109,7 @@ public class GameDAO {
             //Close statement
             statement.close();
             //Close DB connection
-            DBConnection.disconnect();
+            connection.disconnect();
             //Return questions which game (gameBO) has available
             return ret;
         } catch (SQLException SQLEx) {
@@ -120,13 +126,16 @@ public class GameDAO {
      */
     static public GameBO getGame( String gameId ) {
         try {
+            //Connect to DB
+            DBConnection connection = new DBConnection();
+            connection.connect();
             // Declare return variable
             GameBO ret;
             //Create query script
             String query =
                     "SELECT creator, datecreated, gameid, player_one, player_two FROM Game WHERE gameid = ?;";
             //Open DB connection and prepare a query statement
-            PreparedStatement statement = DBConnection.connect().prepareStatement(query);
+            PreparedStatement statement = connection.getCONNECTION().prepareStatement(query);
             statement.setString(1, gameId);
             //Execute statement and save result into ResultSet
             ResultSet resultSet = statement.executeQuery();
@@ -144,7 +153,7 @@ public class GameDAO {
             //Close statement
             statement.close();
             //Close DB connection
-            DBConnection.disconnect();
+            connection.disconnect();
             //Return GameBO instance
             return ret;
         } catch (SQLException SQLEx) {
@@ -160,12 +169,15 @@ public class GameDAO {
      */
     static public List<GameBO> getGamesOlderThan( int timeInSeconds ) {
         try {
+            //Connect to DB
+            DBConnection connection = new DBConnection();
+            connection.connect();
             //Initialize list
             List<GameBO> games = new ArrayList<>();
             //Select games older than timeInSeconds
             String query = "SELECT * FROM Game WHERE datecreated < (NOW() - INTERVAL ? SECOND );";
             //Connect to DB and prepare statement
-            PreparedStatement statement = DBConnection.connect().prepareStatement(query);
+            PreparedStatement statement = connection.getCONNECTION().prepareStatement(query);
             statement.setInt(1, timeInSeconds);
             //Execute the query
             ResultSet resultSet = statement.executeQuery();
@@ -182,7 +194,7 @@ public class GameDAO {
             //Close statement
             statement.close();
             //Close DB
-            DBConnection.disconnect();
+            connection.disconnect();
             //Return games found
             return games;
         } catch (SQLException SQLEx) {
@@ -197,13 +209,16 @@ public class GameDAO {
      */
     static public void deleteGame( String gameID ) {
         try {
+            //Connect to DB
+            DBConnection connection = new DBConnection();
+            connection.connect();
             //Delete state of the game
             GameStateDAO.deleteGameState(gameID);
             //Deleting assigned questions first
             String query =
                     "DELETE FROM GameQuestions WHERE gameid_fk = ?;";
             //Prepare the statement
-            PreparedStatement statement = DBConnection.connect().prepareStatement(query);
+            PreparedStatement statement = connection.getCONNECTION().prepareStatement(query);
             statement.setString(1, gameID);
             //Execute the statement
             statement.execute();
@@ -211,14 +226,14 @@ public class GameDAO {
             query =
                     "DELETE FROM Game WHERE gameid = ?;";
             //Initialize statement again
-            statement = DBConnection.connect().prepareStatement(query);
+            statement = connection.getCONNECTION().prepareStatement(query);
             statement.setString(1, gameID);
             //Execute the statement
             statement.execute();
             //Close statement
             statement.close();
             //Close DB
-            DBConnection.disconnect();
+            connection.disconnect();
         } catch (SQLException SQLEx) {
             LOGGER.error(SQLEx);
             throw new RuntimeException(SQLEx);

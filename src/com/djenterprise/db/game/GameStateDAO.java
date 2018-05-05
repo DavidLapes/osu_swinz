@@ -24,6 +24,9 @@ public class GameStateDAO {
     static public void createGameState(GameStateBO gameStateBO) {
         //Check if players exist
         try {
+            //Connect to DB
+            DBConnection connection = new DBConnection();
+            connection.connect();
             GameBO game =
                     GameDAO.getGame(
                             gameStateBO.getGameId()
@@ -33,7 +36,7 @@ public class GameStateDAO {
             String query =
                     "INSERT INTO GameState(gameid_fk, number_of_questions, current_round, player_one_points, player_two_points, player_one_answered, player_two_answered, player_one_connected, player_two_connected) VALUES( ?, ?, ?, ?, ?, ?, ?, ?, ?);";
             //Open DB connection and prepare a query statement
-            PreparedStatement statement = DBConnection.connect().prepareStatement(query);
+            PreparedStatement statement = connection.getCONNECTION().prepareStatement(query);
             statement.setString(1, gameStateBO.getGameId());
             statement.setInt(2, questions.size());
             statement.setInt(3, 1);
@@ -48,7 +51,7 @@ public class GameStateDAO {
             //Close statement
             statement.close();
             //Disconnect from DB
-            DBConnection.disconnect();
+            connection.disconnect();
         } catch ( SQLException SQLEx ) {
             throw new RuntimeException(SQLEx);
         }
@@ -61,13 +64,16 @@ public class GameStateDAO {
      */
     static public GameStateBO getGameState( String gameId ) {
         try {
+            //Connect to DB
+            DBConnection connection = new DBConnection();
+            connection.connect();
             // Declare return variable
             GameStateBO ret;
             //Create query script
             String query =
                     "SELECT gameid_fk, number_of_questions, current_round, player_one_points, player_two_points, player_one_connected, player_two_connected FROM GameState WHERE gameid_fk = ?;";
             //Open DB connection and prepare a query statement
-            PreparedStatement statement = DBConnection.connect().prepareStatement(query);
+            PreparedStatement statement =connection.getCONNECTION().prepareStatement(query);
             statement.setString(1, gameId);
             //Execute statement and save result into ResultSet
             ResultSet resultSet = statement.executeQuery();
@@ -87,7 +93,7 @@ public class GameStateDAO {
             //Close statement
             statement.close();
             //Close DB connection
-            DBConnection.disconnect();
+            connection.disconnect();
             //Return GameBO instance
             return ret;
         } catch (SQLException SQLEx) {
@@ -102,18 +108,21 @@ public class GameStateDAO {
      */
     static public void deleteGameState( String gameID ) {
         try {
+            //Connect to DB
+            DBConnection connection = new DBConnection();
+            connection.connect();
             //Deleting assigned questions first
             String query =
                     "DELETE FROM GameState WHERE gameid_fk = ?;";
             //Prepare the statement
-            PreparedStatement statement = DBConnection.connect().prepareStatement(query);
+            PreparedStatement statement = connection.getCONNECTION().prepareStatement(query);
             statement.setString(1, gameID);
             //Execute the statement
             statement.execute();
             //Close statement
             statement.close();
             //Close DB
-            DBConnection.disconnect();
+            connection.disconnect();
         } catch (SQLException SQLEx) {
             LOGGER.error(SQLEx);
             throw new RuntimeException(SQLEx);
@@ -126,17 +135,20 @@ public class GameStateDAO {
      */
     static public void nextRound( String gameId ) {
         try {
+            //Connect to DB
+            DBConnection connection = new DBConnection();
+            connection.connect();
             String query =
                     "UPDATE GameState SET current_round = current_round + 1 WHERE gameid_fk = ?;";
             //Prepare the statement
-            PreparedStatement statement = DBConnection.connect().prepareStatement(query);
+            PreparedStatement statement = connection.getCONNECTION().prepareStatement(query);
             statement.setString(1, gameId);
             //Execute the statement
             statement.execute();
             //Close statement
             statement.close();
             //Close DB
-            DBConnection.disconnect();
+            connection.disconnect();
         } catch (SQLException SQLEx) {
             LOGGER.error(SQLEx);
             throw new RuntimeException(SQLEx);
@@ -150,10 +162,13 @@ public class GameStateDAO {
      */
     static public void playerOnePointsIncrease( String gameId, int playerOnePointsIncrease ) {
         try {
+            //Connect to DB
+            DBConnection connection = new DBConnection();
+            connection.connect();
             String query =
                     "UPDATE GameState SET player_one_points = player_one_points + ? WHERE gameid_fk = ?;";
             //Prepare the statement
-            PreparedStatement statement = DBConnection.connect().prepareStatement(query);
+            PreparedStatement statement = connection.getCONNECTION().prepareStatement(query);
             statement.setInt(1, playerOnePointsIncrease);
             statement.setString(2, gameId);
             //Execute the statement
@@ -161,7 +176,7 @@ public class GameStateDAO {
             //Close statement
             statement.close();
             //Close DB
-            DBConnection.disconnect();
+            connection.disconnect();
         } catch (SQLException SQLEx) {
             LOGGER.error(SQLEx);
             throw new RuntimeException(SQLEx);
@@ -175,10 +190,13 @@ public class GameStateDAO {
      */
     static public void playerTwoPointsIncrease( String gameId, int playerTwoPointsIncrease ) {
         try {
+            //Connect to DB
+            DBConnection connection = new DBConnection();
+            connection.connect();
             String query =
                     "UPDATE GameState SET player_two_points = player_two_points + ? WHERE gameid_fk = ?;";
             //Prepare the statement
-            PreparedStatement statement = DBConnection.connect().prepareStatement(query);
+            PreparedStatement statement = connection.getCONNECTION().prepareStatement(query);
             statement.setInt(1, playerTwoPointsIncrease);
             statement.setString(2, gameId);
             //Execute the statement
@@ -186,7 +204,7 @@ public class GameStateDAO {
             //Close statement
             statement.close();
             //Close DB
-            DBConnection.disconnect();
+            connection.disconnect();
         } catch (SQLException SQLEx) {
             LOGGER.error(SQLEx);
             throw new RuntimeException(SQLEx);
@@ -201,12 +219,15 @@ public class GameStateDAO {
      */
     static public boolean bothConnected(String gameId){
         try{
+            //Connect to DB
+            DBConnection connection = new DBConnection();
+            connection.connect();
             // Declare return variable
             boolean ret;
             //Create query script
             String query =
                     "SELECT player_one_connected, player_two_connected FROM GameState WHERE gameid_fk = ?;";
-            PreparedStatement statement = DBConnection.connect().prepareStatement(query);
+            PreparedStatement statement = connection.getCONNECTION().prepareStatement(query);
             statement.setString(1, gameId);
             //Execute statement and save result into ResultSet
             ResultSet resultSet = statement.executeQuery();
@@ -220,7 +241,7 @@ public class GameStateDAO {
             //Close statement
             statement.close();
             //Close DB connection
-            DBConnection.disconnect();
+            connection.disconnect();
             //Return GameBO instance
             return ret;
         } catch (SQLException SQLEx) {
@@ -231,10 +252,13 @@ public class GameStateDAO {
 
     public static void playerPresent(String gameId, String alias){
         try {
+            //Connect to DB
+            DBConnection connection = new DBConnection();
+            connection.connect();
             String query =
                     "SELECT player_one FROM Game WHERE gameid = ?;";
 
-            PreparedStatement statement = DBConnection.connect().prepareStatement(query);
+            PreparedStatement statement = connection.getCONNECTION().prepareStatement(query);
             statement.setString(1, gameId);
             //Execute statement and save result into ResultSet
             ResultSet resultSet = statement.executeQuery();
@@ -245,10 +269,6 @@ public class GameStateDAO {
 
             //Close result set
             resultSet.close();
-            //Close statement
-            statement.close();
-            //Close DB connection
-            DBConnection.disconnect();
 
             if (alias.equals(testAlias)){
                 query =
@@ -258,13 +278,13 @@ public class GameStateDAO {
                         "UPDATE GameState SET player_two_connected = 1";
             }
 
-            statement = DBConnection.connect().prepareStatement(query);
+            statement = connection.getCONNECTION().prepareStatement(query);
             statement.execute();
 
             //Close statement
             statement.close();
             //Close DB connection
-            DBConnection.disconnect();
+            connection.disconnect();
 
         } catch (SQLException SQLEx){
             LOGGER.error(SQLEx);

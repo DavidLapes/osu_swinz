@@ -23,10 +23,13 @@ public class QuestionDAO {
     @Deprecated
     public static void createQuestion(QuestionBO questionBO){
         try {
+            //Connect to DB
+            DBConnection connection = new DBConnection();
+            connection.connect();
             //Creates query
             String query = "INSERT INTO Question(text) VALUE(?)";
             //Prepares statement and opens connection to the database
-            PreparedStatement statement = DBConnection.connect().prepareStatement(query);
+            PreparedStatement statement = connection.getCONNECTION().prepareStatement(query);
             //Inserts parameters into prepared statement
             statement.setString(1,questionBO.getText());
             //Executes SQL command
@@ -34,7 +37,7 @@ public class QuestionDAO {
             //Closes statement
             statement.close();
             //Closes connection to the database
-            DBConnection.disconnect();
+            connection.disconnect();
         } catch (SQLException SQLEx) {
             LOGGER.error(SQLEx);
             throw new RuntimeException(SQLEx);
@@ -49,11 +52,14 @@ public class QuestionDAO {
      */
     public static QuestionBO getQuestion(int questionID){
         try {
+            //Connect to DB
+            DBConnection connection = new DBConnection();
+            connection.connect();
             //Creates query
             String query =
                     "SELECT * FROM Question WHERE questionid = ?";
             //Prepares statement and opens connection to the database
-            PreparedStatement statement = DBConnection.connect().prepareStatement(query);
+            PreparedStatement statement = connection.getCONNECTION().prepareStatement(query);
             //Inserts parameter into prepared statement
             statement.setInt(1, questionID);
             //Executes query and assigns it to a result set
@@ -71,7 +77,7 @@ public class QuestionDAO {
             //Closes statement
             statement.close();
             //Closes connection to the database
-            DBConnection.disconnect();
+            connection.disconnect();
             //Returns the question
             return question;
         } catch (SQLException SQLEx) {
@@ -86,11 +92,14 @@ public class QuestionDAO {
      */
     public static List<QuestionBO> getAllQuestions(){
         try {
+            //Connect to DB
+            DBConnection connection = new DBConnection();
+            connection.connect();
             //Creates query
             String query =
                     "SELECT * FROM Question";
             //Prepares statement and opens connection to the database
-            PreparedStatement statement = DBConnection.connect().prepareStatement(query);
+            PreparedStatement statement = connection.getCONNECTION().prepareStatement(query);
             //Executes query and assigns it to a result set
             ResultSet rs = statement.executeQuery();
             //Creates returned list instance
@@ -107,7 +116,7 @@ public class QuestionDAO {
             //Closes statement
             statement.close();
             //Closes connection to the database
-            DBConnection.disconnect();
+            connection.disconnect();
             //Returns the list of questions
             return list;
         } catch (SQLException SQLEx) {
