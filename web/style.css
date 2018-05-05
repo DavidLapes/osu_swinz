@@ -20,11 +20,15 @@
     }
 }
 
-body {
+.unUsed {
     -webkit-animation: bgcolor 20s infinite;
     animation: bgcolor 10s infinite;
     -webkit-animation-direction: alternate;
     animation-direction: alternate;
+}
+
+body {
+    background-color: #45a3e5;
 }
 
 .regBox {
