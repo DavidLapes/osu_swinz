@@ -50,6 +50,15 @@
             <c:if test="${param.errMsgAliasTaken == '11'}">
                 <p class="errorTextRegistration">Alias is already taken.</p>
             </c:if>
+
+            <c:if test="${param.errMsgImgRes == '1'}">
+                <p class="errorTextRegistration">Image has to have equal height and width.</p>
+            </c:if>
+
+            <c:if test="${param.errMsgImgSize == '1'}">
+                <p class="errorTextRegistration">Image is too big.</p>
+            </c:if>
+
             <form action ="EditAccountServlet" method="post" enctype="multipart/form-data">
                 <input class="regInput" type="password" title="Please, enter 8 to 32 characters. &#013; - At least one uppercase &#013; - At least one lowercase &#013; - At least one number &#013; - No whitespaces." name="password" id="password" value="PASSWORD" onblur=" if (this.value === '') {this.value = 'PASSWORD';} theBlur(this)" onfocus="if (this.value === 'PASSWORD') {this.value = '';} theFocus(this)">
                 <input class="regInput" type="password" title="Please, confirm your password." name="confirmPassword" id="confirmPassword" value="PASSWORD" onblur=" if (this.value === '') {this.value = 'PASSWORD';} theBlur(this)" onfocus="if (this.value === 'PASSWORD') {this.value = '';} theFocus(this)">

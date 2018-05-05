@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
@@ -103,8 +104,25 @@ public class EditAccountServlet extends HttpServlet {
                     }
 
                     try {
-                        ImageIO.read(inputStream).toString();
-                        user.setInputStream(inputStream);
+                        BufferedImage bimg = ImageIO.read(inputStream);
+                        bimg.toString();
+                        int width = bimg.getWidth();
+                        int height = bimg.getHeight();
+                        if (width != height)
+                            errorURL += "?errMsgImgRes=1";
+                        if (width > 512) {
+                            if( errorURL.isEmpty() ) {
+                                errorURL += "?errMsgImgSize=1";
+                            } else {
+                                errorURL += "&errMsgImgSize=1";
+                            }
+                        }
+                        if (!errorURL.isEmpty()){
+                            response.sendRedirect("registration.jsp" + errorURL);
+                            return;
+                        }
+
+                        user.setInputStream(request.getPart("file").getInputStream());
                         UserDAO.editUserAvatar(user);
                     } catch (Exception ex) {
                         user.setInputStream(null);
