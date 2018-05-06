@@ -48,6 +48,12 @@
             </script>
         </c:if>
 
+        <c:if test="${param.err == 'UNKNOWN_REASON'}">
+            <script>
+                alert();
+            </script>
+        </c:if>
+
         <div class="formBox" style="margin-top: 10%;">
             <form action="EnterGameServlet" method="get" id="enterGameForm">
                 <label class="gamePinLabel" for="code">DJAHOOT!</label>

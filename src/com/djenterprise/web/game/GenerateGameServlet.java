@@ -25,7 +25,6 @@ public class GenerateGameServlet extends HttpServlet {
         processRequest(request, response);
     }
 
-    //TODO Generate game
     //TODO Players cant be same
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
