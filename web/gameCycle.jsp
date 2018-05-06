@@ -8,12 +8,27 @@
 <%@ page import="java.util.List" %>
 <%@ page import="com.djenterprise.db.game.GameStateDAO" %>
 <%@ page import="com.djenterprise.db.game.QuestionDAO" %>
+<%@ page import="java.time.LocalTime" %>
+<%@ page import="com.djenterprise.web.game.GameCycleServlet" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
     <head>
         <title>DJahoot!</title>
         <link rel="stylesheet" type="text/css" href="style.css">
         <link rel="icon" href="${pageContext.request.contextPath}/images/djicon.png">
+        <script>
+                var time = <%=GameStateDAO.getStartingTime(request.getParameter("gameID")).toSecondOfDay() + GameCycleServlet.ROUND_LENGTH - LocalTime.now().toSecondOfDay()%>;
+                window.onload = function timer() {
+                    window.document.getElementById('timer').innerText = time;
+                    if (time === 0) {
+                        window.location.replace("GameCycleServlet?answerID=0&gameID=<%=request.getParameter("gameID")%>");
+                    } else {
+                        time--;
+                        setTimeout(timer, 1000);
+                    }
+                }
+        </script>
+
     </head>
     <body>
 
@@ -78,6 +93,7 @@
                             QuestionBO question = list.get(GameStateDAO.getCurrentRound(gameID) - 1);
                             QuestionDAO.fillAnswersToQuestion(question);
 
+                            out.println("<span value =\"\" id = \"timer\" name = \"timer\">");
                             out.println("<input class=\"gamePinSubmit\" type=\"button\" value=\"" + question.getText() +"\" style=\"width:1200px; margin-top: 4px;\" disabled>");
 
                             out.println("<form action=\"GameCycleServlet?answerID=" + question.getAnswers().get(0).getAnswerId() + "&gameID=" + request.getParameter("gameID") + "\" method=\"post\">");

@@ -21,7 +21,7 @@ import java.util.List;
 @WebServlet(name = "GameCycleServlet", urlPatterns = {"/GameCycleServlet"})
 public class GameCycleServlet extends HttpServlet {
 
-    private static final int ROUND_LENGTH = 30; //seconds
+    public static final int ROUND_LENGTH = 30; //seconds
     private static final int POINT_INCREASE = 10; //points
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -39,7 +39,13 @@ public class GameCycleServlet extends HttpServlet {
             LocalTime time = GameStateDAO.getStartingTime(gameID);
             int timeInt = time.toSecondOfDay();
             int answerID = Integer.parseInt(request.getParameter("answerID"));
-            AnswerBO answer = AnswerDAO.getAnswer(answerID);
+            AnswerBO answer;
+            if(answerID != 0) {
+                answer = AnswerDAO.getAnswer(answerID);
+            } else{
+                answer = new AnswerBO();
+                answer.setTruthfulness(0);
+            }
             try {
                 //If a player answers twice or more times, ignore his other answers
                 if(GameStateDAO.isConnected(alias, gameID)) {
@@ -69,6 +75,7 @@ public class GameCycleServlet extends HttpServlet {
                 GameStateBO gameState = GameStateDAO.getGameState(gameID);
                 //If the game has ended, redirect to
                 if (gameState.getNumberOfQuestions() == gameState.getCurrentRound()){
+                    Thread.sleep(1000);
                     response.sendRedirect("scoreScreen.jsp?gameID="+gameID);
                     return;
                 }
