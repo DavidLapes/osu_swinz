@@ -31,8 +31,8 @@ public class CustomGameServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try(PrintWriter out = response.getWriter()) {
 
-            if( request.getParameter("soflow").equals("HOW MANY QUESTIONS TO GENERATE?") ) {
-                response.sendRedirect("createGeneratedGame.jsp?errMsg=__________________________");
+            if( ! request.getParameter("soflow").equals("HOW MANY QUESTIONS TO GENERATE?") ) {
+                response.sendRedirect("GenerateGameServlet?questionCount=" + request.getParameter("soflow"));
                 return;
             }
 
