@@ -73,10 +73,14 @@ public class GameCycleServlet extends HttpServlet {
                     return;
                 }
                 //Player one increments the round
+
+                //Sleep for synchronization
+                Thread.sleep(1000);
+
                 if(GameDAO.isPlayerOne(alias, gameID)){
                     GameStateDAO.nextRound(gameID);
                 }
-                //Sleep for synchronization
+                
                 Thread.sleep(1000);
 
                 response.sendRedirect("gameCycle.jsp?gameID=" + gameID);
