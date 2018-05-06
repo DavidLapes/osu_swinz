@@ -41,21 +41,22 @@ public class GameCycleServlet extends HttpServlet {
             int answerID = Integer.parseInt(request.getParameter("answerID"));
             AnswerBO answer = AnswerDAO.getAnswer(answerID);
             try {
-
+                //If a player answers twice or more times, ignore his other answers
                 if(GameStateDAO.isConnected(alias, gameID)) {
+                    //Sleep until both players have answered or until time has run out
                     while (timeInt + ROUND_LENGTH >= LocalTime.now().toSecondOfDay() && !GameStateDAO.isBothConnected(gameID)) {
                         Thread.sleep(500);
                     }
 
                 } else {
-
+                    //Reset variable for answering question
                     GameStateDAO.setConnected(true, gameID, alias);
 
-
+                    //Sleep until both players have answered or until time has run out
                     while (timeInt + ROUND_LENGTH >= LocalTime.now().toSecondOfDay() && !GameStateDAO.isBothConnected(gameID)) {
                         Thread.sleep(500);
                     }
-
+                    //Check if the answer is correct
                     if (answer.isCorrect()) {
                         if (GameDAO.isPlayerOne(alias, gameID)) {
                             GameStateDAO.playerOnePointsIncrease(gameID, POINT_INCREASE);
@@ -64,16 +65,18 @@ public class GameCycleServlet extends HttpServlet {
                         }
                     }
                 }
+
                 GameStateBO gameState = GameStateDAO.getGameState(gameID);
+                //If the game has ended, redirect to
                 if (gameState.getNumberOfQuestions() == gameState.getCurrentRound()){
                     response.sendRedirect("");
                     return;
                 }
-
+                //Player one increments the round
                 if(GameDAO.isPlayerOne(alias, gameID)){
                     GameStateDAO.nextRound(gameID);
                 }
-
+                //Sleep for synchronization
                 Thread.sleep(1000);
 
                 response.sendRedirect("gameCycle.jsp?gameID=" + gameID);

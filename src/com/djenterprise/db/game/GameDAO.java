@@ -242,6 +242,12 @@ public class GameDAO {
         }
     }
 
+    /**
+     * Checks if the player is Player one in DB
+     * @param alias Alias of player
+     * @param gameId ID of game
+     * @return True if Player is set as Player one
+     */
     static public boolean isPlayerOne(String alias, String gameId){
         try{
             //Connect to DB

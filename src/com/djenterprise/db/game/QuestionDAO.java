@@ -129,6 +129,10 @@ public class QuestionDAO {
         }
     }
 
+    /**
+     * Puts associated Answers of the Question to Answers variable of Question
+     * @param question Question that needs Answers
+     */
     public static void fillAnswersToQuestion(QuestionBO question) {
         try {
             //Connect to DB

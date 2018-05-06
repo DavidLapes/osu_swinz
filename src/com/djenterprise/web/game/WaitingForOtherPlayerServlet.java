@@ -25,6 +25,7 @@ public class WaitingForOtherPlayerServlet extends HttpServlet {
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String gameId = request.getParameter("gameID");
 
+        //Redirect to main game if the game has started
         if (GameStateDAO.isGameStarted(gameId)){
             response.sendRedirect("gameCycle.jsp?gameID=" + gameId);
             return;
@@ -45,7 +46,7 @@ public class WaitingForOtherPlayerServlet extends HttpServlet {
         }
 
         GameStateDAO.setConnected(true, gameId, alias);
-
+        //Cycle to check if both players are connected once every second
         while(!GameStateDAO.isBothConnected(gameId)){
             try{
                 Thread.sleep(1000);
@@ -54,15 +55,17 @@ public class WaitingForOtherPlayerServlet extends HttpServlet {
                 return;
             }
         }
-
+        //Sleep to synchronize
         try {
             Thread.sleep(2000);
         } catch (InterruptedException ex){
             response.sendRedirect("index.jsp?err=UNKNOWN_REASON");
         }
-
+        //Set variable to false for answering purposes
         GameStateDAO.setConnected(false, gameId, alias);
+        //Start game
         GameStateDAO.gameStart(gameId);
+        //Put timer start into DB
         GameStateDAO.nowToDB(gameId);
 
 

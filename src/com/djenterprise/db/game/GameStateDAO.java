@@ -255,7 +255,13 @@ public class GameStateDAO {
         }
     }
 
-    public static void setConnected(boolean conn,  String gameId, String alias){
+    /**
+     * Changes the value of attribute Connected in DB
+     * @param connected Value to be inserted into DB
+     * @param gameId ID of game
+     * @param alias Alias of the player who's value is to be changed
+     * */
+    public static void setConnected(boolean connected,  String gameId, String alias){
         try {
             //Connect to DB
             DBConnection connection = new DBConnection();
@@ -284,7 +290,7 @@ public class GameStateDAO {
             }
 
             statement = connection.getCONNECTION().prepareStatement(query);
-            statement.setBoolean(1, conn);
+            statement.setBoolean(1, connected);
             statement.execute();
 
             //Close statement
@@ -298,6 +304,11 @@ public class GameStateDAO {
         }
     }
 
+    /**
+     * Returns the time when the current round has started
+     * @param gameId ID of game
+     * @return Time when the current round has started
+     */
     static public LocalTime getStartingTime(String gameId){
         try{
             //Connect to DB
@@ -330,6 +341,10 @@ public class GameStateDAO {
         }
     }
 
+    /**
+     * Inserts the current time into DB
+     * @param gameId ID of game
+     */
     public static void nowToDB(String gameId){
         try{
             //Connect to DB
@@ -351,6 +366,11 @@ public class GameStateDAO {
         }
     }
 
+    /**
+     * Returns the current round
+     * @param gameId ID of game
+     * @return returns current round
+     */
     public static int getCurrentRound(String gameId){
         try{
             //Connect to DB
@@ -379,6 +399,12 @@ public class GameStateDAO {
         }
     }
 
+    /**
+     * Returns the value from DB
+     * @param alias Alias of player
+     * @param gameId ID of game
+     * @return true if connected
+     */
     static public boolean isConnected(String alias, String gameId){
         try{
             //Connect to DB
@@ -420,6 +446,10 @@ public class GameStateDAO {
         }
     }
 
+    /**
+     * Sets gamestarted attribute to true
+     * @param gameId ID of game
+     */
     public static void gameStart(String gameId){
         try {
             //Connect to DB
@@ -442,6 +472,11 @@ public class GameStateDAO {
         }
     }
 
+    /**
+     * Returns the value of attribute gamestarted
+     * @param gameId ID of game
+     * @return true if game has started
+     */
     public static boolean isGameStarted(String gameId){
         try {
             //Connect to DB
