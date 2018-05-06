@@ -25,8 +25,6 @@ public class CustomGameServlet extends HttpServlet {
         processRequest(request, response);
     }
 
-    //TODO Custom questions
-    //TODO Players cant be same
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try(PrintWriter out = response.getWriter()) {
