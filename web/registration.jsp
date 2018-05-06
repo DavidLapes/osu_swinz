@@ -57,7 +57,7 @@
             </c:if>
 
             <c:if test="${param.errMsgImgSize == '1'}">
-                <p class="errorTextRegistration">Image is too big.</p>
+                <p class="errorTextRegistration">Image is too big. Must be under or equal to 512 pixels.</p>
             </c:if>
 
             <form action ="RegistrationServlet" method="post" enctype="multipart/form-data">
