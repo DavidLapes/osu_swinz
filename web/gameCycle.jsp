@@ -25,7 +25,7 @@
             <span style="float:left; color: white; margin-left: 300px; font-size: 40px; font-family: fantasy"><%=UserDAO.getUserByAlias(GameDAO.getGame(request.getParameter("gameID")).getPlayerOne()).getAlias()%></span>
             <span style="float: right; color: white; margin-right: 300px; font-size: 40px; font-family: fantasy"><%=UserDAO.getUserByAlias(GameDAO.getGame(request.getParameter("gameID")).getPlayerTwo()).getAlias()%></span>
         </div>
-        <div class="regBox" style="margin-top: 10%;">
+        <div class="regBox" style="margin-top: 10%; height: 900px;">
             <%
                 if( session.getAttribute(Keys.LOGINKEY) == null || ((String) session.getAttribute(Keys.LOGINKEY)).isEmpty() ) {
                     response.sendRedirect("index.jsp");
@@ -40,6 +40,22 @@
                             List<QuestionBO> list = GameDAO.getQuestions(GameDAO.getGame(gameID));
                             QuestionBO question = list.get(GameStateDAO.getCurrentRound(gameID));
                             QuestionDAO.fillAnswersToQuestion(question);
+
+                            out.println("<form action=\"GameCycleServlet?answerID=1?gameID=" + request.getParameter("gameID") + "\" method=\"post\">");
+                            out.println("<input class=\"gamePinSubmit\" type=\"submit\" value=\"" + question.getAnswers().get(0) +"\" style=\"width:510px; margin-left: 30px; margin-top: 4px; text-indent: -90px;\">");
+                            out.println("</form>");
+
+                            out.println("<form action=\"GameCycleServlet?answerID=2?gameID=" + request.getParameter("gameID") + "\" method=\"post\">");
+                            out.println("<input class=\"gamePinSubmit\" type=\"submit\" value=\"" + question.getAnswers().get(1) +"\" style=\"width:510px; margin-left: 30px; margin-top: 4px; text-indent: -90px;\">");
+                            out.println("</form>");
+
+                            out.println("<form action=\"GameCycleServlet?answerID=3?gameID=" + request.getParameter("gameID") + "\" method=\"post\">");
+                            out.println("<input class=\"gamePinSubmit\" type=\"submit\" value=\"" + question.getAnswers().get(2) +"\" style=\"width:510px; margin-left: 30px; margin-top: 4px; text-indent: -90px;\">");
+                            out.println("</form>");
+
+                            out.println("<form action=\"GameCycleServlet?answerID=4?gameID=" + request.getParameter("gameID") + "\" method=\"post\">");
+                            out.println("<input class=\"gamePinSubmit\" type=\"submit\" value=\"" + question.getAnswers().get(3) +"\" style=\"width:510px; margin-left: 30px; margin-top: 4px; text-indent: -90px;\">");
+                            out.println("</form>");
                         }
                     } catch (EntityInstanceNotFoundException ex) {
                         response.sendRedirect("index.jsp?err=WRONG_GAME_ID");

@@ -425,7 +425,7 @@ public class GameStateDAO {
             DBConnection connection = new DBConnection();
             connection.connect();
             String query =
-                    "UPDATE GameState SET gamestarted = 1  WHERE gameid = ?;";
+                    "UPDATE GameState SET gamestarted = 1  WHERE gameid_fk = ?;";
             PreparedStatement statement;
             statement = connection.getCONNECTION().prepareStatement(query);
             statement.setString(1, gameId);
@@ -448,7 +448,7 @@ public class GameStateDAO {
             connection.connect();
             boolean ret;
             String query =
-                    "SELECT gamestarted FROM GameState WHERE gameid = ?;";
+                    "SELECT gamestarted FROM GameState WHERE gameid_fk = ?;";
             PreparedStatement statement;
             statement = connection.getCONNECTION().prepareStatement(query);
             statement.setString(1, gameId);

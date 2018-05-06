@@ -54,6 +54,7 @@ public class WaitingForOtherPlayerServlet extends HttpServlet {
                 return;
             }
         }
+
         try {
             Thread.sleep(2000);
         } catch (InterruptedException ex){
