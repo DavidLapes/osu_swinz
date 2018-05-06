@@ -25,7 +25,6 @@
             } else {
                 try {
                     GameBO game = GameDAO.getGame(request.getParameter("gameID"));
-                    String gameID = request.getParameter("gameID");
                     UserBO loggedUser = UserDAO.getUser((String)session.getAttribute(Keys.LOGINKEY));
                     if( ! ( loggedUser.getAlias().equals(game.getPlayerOne()) || loggedUser.getAlias().equals(game.getPlayerTwo()) ) ) {
                         response.sendRedirect("index.jsp?userErrMsg=AUTHENTICATION_VIOLATED");
@@ -34,24 +33,24 @@
 
                         out.print("<div style=\"width: 1900px; height: 40px;\">");
                         out.print("<span style=\"float: left; color: white; margin-left: 360px; font-size: 40px; font-family: fantasy;\">"
-                                + UserDAO.getUserByAlias(GameDAO.getGame(request.getParameter("gameID")).getPlayerOne()).getAlias()
+                                + UserDAO.getUserByAlias(game.getPlayerOne()).getAlias()
                                 + "</span>"
                         );
 
                         out.print("<span style=\"float: right; color: white; margin-right: 360px; font-size: 40px; font-family: fantasy;\">"
-                                + UserDAO.getUserByAlias(GameDAO.getGame(request.getParameter("gameID")).getPlayerTwo()).getAlias()
+                                + UserDAO.getUserByAlias(game.getPlayerTwo()).getAlias()
                                 + "</span>"
                         );
                         out.print("</div>");
 
                         out.print("<div style=\"width: 1900px; height: 40px; margin-top: 10px;\">");
                         out.print("<span style=\"float: left; color: white; margin-left: 360px; font-size: 40px; font-family: fantasy;\">"
-                                + GameStateDAO.getGameState(gameID).getPlayerOnePoints()
+                                + gamestate.getPlayerOnePoints()
                                 + "</span>"
                         );
 
                         out.print("<span style=\"float: right; color: white; margin-right: 360px; font-size: 40px; font-family: fantasy;\">"
-                                + GameStateDAO.getGameState(gameID).getPlayerTwoPoints()
+                                + gamestate.getPlayerTwoPoints()
                                 + "</span>"
                         );
                         out.print("</div>");
@@ -70,7 +69,6 @@
             } else {
                 try {
                     GameBO game = GameDAO.getGame(request.getParameter("gameID"));
-                    String gameID = request.getParameter("gameID");
                     UserBO loggedUser = UserDAO.getUser((String)session.getAttribute(Keys.LOGINKEY));
                     if( ! ( loggedUser.getAlias().equals(game.getPlayerOne()) || loggedUser.getAlias().equals(game.getPlayerTwo()) ) ) {
                         response.sendRedirect("index.jsp?userErrMsg=AUTHENTICATION_VIOLATED");
@@ -85,22 +83,22 @@
                         );
 
                         out.print("<span style=\"float: left; color: white; font-size: 40px; font-family: fantasy; width: 500px;\">"
-                                + UserDAO.getUserByAlias(GameDAO.getGame(request.getParameter("gameID")).getPlayerOne()).getAlias()
+                                + UserDAO.getUserByAlias(game.getPlayerOne()).getAlias()
                                 + "</span>"
                         );
 
                         out.print("<span style=\"float: right; color: white; font-size: 40px; font-family: fantasy; width: 100px\">"
-                                + GameStateDAO.getGameState(gameID).getPlayerOnePoints()
+                                + gamestate.getPlayerOnePoints()
                                 + "</span>"
                         );
 
                         out.print("<span style=\"float: left; color: white; font-size: 40px; font-family: fantasy; width: 500px;\">"
-                                + UserDAO.getUserByAlias(GameDAO.getGame(request.getParameter("gameID")).getPlayerTwo()).getAlias()
+                                + UserDAO.getUserByAlias(game.getPlayerTwo()).getAlias()
                                 + "</span>"
                         );
 
                         out.print("<span style=\"float: right; color: white; font-size: 40px; font-family: fantasy; width: 100px\">"
-                                + GameStateDAO.getGameState(gameID).getPlayerTwoPoints()
+                                + gamestate.getPlayerTwoPoints()
                                 + "</span>"
                         );
                         out.print("</div>");
