@@ -34,11 +34,13 @@ public class AddQuestionsServlet extends HttpServlet {
             String textAnswer2=request.getParameter("answerSecond");
             String textAnswer3=request.getParameter("answerThird");
             String textAnswer4=request.getParameter("answerFourth");
+            String correctAnswer = request.getParameter("correctAnswer");
             if(textQuestion.isEmpty() || textQuestion == null || textQuestion.equals("FILL QUESTION IN HERE")
                     || textAnswer1.isEmpty() || textAnswer1 == null || textAnswer1.equals("FIRST ANSWER")
                     || textAnswer2.isEmpty() || textAnswer2 == null || textAnswer2.equals("SECOND ANSWER")
                     || textAnswer3.isEmpty() || textAnswer3 == null || textAnswer3.equals("THIRD ANSWER")
-                    || textAnswer4.isEmpty() || textAnswer4 == null || textAnswer4.equals("FOURTH ANSWER")){
+                    || textAnswer4.isEmpty() || textAnswer4 == null || textAnswer4.equals("FOURTH ANSWER")
+                    || correctAnswer.isEmpty() || correctAnswer == null){
                 response.sendRedirect("customQuestions.jsp?errMsg=EMPTY_FIELD");
                 return;
             }
@@ -56,16 +58,12 @@ public class AddQuestionsServlet extends HttpServlet {
             int truthfullness2 = 0;
             int truthfullness3 = 0;
             int truthfullness4 = 0;
-            /*switch (){
-                case 1: truthfullness1 = 1;
-                        break;
-                case 2: truthfullness2 = 1;
-                        break;
-                case 3: truthfullness3 = 1;
-                        break;
-                case 4: truthfullness4 = 1;
-                        break;
-            }*/
+
+            if (correctAnswer.equals("FIRST"))truthfullness1 = 1;
+            if (correctAnswer.equals("SECOND"))truthfullness2 = 1;
+            if (correctAnswer.equals("THIRD"))truthfullness3 = 1;
+            if (correctAnswer.equals("FOURTH"))truthfullness4 = 1;
+
             AnswerBO answer1 = new AnswerBO();
             AnswerBO answer2 = new AnswerBO();
             AnswerBO answer3 = new AnswerBO();
@@ -90,11 +88,12 @@ public class AddQuestionsServlet extends HttpServlet {
             QuestionDAO.fillAnswersToQuestion(question);
             if ((ArrayList) request.getSession().getAttribute(Keys.QUESTIONLISTKEY) == null) {
                 request.getSession().setAttribute(Keys.QUESTIONLISTKEY, new ArrayList<QuestionBO>());
-            } else {
-                ArrayList<QuestionBO> list = (ArrayList<QuestionBO>)request.getSession().getAttribute(Keys.QUESTIONLISTKEY);
-                list.add(question);
-                request.setAttribute(Keys.QUESTIONLISTKEY, list);
             }
+            ArrayList<QuestionBO> list = (ArrayList<QuestionBO>)request.getSession().getAttribute(Keys.QUESTIONLISTKEY);
+            list.add(question);
+            request.setAttribute(Keys.QUESTIONLISTKEY, list);
+
+            response.sendRedirect("customQuestions.jsp");
 
         }
     }
