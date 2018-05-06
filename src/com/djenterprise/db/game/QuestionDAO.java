@@ -89,6 +89,49 @@ public class QuestionDAO {
     }
 
     /**
+     * Returns question with inserted text if exists, otherwise throws EntityInstanceNotFoundException.
+     *
+     * @param text Text of the requested question
+     * @return returns question with inserted ID
+     * @throws EntityInstanceNotFoundException when no question with input ID has been found
+     */
+    public static QuestionBO getQuestion(String text) {
+        try {
+            //Connect to DB
+            DBConnection connection = new DBConnection();
+            connection.connect();
+            //Creates query
+            String query =
+                    "SELECT * FROM Question WHERE text = ?";
+            //Prepares statement and opens connection to the database
+            PreparedStatement statement = connection.getCONNECTION().prepareStatement(query);
+            //Inserts parameter into prepared statement
+            statement.setString(1, text);
+            //Executes query and assigns it to a result set
+            ResultSet rs = statement.executeQuery();
+            //Checks for data
+            if (!rs.next()) {
+                throw new EntityInstanceNotFoundException("There is no question with this text.");
+            }
+            //Inserts data into QuestionBO instance
+            QuestionBO question = new QuestionBO();
+            question.setQuestionId(rs.getInt("questionid"));
+            question.setText(rs.getString("text"));
+            //Closes result set
+            rs.close();
+            //Closes statement
+            statement.close();
+            //Closes connection to the database
+            connection.disconnect();
+            //Returns the question
+            return question;
+        } catch (SQLException SQLEx) {
+            LOGGER.error(SQLEx);
+            throw new RuntimeException(SQLEx);
+        }
+    }
+
+    /**
      * Returns list of questions, if none are found returns empty list.
      *
      * @return returns list of all questions.

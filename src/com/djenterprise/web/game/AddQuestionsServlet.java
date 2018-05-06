@@ -35,12 +35,12 @@ public class AddQuestionsServlet extends HttpServlet {
             String textAnswer3=request.getParameter("answerThird");
             String textAnswer4=request.getParameter("answerFourth");
             String correctAnswer = request.getParameter("correctAnswer");
-            if(textQuestion.isEmpty() || textQuestion == null || textQuestion.equals("FILL QUESTION IN HERE")
-                    || textAnswer1.isEmpty() || textAnswer1 == null || textAnswer1.equals("FIRST ANSWER")
-                    || textAnswer2.isEmpty() || textAnswer2 == null || textAnswer2.equals("SECOND ANSWER")
-                    || textAnswer3.isEmpty() || textAnswer3 == null || textAnswer3.equals("THIRD ANSWER")
-                    || textAnswer4.isEmpty() || textAnswer4 == null || textAnswer4.equals("FOURTH ANSWER")
-                    || correctAnswer.isEmpty() || correctAnswer == null){
+            if(textQuestion == null || textQuestion.isEmpty() || textQuestion.equals("FILL QUESTION IN HERE")
+                    || textAnswer1 == null ||textAnswer1.isEmpty() ||  textAnswer1.equals("FIRST ANSWER")
+                    || textAnswer2 == null ||textAnswer2.isEmpty() ||  textAnswer2.equals("SECOND ANSWER")
+                    || textAnswer3 == null ||textAnswer3.isEmpty() ||  textAnswer3.equals("THIRD ANSWER")
+                    || textAnswer4 == null ||textAnswer4.isEmpty() ||  textAnswer4.equals("FOURTH ANSWER")
+                    || correctAnswer == null || correctAnswer.isEmpty()) {
                 response.sendRedirect("customQuestions.jsp?errMsg=EMPTY_FIELD");
                 return;
             }

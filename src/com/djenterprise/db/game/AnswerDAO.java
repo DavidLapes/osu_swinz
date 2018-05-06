@@ -19,7 +19,6 @@ public class AnswerDAO {
      * Adds inserted answer into the database.
      * @param answer answer to be added into the database.
      */
-    @Deprecated
     public static void createAnswer(AnswerBO answer){
         try {
             //Connects to DB
@@ -70,7 +69,7 @@ public class AnswerDAO {
             ResultSet rs = statement.executeQuery();
             //Checks for data
             if( ! rs.next() ) {
-                throw new EntityInstanceNotFoundException("There is no answer with this id.");
+                throw new EntityInstanceNotFoundException("There is no answer with this id " + answerID);
             }
             //Inserts data into AnswerBO instance
             AnswerBO answer = new AnswerBO();
