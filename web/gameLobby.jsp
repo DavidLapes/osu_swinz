@@ -13,11 +13,12 @@
     </head>
     <body>
         <%
+            GameBO game = null;
             if( session.getAttribute(Keys.LOGINKEY) == null || ((String) session.getAttribute(Keys.LOGINKEY)).isEmpty() ) {
                 response.sendRedirect("index.jsp");
             } else {
                 try {
-                    GameBO game = GameDAO.getGame(request.getParameter("gameID"));
+                    game = GameDAO.getGame(request.getParameter("gameID"));
                     UserBO loggedUser = UserDAO.getUser((String)session.getAttribute(Keys.LOGINKEY));
                     if( ! ( loggedUser.getAlias().equals(game.getPlayerOne()) || loggedUser.getAlias().equals(game.getPlayerTwo()) ) ) {
                         response.sendRedirect("index.jsp?userErrMsg=AUTHENTICATION_VIOLATED");
@@ -36,9 +37,14 @@
             <span style="float:left; color: white; margin-left: 300px; font-size: 40px; font-family: fantasy"><%=UserDAO.getUserByAlias(GameDAO.getGame(request.getParameter("gameID")).getPlayerOne()).getAlias()%></span>
             <span style="float: right; color: white; margin-right: 300px; font-size: 40px; font-family: fantasy"><%=UserDAO.getUserByAlias(GameDAO.getGame(request.getParameter("gameID")).getPlayerTwo()).getAlias()%></span>
         </div>
-        <div class="regBox" style="margin-top: 10%;">
+        <div class="regBox" style="margin-top: 5%;">
             <form action="WaitingForOtherPlayerServlet?gameID=<%= request.getParameter("gameID")%>" method="post">
-                <input class="gamePinSubmit" type="submit" value="I AM READY!">
+                <%
+                    if( game != null ) {
+                        out.print("<span style=\"text-align: center; font-size: 50px; margin-left: 200px; color: white;\">" + game.getGameId() + "</span>");
+                    }
+                %>
+                <input class="gamePinSubmit" type="submit" value="I AM READY!" style="margin-top: 30px;">
             </form>
         </div>
     </body>
