@@ -56,7 +56,13 @@ public class GenerateGameServlet extends HttpServlet {
             String playerOne = request.getParameter("playerOne");
             String playerTwo = request.getParameter("playerTwo");
 
-            String gameID = GameConstruct.constructGame( creator,playerOne,playerTwo);
+            String gameID;
+
+            if( request.getParameter("questionCount") != null ) {
+                gameID = GameConstruct.constructGame(creator, playerOne, playerTwo, Integer.parseInt(request.getParameter("questionCount")));
+            } else {
+                gameID = GameConstruct.constructGame(creator, playerOne, playerTwo);
+            }
 
             response.sendRedirect("/gameLobby.jsp?gameID=" + gameID);
         }

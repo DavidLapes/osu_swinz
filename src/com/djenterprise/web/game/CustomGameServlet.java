@@ -31,11 +31,6 @@ public class CustomGameServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try(PrintWriter out = response.getWriter()) {
 
-            if( ! request.getParameter("soflow").equals("HOW MANY QUESTIONS TO GENERATE?") ) {
-                response.sendRedirect("GenerateGameServlet?questionCount=" + request.getParameter("soflow"));
-                return;
-            }
-
             try {
                 UserDAO.getUserByAlias(request.getParameter("playerOne"));
             } catch (EntityInstanceNotFoundException ex) {
@@ -55,6 +50,16 @@ public class CustomGameServlet extends HttpServlet {
                             UserDAO.getUserByAlias(request.getParameter("playerTwo")).getAlias())
                     ) {
                 response.sendRedirect("createGeneratedGame.jsp?errAlias=ALIASES_SAME");
+                return;
+            }
+
+            if( ! request.getParameter("soflow").equals("HOW MANY QUESTIONS TO GENERATE?") ) {
+                response.sendRedirect("GenerateGameServlet?questionCount="
+                        + request.getParameter("soflow")
+                        + "&playerOne="
+                        + request.getParameter("playerOne")
+                        + "&playerTwo="
+                        + request.getParameter("playerTwo"));
                 return;
             }
 
