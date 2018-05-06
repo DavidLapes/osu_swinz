@@ -50,7 +50,13 @@
 
         <c:if test="${param.err == 'UNKNOWN_REASON'}">
             <script>
-                alert();
+                alert("Oops! We are sorry... something unknown even to us has happened. We have already sent our trained cats!");
+            </script>
+        </c:if>
+
+        <c:if test="${param.sessionExpired == 'TRUE'}">
+            <script>
+                alert("Session has expired. Please, repeat your actions!");
             </script>
         </c:if>
 

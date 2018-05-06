@@ -46,7 +46,7 @@
                 </fieldset>
                 <input class="gamePinSubmit" type="submit" value="ADD QUESTION" name="submit" id="submit" style="width: 900px; margin-bottom: 3px;">
             </form>
-            <form action="customQuestions.jsp" method="post">
+            <form action="createCustomGame.jsp" method="post">
                 <input class="gamePinSubmit" type="submit" value="PREVIOUS PAGE" style="width: 900px; margin-top: 3px;">
             </form>
         </div>
