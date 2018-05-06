@@ -66,6 +66,7 @@ public class CustomGameServlet extends HttpServlet {
             String selectOption = request.getParameter("soflow");
             selectOption = selectOption.trim();
 
+
             int questionCount = Integer.parseInt(selectOption);
 
             String creator = (String) session.getAttribute(Keys.LOGINKEY);
