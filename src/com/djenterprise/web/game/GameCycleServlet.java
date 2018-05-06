@@ -69,7 +69,7 @@ public class GameCycleServlet extends HttpServlet {
                 GameStateBO gameState = GameStateDAO.getGameState(gameID);
                 //If the game has ended, redirect to
                 if (gameState.getNumberOfQuestions() == gameState.getCurrentRound()){
-                    response.sendRedirect("");
+                    response.sendRedirect("scoreScreen.jsp?gameID="+gameID);
                     return;
                 }
                 //Player one increments the round
