@@ -32,14 +32,14 @@ public class CustomGameServlet extends HttpServlet {
             try {
                 UserDAO.getUserByAlias(request.getParameter("playerOne"));
             } catch (EntityInstanceNotFoundException ex) {
-                response.sendRedirect("createGeneratedGame.jsp?errAlias=ALIAS_ONE_NOT_EXISTS");
+                response.sendRedirect("createCustomGame.jsp?errAlias=ALIAS_ONE_NOT_EXISTS");
                 return;
             }
 
             try {
                 UserDAO.getUserByAlias(request.getParameter("playerTwo"));
             } catch (EntityInstanceNotFoundException ex) {
-                response.sendRedirect("createGeneratedGame.jsp?errAlias=ALIAS_TWO_NOT_EXISTS");
+                response.sendRedirect("createCustomGame.jsp?errAlias=ALIAS_TWO_NOT_EXISTS");
                 return;
             }
 
@@ -47,7 +47,7 @@ public class CustomGameServlet extends HttpServlet {
                     .equals(
                             UserDAO.getUserByAlias(request.getParameter("playerTwo")).getAlias())
                     ) {
-                response.sendRedirect("createGeneratedGame.jsp?errAlias=ALIASES_SAME");
+                response.sendRedirect("createCustomGame.jsp?errAlias=ALIASES_SAME");
                 return;
             }
 
