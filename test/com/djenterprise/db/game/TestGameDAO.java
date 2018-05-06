@@ -2,9 +2,12 @@ package com.djenterprise.db.game;
 
 import com.djenterprise.app.game.GameBO;
 import com.djenterprise.app.game.QuestionBO;
+import com.djenterprise.db.connection.DBConnection;
 import org.junit.Test;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class TestGameDAO {
@@ -31,5 +34,16 @@ public class TestGameDAO {
     @Test
     public void test02DeleteGame() {
         GameDAO.deleteGame(GAME_ID);
+    }
+
+    @Test
+    public void test03ActualTime() {
+        GameBO game = GameDAO.getGame("01234567");
+        Timestamp timestamp = game.getDateCreated();
+        Date now = new Date();
+        Date earlier = new Date(timestamp.getTime());
+        System.out.println( ( now.getTime() - earlier.getTime() ) / ( 1000 ));
+        System.out.println(now.getTime());
+        System.out.println(earlier.getTime());
     }
 }

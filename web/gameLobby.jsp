@@ -27,7 +27,7 @@
                 }
             }
         %>
-        
+
         <div style="width: 1900px; height: 256px; margin-top: 100px;">
             <img src="DisplayAvatarServlet?player=player_one&gameID=<%= request.getParameter("gameID")%>" name="playerOneImg" id="playerOneImg" style="height: 256px; width: 256px; float: left; margin-left: 300px;">
             <img src="DisplayAvatarServlet?player=player_two&gameID=<%= request.getParameter("gameID")%>" name="playerTwoImg" id="playerTwoImg" style="height: 256px; width: 256px; float: left; margin-left: 788px; margin-right: 300px;">
