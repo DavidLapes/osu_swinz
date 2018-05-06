@@ -124,4 +124,38 @@ public class QuestionDAO {
             throw new RuntimeException(SQLEx);
         }
     }
+
+    public static List <Integer> getGameQuestions(String gameId){
+        try {
+            //Connect to DB
+            DBConnection connection = new DBConnection();
+            connection.connect();
+            //Creates query
+            String query =
+                    "SELECT * FROM GameQuestions where gameid_fk = ?";
+            //Prepares statement and opens connection to the database
+            PreparedStatement statement = connection.getCONNECTION().prepareStatement(query);
+            statement.setString(1, gameId);
+            //Executes query and assigns it to a result set
+            ResultSet rs = statement.executeQuery();
+            //Creates returned list instance
+            List <Integer> list = new ArrayList<>();
+            //Adds all data into the list
+            while (rs.next()) {
+                Integer in = rs.getInt("questionid");
+                list.add(in);
+            }
+            //Closes result set
+            rs.close();
+            //Closes statement
+            statement.close();
+            //Closes connection to the database
+            connection.disconnect();
+            //Returns the list of questions
+            return list;
+        } catch (SQLException SQLEx) {
+            LOGGER.error(SQLEx);
+            throw new RuntimeException(SQLEx);
+        }
+    }
 }

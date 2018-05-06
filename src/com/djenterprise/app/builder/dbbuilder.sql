@@ -35,7 +35,8 @@ CREATE TABLE `GameState` (
   `player_one_answered` BIT,
   `player_two_answered` BIT,
   `player_one_connected` BIT,
-  `player_two_connected` BIT
+  `player_two_connected` BIT,
+  `question_start` TIME
 );
 
 CREATE TABLE `Game` (

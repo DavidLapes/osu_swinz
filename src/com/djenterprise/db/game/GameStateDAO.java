@@ -10,6 +10,9 @@ import org.apache.log4j.Logger;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Time;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 public class GameStateDAO {
@@ -287,6 +290,57 @@ public class GameStateDAO {
             connection.disconnect();
 
         } catch (SQLException SQLEx){
+            LOGGER.error(SQLEx);
+            throw new RuntimeException(SQLEx);
+        }
+    }
+    static public LocalTime getStartingTime(String gameId){
+        try{
+            //Connect to DB
+            DBConnection connection = new DBConnection();
+            connection.connect();
+            // Declare return variable
+            LocalTime ret;
+            //Create query script
+            String query =
+                    "SELECT question_start FROM GameState WHERE gameid_fk = ?;";
+            PreparedStatement statement = connection.getCONNECTION().prepareStatement(query);
+            statement.setString(1, gameId);
+            //Execute statement and save result into ResultSet
+            ResultSet resultSet = statement.executeQuery();
+            if( ! resultSet.next() ) {
+                throw new EntityInstanceNotFoundException("No game with ID " + gameId + " was found.");
+            }
+            ret = resultSet.getTime("question_start").toLocalTime();
+            //Close result set
+            resultSet.close();
+            //Close statement
+            statement.close();
+            //Close DB connection
+            connection.disconnect();
+            //Return GameBO instance
+            return ret;
+        } catch (SQLException SQLEx) {
+            LOGGER.error(SQLEx);
+            throw new RuntimeException(SQLEx);
+        }
+    }
+
+    public static void nowToDB(String gameId){
+        try{
+            //Connect to DB
+            DBConnection connection = new DBConnection();
+            connection.connect();
+            //Create query script
+            String query =
+                    "UPDATE GameState SET question_start = CURTIME() WHERE gameid_fk = ?;";
+            PreparedStatement statement = connection.getCONNECTION().prepareStatement(query);
+            statement.setString(1, gameId);
+            //Close statement
+            statement.close();
+            //Close DB connection
+            connection.disconnect();
+        } catch (SQLException SQLEx) {
             LOGGER.error(SQLEx);
             throw new RuntimeException(SQLEx);
         }
