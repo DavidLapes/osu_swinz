@@ -1,6 +1,7 @@
 package com.djenterprise.web.game;
 
 import com.djenterprise.app.game.AnswerBO;
+import com.djenterprise.app.game.GameStateBO;
 import com.djenterprise.db.game.AnswerDAO;
 import com.djenterprise.db.game.GameDAO;
 import com.djenterprise.db.game.GameStateDAO;
@@ -62,6 +63,11 @@ public class GameCycleServlet extends HttpServlet {
                             GameStateDAO.playerTwoPointsIncrease(gameID, POINT_INCREASE);
                         }
                     }
+                }
+                GameStateBO gameState = GameStateDAO.getGameState(gameID);
+                if (gameState.getNumberOfQuestions() == gameState.getCurrentRound()){
+                    response.sendRedirect("");
+                    return;
                 }
 
                 if(GameDAO.isPlayerOne(alias, gameID)){
