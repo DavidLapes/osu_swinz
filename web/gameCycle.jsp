@@ -21,35 +21,47 @@
             <img src="DisplayAvatarServlet?player=player_one&gameID=<%= request.getParameter("gameID")%>" name="playerOneImg" id="playerOneImg" style="height: 256px; width: 256px; float: left; margin-left: 360px;">
             <img src="DisplayAvatarServlet?player=player_two&gameID=<%= request.getParameter("gameID")%>" name="playerTwoImg" id="playerTwoImg" style="height: 256px; width: 256px; float: left; margin-left: 668px; margin-right: 360px;">
         </div>
-        <div style="width: 1900px; height: 40px;">
-            <%
-                if( session.getAttribute(Keys.LOGINKEY) == null || ((String) session.getAttribute(Keys.LOGINKEY)).isEmpty() ) {
-                    response.sendRedirect("index.jsp");
-                } else {
-                    try {
-                        GameBO game = GameDAO.getGame(request.getParameter("gameID"));
-                        UserBO loggedUser = UserDAO.getUser((String)session.getAttribute(Keys.LOGINKEY));
-                        if( ! ( loggedUser.getAlias().equals(game.getPlayerOne()) || loggedUser.getAlias().equals(game.getPlayerTwo()) ) ) {
-                            response.sendRedirect("index.jsp?userErrMsg=AUTHENTICATION_VIOLATED");
-                        } else {
-                            String gameID = request.getParameter("gameID");
-                            out.print("<span style=\"float: left; color: white; margin-left: 360px; font-size: 40px; font-family: fantasy;\">"
-                                            + UserDAO.getUserByAlias(GameDAO.getGame(request.getParameter("gameID")).getPlayerOne()).getAlias() );%>
-                                            <%= GameStateDAO.getGameState(gameID).getPlayerOnePoints() + ""%>
-                            <% out.print("</span");
+        <%
+            if( session.getAttribute(Keys.LOGINKEY) == null || ((String) session.getAttribute(Keys.LOGINKEY)).isEmpty() ) {
+                response.sendRedirect("index.jsp");
+            } else {
+                try {
+                    GameBO game = GameDAO.getGame(request.getParameter("gameID"));
+                    UserBO loggedUser = UserDAO.getUser((String)session.getAttribute(Keys.LOGINKEY));
+                    if( ! ( loggedUser.getAlias().equals(game.getPlayerOne()) || loggedUser.getAlias().equals(game.getPlayerTwo()) ) ) {
+                        response.sendRedirect("index.jsp?userErrMsg=AUTHENTICATION_VIOLATED");
+                    } else {
+                        String gameID = request.getParameter("gameID");
 
-                            out.print("<span style=\"float: right; color: white; margin-right: 360px; font-size: 40px; font-family: fantasy;\">"
-                                            + UserDAO.getUserByAlias(GameDAO.getGame(request.getParameter("gameID")).getPlayerTwo()).getAlias() );%>
-                                            <%= String.valueOf(GameStateDAO.getGameState(gameID).getPlayerTwoPoints())%>
-                            <% out.print("</span");
+                        out.print("<div style=\"width: 1900px; height: 40px;\">");
+                        out.print("<span style=\"float: left; color: white; margin-left: 360px; font-size: 40px; font-family: fantasy;\">"
+                                + UserDAO.getUserByAlias(GameDAO.getGame(request.getParameter("gameID")).getPlayerOne()).getAlias()
+                                + "</span>"
+                        );
 
-                        }
-                    } catch (EntityInstanceNotFoundException ex) {
-                        response.sendRedirect("index.jsp?err=WRONG_GAME_ID");
+                        out.print("<span style=\"float: right; color: white; margin-right: 360px; font-size: 40px; font-family: fantasy;\">"
+                                + UserDAO.getUserByAlias(GameDAO.getGame(request.getParameter("gameID")).getPlayerTwo()).getAlias()
+                                + "</span>"
+                        );
+                        out.print("</div>");
+
+                        out.print("<div style=\"width: 1900px; height: 40px; margin-top: 10px;\">");
+                        out.print("<span style=\"float: left; color: white; margin-left: 360px; font-size: 40px; font-family: fantasy;\">"
+                                + GameStateDAO.getGameState(gameID).getPlayerOnePoints()
+                                + "</span>"
+                        );
+
+                        out.print("<span style=\"float: right; color: white; margin-right: 360px; font-size: 40px; font-family: fantasy;\">"
+                                + GameStateDAO.getGameState(gameID).getPlayerTwoPoints()
+                                + "</span>"
+                        );
+                        out.print("</div>");
                     }
+                } catch (EntityInstanceNotFoundException ex) {
+                    response.sendRedirect("index.jsp?err=WRONG_GAME_ID");
                 }
-            %>
-        </div>
+            }
+        %>
         <div class="regBox" style="margin-top: 10%; height: 250px; width: 1200px;">
             <%
                 if( session.getAttribute(Keys.LOGINKEY) == null || ((String) session.getAttribute(Keys.LOGINKEY)).isEmpty() ) {
