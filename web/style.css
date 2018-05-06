@@ -232,3 +232,27 @@ select#soflow {
     text-align-last:center;
     direction: ltr;
 }
+
+input[type=radio] {
+    display:none;
+    margin:10px;
+}
+
+input[type=radio] + label {
+    display:inline-block;
+    padding: 4px 12px;
+    background: #333333;
+    border-color: #333333;
+    width: 189px;
+    height: 50px;
+    text-align: center;
+    vertical-align: center;
+    font-size: 40px;
+    color: white;
+}
+
+input[type=radio]:checked + label {
+    background: white none;
+    text-align: center;
+    color: #333333;
+}

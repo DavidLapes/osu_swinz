@@ -2,18 +2,17 @@
 <%@ page import="com.djenterprise.web.user.Keys" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
-<head>
-    <title>DJahoot!</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
-    <link rel="icon" href="${pageContext.request.contextPath}/images/djicon.png">
-</head>
+    <head>
+        <title>DJahoot!</title>
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <link rel="icon" href="${pageContext.request.contextPath}/images/djicon.png">
+    </head>
     <body>
         <%
             if( session.getAttribute(Keys.LOGINKEY) == null || ((String) session.getAttribute(Keys.LOGINKEY)).isEmpty() ) {
                 response.sendRedirect("index.jsp");
+                return;
             }
-
-            //TODO Everything
         %>
 
         <c:if test="${param.errAlias == 'ALIAS_ONE_NOT_EXISTS'}">
@@ -49,10 +48,10 @@
                     <option>45</option>
                     <option>50</option>
                 </select>
-                <%
-                    //TODO Custom questions
-                %>
                 <input class="gamePinSubmit" type="submit" value="CREATE" name="submit" id="submit">
+            </form>
+            <form action="customQuestions.jsp" method="post">
+                <input class="gamePinSubmit" type="submit" value="CUSTOM QUESTIONS" name="submit" id="customQs">
             </form>
         </div>
     </body>
