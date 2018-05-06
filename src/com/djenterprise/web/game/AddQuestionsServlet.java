@@ -29,7 +29,7 @@ public class AddQuestionsServlet extends HttpServlet {
 
             QuestionBO question = new QuestionBO();
             QuestionDAO.createQuestion(question);
-            question = QuestionDAO.getQuestion(question.getText());
+            //question = QuestionDAO.getQuestion(question.getText());
 
             boolean truthfullness1 = false;
             boolean truthfullness2 = false;

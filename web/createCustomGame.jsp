@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="com.djenterprise.web.user.Keys" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -8,14 +9,29 @@
 </head>
     <body>
         <%
-            /*
             if( session.getAttribute(Keys.LOGINKEY) == null || ((String) session.getAttribute(Keys.LOGINKEY)).isEmpty() ) {
                 response.sendRedirect("index.jsp");
             }
-            */
 
             //TODO Everything
         %>
+
+        <c:if test="${param.errAlias == 'ALIAS_ONE_NOT_EXISTS'}">
+            <p class="errorTextRegistration">Please, check your first alias.</p>
+        </c:if>
+
+        <c:if test="${param.errAlias == 'ALIAS_TWO_NOT_EXISTS'}">
+            <p class="errorTextRegistration">Please, check your second alias.</p>
+        </c:if>
+
+        <c:if test="${param.errAlias == 'ALIASES_SAME'}">
+            <p class="errorTextRegistration">Aliases entered can not be same.</p>
+        </c:if>
+
+        <c:if test="${param.errMsg == 'questionCount'}">
+            <p class="errorTextRegistration">Please, specify question count.</p>
+        </c:if>
+
         <div class="formBox">
             <form action ="CustomGameServlet" method="post">
                 <input class="regInput" type ="text" name="playerOne" id="playerOne" value="ALIAS OF PLAYER ONE" onblur=" if (this.value === '') {this.value = 'ALIAS OF PLAYER ONE';}" onfocus="if (this.value === 'ALIAS OF PLAYER ONE') {this.value = '';}">

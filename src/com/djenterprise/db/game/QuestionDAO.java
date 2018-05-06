@@ -22,7 +22,6 @@ public class QuestionDAO {
      *
      * @param questionBO question to be added to the database.
      */
-    @Deprecated
     public static void createQuestion(QuestionBO questionBO) {
         try {
             //Connect to DB
