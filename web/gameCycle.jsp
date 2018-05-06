@@ -34,16 +34,15 @@
                         } else {
                             String gameID = request.getParameter("gameID");
                             out.print("<span style=\"float: left; color: white; margin-left: 360px; font-size: 40px; font-family: fantasy;\">"
-                                            + UserDAO.getUserByAlias(GameDAO.getGame(request.getParameter("gameID")).getPlayerOne()).getAlias()
-                                            + GameStateDAO.getGameState(gameID).getPlayerOnePoints()
-                                    + "</span>"
-                            );
+                                            + UserDAO.getUserByAlias(GameDAO.getGame(request.getParameter("gameID")).getPlayerOne()).getAlias() );%>
+                                            <%= GameStateDAO.getGameState(gameID).getPlayerOnePoints() + ""%>
+                            <% out.print("</span");
 
                             out.print("<span style=\"float: right; color: white; margin-right: 360px; font-size: 40px; font-family: fantasy;\">"
-                                            + UserDAO.getUserByAlias(GameDAO.getGame(request.getParameter("gameID")).getPlayerTwo()).getAlias()
-                                            + GameStateDAO.getGameState(gameID).getPlayerTwoPoints()
-                                    + "</span>"
-                            );
+                                            + UserDAO.getUserByAlias(GameDAO.getGame(request.getParameter("gameID")).getPlayerTwo()).getAlias() );%>
+                                            <%= String.valueOf(GameStateDAO.getGameState(gameID).getPlayerTwoPoints())%>
+                            <% out.print("</span");
+
                         }
                     } catch (EntityInstanceNotFoundException ex) {
                         response.sendRedirect("index.jsp?err=WRONG_GAME_ID");
