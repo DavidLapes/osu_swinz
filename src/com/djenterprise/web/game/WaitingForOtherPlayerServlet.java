@@ -28,14 +28,14 @@ public class WaitingForOtherPlayerServlet extends HttpServlet {
         String alias = (String) request.getSession().getAttribute(Keys.ALIASKEY);
 
         if (gameId == null || gameId.isEmpty()){
-            response.sendRedirect("index.jsp?errWrongGameID=2");
+            response.sendRedirect("index.jsp?err=WRONG_GAME_ID");
             return;
         }
 
         try{
             GameDAO.getGame(gameId);
         } catch(EntityInstanceNotFoundException ex){
-            response.sendRedirect("index.jsp?errWrongGameID=1");
+            response.sendRedirect("index.jsp?err=WRONG_GAME_ID");
             return;
         }
 
