@@ -50,7 +50,8 @@ public class AddQuestionsServlet extends HttpServlet {
             try {
                 QuestionDAO.createQuestion(question);
             } catch (Exception ex){
-                response.sendRedirect("customQuestions.jsp?errMsg=EMPTY_FIELD");
+                response.sendRedirect("customQuestions.jsp?errMsg=ALREADY_EXISTS");
+                return;
             }
             question = QuestionDAO.getQuestion(question.getText());
 

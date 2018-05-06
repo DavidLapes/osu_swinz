@@ -25,6 +25,10 @@
             <p class="errorTextRegistration">Some fields were left unfilled.</p>
         </c:if>
 
+        <c:if test="${param.errMsg == 'ALREADY_EXISTS'}">
+            <p class="errorTextRegistration">Question already exists.</p>
+        </c:if>
+
         <div class="regBox" style="width: 900px; margin-top: 15%;">
             <form action ="AddQuestionsServlet" method="post">
                 <input class="regInput" type="text" name="questionInput" id="questionInput" style="width: 900px;" value="FILL QUESTION IN HERE" onblur=" if (this.value === '') {this.value = 'FILL QUESTION IN HERE';} theBlur(this);" onfocus="if (this.value === 'FILL QUESTION IN HERE') {this.value = '';} theFocus(this);">

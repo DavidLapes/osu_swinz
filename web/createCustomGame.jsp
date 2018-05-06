@@ -36,7 +36,7 @@
                 <input class="regInput" type ="text" name="playerOne" id="playerOne" value="ALIAS OF PLAYER ONE" onblur=" if (this.value === '') {this.value = 'ALIAS OF PLAYER ONE';}" onfocus="if (this.value === 'ALIAS OF PLAYER ONE') {this.value = '';}">
                 <input class="regInput" type="text" name="playerTwo" id="playerTwo" value="ALIAS OF PLAYER TWO" onblur=" if (this.value === '') {this.value = 'ALIAS OF PLAYER TWO';}" onfocus="if (this.value === 'ALIAS OF PLAYER TWO') {this.value = '';}">
                 <select id="soflow" name="soflow">
-                    <option>HOW MANY QUESTIONS?</option>
+                    <option>HOW MANY QUESTIONS TO GENERATE?</option>
                     <option>5</option>
                     <option>10</option>
                     <option>15</option>
@@ -51,7 +51,7 @@
                 <input class="gamePinSubmit" type="submit" value="CREATE" name="submit" id="submit">
             </form>
             <form action="customQuestions.jsp" method="post">
-                <input class="gamePinSubmit" type="submit" value="CUSTOM QUESTIONS" name="submit" id="customQs">
+                <input class="gamePinSubmit" type="submit" value="CUSTOM QUESTIONS INSTEAD" name="submit" id="customQs">
             </form>
         </div>
     </body>
