@@ -43,16 +43,16 @@ public class GameCycleServlet extends HttpServlet {
             try {
 
                 if(GameStateDAO.isConnected(alias, gameID)) {
-                    while (timeInt + ROUND_LENGTH >= LocalTime.now().toSecondOfDay() || GameStateDAO.isBothConnected(gameID)) {
+                    while (timeInt + ROUND_LENGTH >= LocalTime.now().toSecondOfDay() && !GameStateDAO.isBothConnected(gameID)) {
                         Thread.sleep(500);
                     }
 
                 } else {
 
-                    GameStateDAO.setConnected(true, alias, gameID);
+                    GameStateDAO.setConnected(true, gameID, alias);
 
 
-                    while (timeInt + ROUND_LENGTH >= LocalTime.now().toSecondOfDay() || GameStateDAO.isBothConnected(gameID)) {
+                    while (timeInt + ROUND_LENGTH >= LocalTime.now().toSecondOfDay() && !GameStateDAO.isBothConnected(gameID)) {
                         Thread.sleep(500);
                     }
 

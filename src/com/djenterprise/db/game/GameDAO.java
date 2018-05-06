@@ -251,7 +251,7 @@ public class GameDAO {
             String dbAlias;
             //Create query script
             String query =
-                    "SELECT player_one FROM Game WHERE gameid_fk = ?;";
+                    "SELECT player_one FROM Game WHERE gameid = ?;";
             PreparedStatement statement = connection.getCONNECTION().prepareStatement(query);
             statement.setString(1, gameId);
             //Execute statement and save result into ResultSet

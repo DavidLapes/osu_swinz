@@ -63,6 +63,7 @@ public class WaitingForOtherPlayerServlet extends HttpServlet {
 
         GameStateDAO.setConnected(false, gameId, alias);
         GameStateDAO.gameStart(gameId);
+        GameStateDAO.nowToDB(gameId);
 
 
         response.sendRedirect("gameCycle.jsp?gameID=" + gameId);

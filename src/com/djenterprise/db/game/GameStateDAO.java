@@ -151,6 +151,7 @@ public class GameStateDAO {
             statement.execute();
             //Close statement
             statement.close();
+            GameStateDAO.nowToDB(gameId);
             //Close DB
             connection.disconnect();
         } catch (SQLException SQLEx) {
@@ -254,7 +255,7 @@ public class GameStateDAO {
         }
     }
 
-    public static void setConnected(boolean conn,String gameId, String alias){
+    public static void setConnected(boolean conn,  String gameId, String alias){
         try {
             //Connect to DB
             DBConnection connection = new DBConnection();
