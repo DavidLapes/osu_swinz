@@ -31,6 +31,10 @@
             <p class="errorTextRegistration">Please, specify question count.</p>
         </c:if>
 
+        <c:if test="${param.errQuestionSet == 'EMPTY_SET'}">
+            <p class="errorTextRegistration">Question attribute not configured.</p>
+        </c:if>
+
         <div class="formBox">
             <form action ="CustomGameServlet" method="post">
                 <input class="regInput" type ="text" name="playerOne" id="playerOne" value="ALIAS OF PLAYER ONE" onblur=" if (this.value === '') {this.value = 'ALIAS OF PLAYER ONE';}" onfocus="if (this.value === 'ALIAS OF PLAYER ONE') {this.value = '';}">

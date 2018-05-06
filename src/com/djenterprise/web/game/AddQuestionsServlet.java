@@ -87,7 +87,7 @@ public class AddQuestionsServlet extends HttpServlet {
             AnswerDAO.createAnswer(answer4);
 
             QuestionDAO.fillAnswersToQuestion(question);
-            if ((ArrayList) request.getSession().getAttribute(Keys.QUESTIONLISTKEY) == null) {
+            if ( request.getSession().getAttribute(Keys.QUESTIONLISTKEY) == null) {
                 request.getSession().setAttribute(Keys.QUESTIONLISTKEY, new ArrayList<QuestionBO>());
             }
             ArrayList<QuestionBO> list = (ArrayList<QuestionBO>)request.getSession().getAttribute(Keys.QUESTIONLISTKEY);
