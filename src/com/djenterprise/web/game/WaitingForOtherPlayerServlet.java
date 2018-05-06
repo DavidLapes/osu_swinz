@@ -25,6 +25,11 @@ public class WaitingForOtherPlayerServlet extends HttpServlet {
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String gameId = request.getParameter("gameID");
 
+        if (GameStateDAO.isGameStarted(gameId)){
+            response.sendRedirect("gameCycle.jsp?gameID=" + gameId);
+            return;
+        }
+
         String alias = (String) request.getSession().getAttribute(Keys.ALIASKEY);
 
         if (gameId == null || gameId.isEmpty()){
@@ -39,9 +44,9 @@ public class WaitingForOtherPlayerServlet extends HttpServlet {
             return;
         }
 
-        GameStateDAO.playerPresent(gameId, alias);
+        GameStateDAO.setConnected(true, gameId, alias);
 
-        while(!GameStateDAO.bothConnected(gameId)){
+        while(!GameStateDAO.isBothConnected(gameId)){
             try{
                 Thread.sleep(1000);
             } catch (InterruptedException ex){
@@ -49,8 +54,17 @@ public class WaitingForOtherPlayerServlet extends HttpServlet {
                 return;
             }
         }
-        //TODO Redirect
-        response.sendRedirect("");
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException ex){
+            response.sendRedirect("index.jsp?err=UNKNOWN_REASON");
+        }
+
+        GameStateDAO.setConnected(false, gameId, alias);
+        GameStateDAO.gameStart(gameId);
+
+
+        response.sendRedirect("gameCycle.jsp?gameID=" + gameId);
 
     }
 }

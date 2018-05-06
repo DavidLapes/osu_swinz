@@ -142,7 +142,8 @@ public class GameStateDAO {
             DBConnection connection = new DBConnection();
             connection.connect();
             String query =
-                    "UPDATE GameState SET current_round = current_round + 1 WHERE gameid_fk = ?;";
+                    "UPDATE GameState SET current_round = current_round + 1, player_one_connected = 0," +
+                            " player_two_connected = 0 WHERE gameid_fk = ?;";
             //Prepare the statement
             PreparedStatement statement = connection.getCONNECTION().prepareStatement(query);
             statement.setString(1, gameId);
@@ -220,7 +221,7 @@ public class GameStateDAO {
      * @return true if both players are connected
      * @throws EntityInstanceNotFoundException
      */
-    static public boolean bothConnected(String gameId){
+    static public boolean isBothConnected(String gameId){
         try{
             //Connect to DB
             DBConnection connection = new DBConnection();
@@ -253,7 +254,7 @@ public class GameStateDAO {
         }
     }
 
-    public static void playerPresent(String gameId, String alias){
+    public static void setConnected(boolean conn,String gameId, String alias){
         try {
             //Connect to DB
             DBConnection connection = new DBConnection();
@@ -275,13 +276,14 @@ public class GameStateDAO {
 
             if (alias.equals(testAlias)){
                 query =
-                        "UPDATE GameState SET player_one_connected = 1";
+                        "UPDATE GameState SET player_one_connected = ?";
             } else {
                 query =
-                        "UPDATE GameState SET player_two_connected = 1";
+                        "UPDATE GameState SET player_two_connected = ?";
             }
 
             statement = connection.getCONNECTION().prepareStatement(query);
+            statement.setBoolean(1, conn);
             statement.execute();
 
             //Close statement
@@ -294,6 +296,7 @@ public class GameStateDAO {
             throw new RuntimeException(SQLEx);
         }
     }
+
     static public LocalTime getStartingTime(String gameId){
         try{
             //Connect to DB
@@ -336,6 +339,7 @@ public class GameStateDAO {
                     "UPDATE GameState SET question_start = CURTIME() WHERE gameid_fk = ?;";
             PreparedStatement statement = connection.getCONNECTION().prepareStatement(query);
             statement.setString(1, gameId);
+            statement.execute();
             //Close statement
             statement.close();
             //Close DB connection
@@ -345,4 +349,126 @@ public class GameStateDAO {
             throw new RuntimeException(SQLEx);
         }
     }
+
+    public static int getCurrentRound(String gameId){
+        try{
+            //Connect to DB
+            DBConnection connection = new DBConnection();
+            connection.connect();
+            int ret;
+            //Create query script
+            String query =
+                    "SELECT current_round FROM GameState WHERE gameid_fk = ?;";
+            PreparedStatement statement = connection.getCONNECTION().prepareStatement(query);
+            statement.setString(1, gameId);
+            ResultSet resultSet = statement.executeQuery();
+            if( ! resultSet.next() ) {
+                throw new EntityInstanceNotFoundException("No game with ID " + gameId + " was found.");
+            }
+            ret = resultSet.getInt("current_round");
+            resultSet.close();
+            //Close statement
+            statement.close();
+            //Close DB connection
+            connection.disconnect();
+            return ret;
+        } catch (SQLException SQLEx) {
+            LOGGER.error(SQLEx);
+            throw new RuntimeException(SQLEx);
+        }
+    }
+
+    static public boolean isConnected(String alias, String gameId){
+        try{
+            //Connect to DB
+            DBConnection connection = new DBConnection();
+            connection.connect();
+            // Declare return variable
+            boolean ret;
+            //Create query script
+            String query;
+            boolean playerOne = GameDAO.isPlayerOne(alias,gameId);
+            if(playerOne){
+                query = "SELECT player_one_connected FROM GameState WHERE gameid_fk = ?;";
+            } else {
+                query = "SELECT player_two_connected FROM GameState WHERE gameid_fk = ?;";
+            }
+            PreparedStatement statement = connection.getCONNECTION().prepareStatement(query);
+            statement.setString(1, gameId);
+            //Execute statement and save result into ResultSet
+            ResultSet resultSet = statement.executeQuery();
+            if( ! resultSet.next() ) {
+                throw new EntityInstanceNotFoundException("No game with ID " + gameId + " was found.");
+            }
+            if (playerOne){
+                ret = resultSet.getBoolean("player_one_connected");
+            } else {
+                ret = resultSet.getBoolean("player_two_connected");
+            }
+            //Close result set
+            resultSet.close();
+            //Close statement
+            statement.close();
+            //Close DB connection
+            connection.disconnect();
+            //Return GameBO instance
+            return ret;
+        } catch (SQLException SQLEx) {
+            LOGGER.error(SQLEx);
+            throw new RuntimeException(SQLEx);
+        }
+    }
+
+    public static void gameStart(String gameId){
+        try {
+            //Connect to DB
+            DBConnection connection = new DBConnection();
+            connection.connect();
+            String query =
+                    "UPDATE GameState SET gamestarted = 1  WHERE gameid = ?;";
+            PreparedStatement statement;
+            statement = connection.getCONNECTION().prepareStatement(query);
+            statement.setString(1, gameId);
+            statement.execute();
+            //Close statement
+            statement.close();
+            //Close DB connection
+            connection.disconnect();
+
+        } catch (SQLException SQLEx){
+            LOGGER.error(SQLEx);
+            throw new RuntimeException(SQLEx);
+        }
+    }
+
+    public static boolean isGameStarted(String gameId){
+        try {
+            //Connect to DB
+            DBConnection connection = new DBConnection();
+            connection.connect();
+            boolean ret;
+            String query =
+                    "SELECT gamestarted FROM GameState WHERE gameid = ?;";
+            PreparedStatement statement;
+            statement = connection.getCONNECTION().prepareStatement(query);
+            statement.setString(1, gameId);
+            ResultSet resultSet = statement.executeQuery();
+            if( ! resultSet.next() ) {
+                throw new EntityInstanceNotFoundException("No game with ID " + gameId + " was found.");
+            }
+            ret = resultSet.getBoolean("gamestarted");
+
+            resultSet.close();
+            //Close statement
+            statement.close();
+            //Close DB connection
+            connection.disconnect();
+            return ret;
+
+        } catch (SQLException SQLEx){
+            LOGGER.error(SQLEx);
+            throw new RuntimeException(SQLEx);
+        }
+    }
+
 }

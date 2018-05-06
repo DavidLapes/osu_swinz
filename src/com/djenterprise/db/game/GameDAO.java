@@ -90,7 +90,7 @@ public class GameDAO {
             List<QuestionBO> ret = new ArrayList<>();
             //Create query script
             String query =
-                    "SELECT question.text " +
+                    "SELECT question.text, question.questionid " +
                     "FROM gamequestions, question " +
                     "WHERE gamequestions.gameid_fk = ? " +
                     "AND gamequestions.questionid_fk = question.questionid;";
@@ -101,6 +101,8 @@ public class GameDAO {
             ResultSet resultSet = statement.executeQuery();
             while( resultSet.next() ) {
                 QuestionBO questionBO = new QuestionBO();
+                questionBO.setQuestionId(resultSet.getInt("questionid"));
+                questionBO.setText(resultSet.getString("text"));
                 questionBO.setText(resultSet.getString("text"));
                 ret.add(questionBO);
             }
@@ -234,6 +236,37 @@ public class GameDAO {
             statement.close();
             //Close DB
             connection.disconnect();
+        } catch (SQLException SQLEx) {
+            LOGGER.error(SQLEx);
+            throw new RuntimeException(SQLEx);
+        }
+    }
+
+    static public boolean isPlayerOne(String alias, String gameId){
+        try{
+            //Connect to DB
+            DBConnection connection = new DBConnection();
+            connection.connect();
+            //Variable for alias from DB
+            String dbAlias;
+            //Create query script
+            String query =
+                    "SELECT player_one FROM Game WHERE gameid_fk = ?;";
+            PreparedStatement statement = connection.getCONNECTION().prepareStatement(query);
+            statement.setString(1, gameId);
+            //Execute statement and save result into ResultSet
+            ResultSet resultSet = statement.executeQuery();
+            if( ! resultSet.next() ) {
+                throw new EntityInstanceNotFoundException("No game with ID " + gameId + " was found.");
+            }
+            dbAlias = resultSet.getString("player_one");
+            //Close result set
+            resultSet.close();
+            //Close statement
+            statement.close();
+            //Close DB connection
+            connection.disconnect();
+            return alias.equals(dbAlias);
         } catch (SQLException SQLEx) {
             LOGGER.error(SQLEx);
             throw new RuntimeException(SQLEx);

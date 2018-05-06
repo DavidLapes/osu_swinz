@@ -1,5 +1,6 @@
 package com.djenterprise.db.game;
 
+import com.djenterprise.app.game.AnswerBO;
 import com.djenterprise.app.game.QuestionBO;
 import com.djenterprise.db.connection.DBConnection;
 import com.djenterprise.db.exceptions.EntityInstanceNotFoundException;
@@ -18,10 +19,11 @@ public class QuestionDAO {
 
     /**
      * Inserts a question into the database
+     *
      * @param questionBO question to be added to the database.
      */
     @Deprecated
-    public static void createQuestion(QuestionBO questionBO){
+    public static void createQuestion(QuestionBO questionBO) {
         try {
             //Connect to DB
             DBConnection connection = new DBConnection();
@@ -31,7 +33,7 @@ public class QuestionDAO {
             //Prepares statement and opens connection to the database
             PreparedStatement statement = connection.getCONNECTION().prepareStatement(query);
             //Inserts parameters into prepared statement
-            statement.setString(1,questionBO.getText());
+            statement.setString(1, questionBO.getText());
             //Executes SQL command
             statement.execute();
             //Closes statement
@@ -46,11 +48,12 @@ public class QuestionDAO {
 
     /**
      * Returns question with inserted ID if exists, otherwise throws EntityInstanceNotFoundException.
+     *
      * @param questionID ID of the requested question
      * @return returns question with inserted ID
      * @throws EntityInstanceNotFoundException when no question with input ID has been found
      */
-    public static QuestionBO getQuestion(int questionID){
+    public static QuestionBO getQuestion(int questionID) {
         try {
             //Connect to DB
             DBConnection connection = new DBConnection();
@@ -65,7 +68,7 @@ public class QuestionDAO {
             //Executes query and assigns it to a result set
             ResultSet rs = statement.executeQuery();
             //Checks for data
-            if( ! rs.next() ) {
+            if (!rs.next()) {
                 throw new EntityInstanceNotFoundException("There is no question with this id.");
             }
             //Inserts data into QuestionBO instance
@@ -88,9 +91,10 @@ public class QuestionDAO {
 
     /**
      * Returns list of questions, if none are found returns empty list.
+     *
      * @return returns list of all questions.
      */
-    public static List<QuestionBO> getAllQuestions(){
+    public static List<QuestionBO> getAllQuestions() {
         try {
             //Connect to DB
             DBConnection connection = new DBConnection();
@@ -103,7 +107,7 @@ public class QuestionDAO {
             //Executes query and assigns it to a result set
             ResultSet rs = statement.executeQuery();
             //Creates returned list instance
-            List <QuestionBO> list = new ArrayList<>();
+            List<QuestionBO> list = new ArrayList<>();
             //Adds all data into the list
             while (rs.next()) {
                 QuestionBO question = new QuestionBO();
@@ -124,4 +128,35 @@ public class QuestionDAO {
             throw new RuntimeException(SQLEx);
         }
     }
+
+    public static void fillAnswersToQuestion(QuestionBO question) {
+        try {
+            //Connect to DB
+            DBConnection connection = new DBConnection();
+            connection.connect();
+            //Creates query
+            String query =
+                    "SELECT answerid, text FROM Answer WHERE questionid = ?";
+            //Prepares statement and opens connection to the database
+            PreparedStatement statement = connection.getCONNECTION().prepareStatement(query);
+            //Executes query and assigns it to a result set
+            ResultSet rs = statement.executeQuery();
+            //Adds all data into the list
+            while (rs.next()) {
+                AnswerBO answer = new AnswerBO();
+                answer.setAnswerId(rs.getInt("answerid"));
+                answer.setText(rs.getString("text"));
+                question.addAnswer(answer);
+            }
+            //Closes result set
+            rs.close();
+            //Closes statement
+            statement.close();
+            //Closes connection to the database
+            connection.disconnect();
+        } catch(SQLException SQLEx) {
+            LOGGER.error(SQLEx);
+            throw new RuntimeException(SQLEx);
+        }
+}
 }

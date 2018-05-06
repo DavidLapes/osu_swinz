@@ -4,6 +4,10 @@
 <%@ page import="com.djenterprise.app.user.UserBO" %>
 <%@ page import="com.djenterprise.db.game.GameDAO" %>
 <%@ page import="com.djenterprise.app.game.GameBO" %>
+<%@ page import="com.djenterprise.app.game.QuestionBO" %>
+<%@ page import="java.util.List" %>
+<%@ page import="com.djenterprise.db.game.GameStateDAO" %>
+<%@ page import="com.djenterprise.db.game.QuestionDAO" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
     <head>
@@ -12,21 +16,6 @@
         <link rel="icon" href="${pageContext.request.contextPath}/images/djicon.png">
     </head>
     <body>
-        <%
-            if( session.getAttribute(Keys.LOGINKEY) == null || ((String) session.getAttribute(Keys.LOGINKEY)).isEmpty() ) {
-                response.sendRedirect("index.jsp");
-            } else {
-                try {
-                    GameBO game = GameDAO.getGame(request.getParameter("gameID"));
-                    UserBO loggedUser = UserDAO.getUser((String)session.getAttribute(Keys.LOGINKEY));
-                    if( ! ( loggedUser.getAlias().equals(game.getPlayerOne()) || loggedUser.getAlias().equals(game.getPlayerTwo()) ) ) {
-                        response.sendRedirect("index.jsp?userErrMsg=AUTHENTICATION_VIOLATED");
-                    }
-                } catch (EntityInstanceNotFoundException ex) {
-                    response.sendRedirect("index.jsp?err=WRONG_GAME_ID");
-                }
-            }
-        %>
 
         <div style="width: 1900px; height: 256px; margin-top: 100px;">
             <img src="DisplayAvatarServlet?player=player_one&gameID=<%= request.getParameter("gameID")%>" name="playerOneImg" id="playerOneImg" style="height: 256px; width: 256px; float: left; margin-left: 300px;">
@@ -37,7 +26,27 @@
             <span style="float: right; color: white; margin-right: 300px; font-size: 40px; font-family: fantasy"><%=UserDAO.getUserByAlias(GameDAO.getGame(request.getParameter("gameID")).getPlayerTwo()).getAlias()%></span>
         </div>
         <div class="regBox" style="margin-top: 10%;">
-            <form action="WaitingForOtherPlayerServlet?gameID=<%= request.getParameter("gameID")%>" method="post">
+            <%
+                if( session.getAttribute(Keys.LOGINKEY) == null || ((String) session.getAttribute(Keys.LOGINKEY)).isEmpty() ) {
+                    response.sendRedirect("index.jsp");
+                } else {
+                    try {
+                        GameBO game = GameDAO.getGame(request.getParameter("gameID"));
+                        UserBO loggedUser = UserDAO.getUser((String)session.getAttribute(Keys.LOGINKEY));
+                        if( ! ( loggedUser.getAlias().equals(game.getPlayerOne()) || loggedUser.getAlias().equals(game.getPlayerTwo()) ) ) {
+                            response.sendRedirect("index.jsp?userErrMsg=AUTHENTICATION_VIOLATED");
+                        } else {
+                            String gameID = request.getParameter("gameID");
+                            List<QuestionBO> list = GameDAO.getQuestions(GameDAO.getGame(gameID));
+                            QuestionBO question = list.get(GameStateDAO.getCurrentRound(gameID));
+                            QuestionDAO.fillAnswersToQuestion(question);
+                        }
+                    } catch (EntityInstanceNotFoundException ex) {
+                        response.sendRedirect("index.jsp?err=WRONG_GAME_ID");
+                    }
+                }
+            %>
+            <form action="GameCycleServlet?gameID=<%= request.getParameter("gameID")%>" method="post">
                 <input class="gamePinSubmit" type="button" value="THIS DOES NOTHING">
             </form>
         </div>
