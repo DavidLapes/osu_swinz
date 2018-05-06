@@ -22,7 +22,7 @@ CREATE TABLE `Answer` (
 
 CREATE TABLE `Question` (
   `questionid` INT NOT NULL AUTO_INCREMENT,
-  `text` TEXT(256) NOT NULL UNIQUE,
+  `text` TEXT(256) NOT NULL,
   PRIMARY KEY (`questionid`)
 );
 

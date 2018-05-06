@@ -143,7 +143,7 @@ public class QuestionDAO {
             connection.connect();
             //Creates query
             String query =
-                    "SELECT * FROM Question";
+                    "SELECT * FROM Question;";
             //Prepares statement and opens connection to the database
             PreparedStatement statement = connection.getCONNECTION().prepareStatement(query);
             //Executes query and assigns it to a result set
