@@ -139,6 +139,7 @@ public class QuestionDAO {
                     "SELECT answerid, text FROM Answer WHERE questionid = ?";
             //Prepares statement and opens connection to the database
             PreparedStatement statement = connection.getCONNECTION().prepareStatement(query);
+            statement.setInt(1, question.getQuestionId());
             //Executes query and assigns it to a result set
             ResultSet rs = statement.executeQuery();
             //Adds all data into the list
