@@ -5,7 +5,6 @@ import com.djenterprise.db.exceptions.EntityInstanceNotFoundException;
 import com.djenterprise.db.user.UserDAO;
 import com.djenterprise.web.user.Keys;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -24,8 +23,7 @@ public class GenerateGameServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         processRequest(request, response);
     }
-
-    //TODO Players cant be same
+    
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try(PrintWriter out = response.getWriter()) {
@@ -33,14 +31,22 @@ public class GenerateGameServlet extends HttpServlet {
             try {
                 UserDAO.getUserByAlias(request.getParameter("playerOne"));
             } catch (EntityInstanceNotFoundException ex) {
-                response.sendRedirect("createGeneratedGame.jsp");
+                response.sendRedirect("createGeneratedGame.jsp?errAlias=ALIAS_ONE_NOT_EXISTS");
                 return;
             }
 
             try {
                 UserDAO.getUserByAlias(request.getParameter("playerTwo"));
             } catch (EntityInstanceNotFoundException ex) {
-                response.sendRedirect("createGeneratedGame.jsp");
+                response.sendRedirect("createGeneratedGame.jsp?errAlias=ALIAS_TWO_NOT_EXISTS");
+                return;
+            }
+
+            if( UserDAO.getUserByAlias(request.getParameter("playerOne")).getAlias()
+                    .equals(
+                    UserDAO.getUserByAlias(request.getParameter("playerTwo")).getAlias())
+                    ) {
+                response.sendRedirect("createGeneratedGame.jsp?errAlias=ALIASES_SAME");
                 return;
             }
 
