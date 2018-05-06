@@ -19,7 +19,7 @@
         <script>
                 var time = <%=GameStateDAO.getStartingTime(request.getParameter("gameID")).toSecondOfDay() + GameCycleServlet.ROUND_LENGTH - LocalTime.now().toSecondOfDay()%>;
                 window.onload = function timer() {
-                    document.getElementById('timer').textContent = time;
+                    document.getElementById("timerText").innerText = time;
                     if (time === 0) {
                         window.location.replace("GameCycleServlet?answerID=0&gameID=<%=request.getParameter("gameID")%>");
                     } else {
@@ -93,7 +93,7 @@
                             QuestionBO question = list.get(GameStateDAO.getCurrentRound(gameID) - 1);
                             QuestionDAO.fillAnswersToQuestion(question);
 
-                            out.println("<span value =\"\" id = \"timer\" name = \"timer\" style=\"margin-left: 580px; color: white; font-size: 50px;\">");
+                            out.println("<span id=\"timerText\" style=\"margin-left: 580px; color: white; font-size: 50px;\">TIME...</span>");
                             out.println("<input class=\"gamePinSubmit\" type=\"button\" value=\"" + question.getText() +"\" style=\"width:1200px; margin-top: 4px;\" disabled>");
 
                             out.println("<form action=\"GameCycleServlet?answerID=" + question.getAnswers().get(0).getAnswerId() + "&gameID=" + request.getParameter("gameID") + "\" method=\"post\">");
