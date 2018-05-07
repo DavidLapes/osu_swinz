@@ -26,6 +26,10 @@
                         time--;
                         setTimeout(timer, 1000);
                     }
+                };
+
+                function answerSubmitted() {
+                    alert("Your answer has been accepted. Waiting for other player's answer.")
                 }
         </script>
 
@@ -97,19 +101,19 @@
                             out.println("<input class=\"gamePinSubmit\" type=\"button\" value=\"" + question.getText() +"\" style=\"width:1200px; margin-top: 4px;\" disabled>");
 
                             out.println("<form action=\"GameCycleServlet?answerID=" + question.getAnswers().get(0).getAnswerId() + "&gameID=" + request.getParameter("gameID") + "\" method=\"post\">");
-                            out.println("<input class=\"gamePinSubmit\" type=\"submit\" value=\"" + question.getAnswers().get(0).getText() +"\" style=\"width:580px; margin-top: 4px;\">");
+                            out.println("<input class=\"gamePinSubmit\" onclick=\"answerSubmitted()\" type=\"submit\" value=\"" + question.getAnswers().get(0).getText() +"\" style=\"width:580px; margin-top: 4px;\">");
                             out.println("</form>");
 
                             out.println("<form action=\"GameCycleServlet?answerID=" + question.getAnswers().get(1).getAnswerId() + "&gameID=" + request.getParameter("gameID") + "\" method=\"post\">");
-                            out.println("<input class=\"gamePinSubmit\" type=\"submit\" value=\"" + question.getAnswers().get(1).getText() +"\" style=\"width:580px; margin-left: 40px; margin-top: 4px;\">");
+                            out.println("<input class=\"gamePinSubmit\" onclick=\"answerSubmitted()\" type=\"submit\" value=\"" + question.getAnswers().get(1).getText() +"\" style=\"width:580px; margin-left: 40px; margin-top: 4px;\">");
                             out.println("</form>");
 
                             out.println("<form action=\"GameCycleServlet?answerID=" + question.getAnswers().get(2).getAnswerId() + "&gameID=" + request.getParameter("gameID") + "\" method=\"post\">");
-                            out.println("<input class=\"gamePinSubmit\" type=\"submit\" value=\"" + question.getAnswers().get(2).getText() +"\" style=\"width:580px; margin-top: 4px;\">");
+                            out.println("<input class=\"gamePinSubmit\" onclick=\"answerSubmitted()\" type=\"submit\" value=\"" + question.getAnswers().get(2).getText() +"\" style=\"width:580px; margin-top: 4px;\">");
                             out.println("</form>");
 
                             out.println("<form action=\"GameCycleServlet?answerID=" + question.getAnswers().get(3).getAnswerId() + "&gameID=" + request.getParameter("gameID") + "\" method=\"post\">");
-                            out.println("<input class=\"gamePinSubmit\" type=\"submit\" value=\"" + question.getAnswers().get(3).getText() +"\" style=\"width:580px; margin-left: 40px; margin-top: 4px;\">");
+                            out.println("<input class=\"gamePinSubmit\" onclick=\"answerSubmitted()\" type=\"submit\" value=\"" + question.getAnswers().get(3).getText() +"\" style=\"width:580px; margin-left: 40px; margin-top: 4px;\">");
                             out.println("</form>");
                         }
                     } catch (EntityInstanceNotFoundException ex) {
