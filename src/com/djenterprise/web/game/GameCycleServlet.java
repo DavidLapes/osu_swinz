@@ -39,6 +39,7 @@ public class GameCycleServlet extends HttpServlet {
             LocalTime time = GameStateDAO.getStartingTime(gameID);
             int timeInt = time.toSecondOfDay();
             int answerID = Integer.parseInt(request.getParameter("answerID"));
+            GameStateBO gameState = GameStateDAO.getGameState(gameID);
             AnswerBO answer;
             if(answerID != 0) {
                 answer = AnswerDAO.getAnswer(answerID);
@@ -72,7 +73,7 @@ public class GameCycleServlet extends HttpServlet {
                     }
                 }
 
-                GameStateBO gameState = GameStateDAO.getGameState(gameID);
+                gameState = GameStateDAO.getGameState(gameID);
                 //If the game has ended, redirect to
                 if (gameState.getNumberOfQuestions() == gameState.getCurrentRound()){
                     Thread.sleep(1000);
@@ -84,7 +85,7 @@ public class GameCycleServlet extends HttpServlet {
                 //Sleep for synchronization
                 Thread.sleep(1000);
 
-                if(GameDAO.isPlayerOne(alias, gameID)){
+                if(gameState.getCurrentRound() == GameStateDAO.getCurrentRound(gameID)){
                     GameStateDAO.nextRound(gameID);
                 }
                 
