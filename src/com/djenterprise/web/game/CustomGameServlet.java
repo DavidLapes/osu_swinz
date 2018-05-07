@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 @WebServlet(name = "CustomGameServlet", urlPatterns = {"/CustomGameServlet"})
@@ -66,7 +65,8 @@ public class CustomGameServlet extends HttpServlet {
 
             HttpSession session = request.getSession();
 
-            ArrayList<QuestionBO> list = (ArrayList<QuestionBO>) session.getAttribute(Keys.QUESTIONLISTKEY);
+            ArrayList<QuestionBO> list;
+            list = (ArrayList<QuestionBO>) session.getAttribute(Keys.QUESTIONLISTKEY);
 
             if (list == null){
                 response.sendRedirect("createCustomGame.jsp?errQuestionSet=EMPTY_SET");
@@ -77,9 +77,7 @@ public class CustomGameServlet extends HttpServlet {
             String playerOne = request.getParameter("playerOne");
             String playerTwo = request.getParameter("playerTwo");
 
-
-
-            String gameID = GameConstruct.constructGame( creator, playerOne, playerTwo, list.size() );
+            String gameID = GameConstruct.constructGame( creator, playerOne, playerTwo, list );
 
             RequestDispatcher view = request.getServletContext().getRequestDispatcher("/gameLobby.jsp?gameID=" + gameID);
             view.forward(request, response);

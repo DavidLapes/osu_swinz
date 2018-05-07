@@ -105,11 +105,11 @@
 
                         out.print("<div class=\"regBox\" style=\"margin-top: 5%; height: 80px; width: 1900px;\">");
                         out.print("<form method=\"post\" action=\"createGame.jsp\">");
-                        out.print("<input class=\"gamePinSubmit\" type=\"submit\" value=\"NEW GAME\" style=\"float: left; width: 200px; margin-left: 360px;\"");
+                        out.print("<input class=\"gamePinSubmit\" type=\"submit\" value=\"NEW GAME\" style=\"float: left; width: 200px; margin-left: 360px;\">");
                         out.print("</form>");
 
                         out.print("<form method=\"post\" action=\"index.jsp\">");
-                        out.print("<input class=\"gamePinSubmit\" type=\"submit\" value=\"END\" style=\"float: right; width: 200px; margin-right: 360px;\"");
+                        out.print("<input class=\"gamePinSubmit\" type=\"submit\" value=\"END\" style=\"float: right; width: 200px; margin-right: 360px;\">");
                         out.print("</form>");
                         out.print("</div>");
                     }

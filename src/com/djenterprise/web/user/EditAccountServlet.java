@@ -95,7 +95,7 @@ public class EditAccountServlet extends HttpServlet {
                     user.setAlias(alias);
                     user.setPassword(password);
 
-                    if( ! alias.equals(oldUser.getAlias()) ) {
+                    if( ! alias.equals(oldUser.getAlias()) && ! alias.equals("ALIAS") ) {
                         UserDAO.editUserAlias(user);
                     }
 
